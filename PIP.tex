@@ -1,0 +1,149 @@
+% --------------------------------------------------------------
+% If you need to add a package or a command, please add a
+% comment explaining what it's for
+% --------------------------------------------------------------
+\documentclass[11pt, titlepage]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[strict]{changepage}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{mhchem}
+\usepackage{siunitx}
+\usepackage{wrapfig, booktabs}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{commath}
+\usepackage{amsmath}
+\usepackage[hang]{footmisc}
+\usepackage{multicol}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+
+\usepackage{tabto}	%for using \tab
+
+% --------------------------------------------------------------
+%                         Title Page Info
+% --------------------------------------------------------------
+\newcommand{\className}{CS 3450}	%for footer
+\newcommand{\footerName}{PIP} 		%for footer
+\author{Brandon Smith, Nieka Gutenberger, Joseph Coppin, Ryan Frazier, Trevor Jewkes}
+\title{Procedure Implementation Plan}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\cfoot{\className\ -- \footerName}
+
+\usepackage{sectsty}
+\setlength{\headheight}{14pt}
+
+
+\begin{document}
+	\maketitle
+    \setcounter{tocdepth}{1}
+% --------------------------------------------------------------
+%                         Proposal Section	--needs lots of work
+% --------------------------------------------------------------    
+\section{Proposal}    
+    
+    \subsection{Requirements}
+    
+    \par should be clear, should be able to be measured\\
+    should be the same over time\\
+    shouldn't get overconstrained\\
+    
+% --------------------------------------------------------------
+%                         Structure Section 	still need to write brief overview of
+%												each position
+% --------------------------------------------------------------
+    \section{Structure}
+    	Each person in the team has been assigned as the head for a specific role.  		Each role is described briefly as follows:
+    
+    \subsection{Manager} 
+    
+    	\begin{itemize}
+    		\item In charge of GitHub account
+    		\item Will turn in final versions for group
+    		\item In charge of code compilation and merge conflicts
+    	\end{itemize}
+   
+    \subsection{Documentation}
+    
+    	\begin{itemize}
+    		\item Writes rough drafts of all papers and submit for peer review
+    		\item Writes final draft of all papers and pushes them to GitHub account 			 	for	Manager to submit
+    		\item Head person over documents
+    	\end{itemize}
+   		
+    \subsection{Design}
+
+		\begin{itemize}
+			\item In charge of GUI and interface
+    		\item Will oversee looks and game design
+    		\item will take minutes from meetings and distribute to team members
+		\end{itemize}
+    	
+    \subsection{Testing}
+
+		\begin{itemize}
+			\item Initially gets testing software up and running on GitHub
+  		  	\item Writes tests and helps others write tests
+    		\item Reviews tests and makes sure they are adequate
+    		\item Test tech support
+		\end{itemize}
+   
+    \subsection{Scheduling and Mediation}
+    
+   		\begin{itemize}
+    		\item In charge of scheduling and time management
+    		\item Workload Balance
+    		\item Maintains as even as possible workload balance between team members
+    		\item Debate Moderator!
+		\end{itemize}
+             
+     \subsection{*note}
+     	Each team member is expected to contribute to the project as needed, meaning there is no defined end to any team members' duties.  It is the responsibility of each team member to communicate their needs to the team Manager and the head of Scheduling and Mediation in order to allow all team members to be able to contribute and help in a timely manner.
+% --------------------------------------------------------------
+%                         Procedures Section
+% --------------------------------------------------------------
+    \section{Procedures}
+    	\tab brief overview of procedures
+    \subsection{Code Reviews}
+   		\subsubsection{Conflict Resolution Plan}
+        
+        \begin{enumerate}
+		\item Make suggestion for change to the person who's work is subject to be 	changed
+        \item if two cannot come to an agreement the discussion goes to group for 	decision
+        \item If group cannot come to a decision, the Team Leader for the section will have final say in decision
+		\end{enumerate}
+    
+    \subsubsection{Readability} 
+    
+    \subsubsection{Reusability}
+    
+    \subsubsection{Improvements}
+    
+    \subsubsection{Bugs} 
+   	
+    	Take similarly to conflict resolution.  Need to make sure each person in group agrees to solution to bug (unless head makes decision).
+    
+    \subsection{Styles and Conventions}
+    	The team will follow the Google C++ style guide.
+    
+    \subsection{Testing Framework}
+    	Catch Framework??
+    
+% --------------------------------------------------------------
+%                         Schedule Section	--need this part bad.
+% --------------------------------------------------------------    
+    \section{Schedule}
+    
+    
+% --------------------------------------------------------------
+%                         Risks Section	--this will come with the schedule
+% --------------------------------------------------------------    
+    \section{Risks}
+    
+\end{document}
