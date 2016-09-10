@@ -150,17 +150,46 @@ At this point, the project will be ready for deployment.  Attached is a PERT cha
     \section{Risks}
 
 	    There are several risks associated with different parts of the game.
-The critical path is composed of elements that are mandatory for a successful deployment for the customer. Removal of game logic and or rules with their components would leave the game useless.  In case of failure of getting a GUI set up, we will provide the user with a command line game, with the game being presented with a text based interface instead of a graphical interface.
+The critical path is composed of elements that are mandatory for a successful deployment for the customer. Removal of game logic and or rules with their components would leave the game useless.  In case of failure of getting a GUI set up, we will provide the user with a command line game, with the game being presented with a text based interface instead of a graphical interface.\\
 
-			\begin{center}
+
 				\begin{tabular}{| c | c | c | c | c |}
-					\hline	 &\parbox{3cm}{Design Logic} & \parbox{3cm}{GUI} & \parbox{3cm}{Game Logic} & \parbox{3cm}{Account} \\
-					\hline	Likelihood &	abc & abc & abc & \\
-					\hline Severity & & && \\
-					\hline Consequences & & && \\
-					\hline Mitigation Strategies & abc & abc & abc &\\
+					\hline	 
+						&\parbox{3cm}{Design Logic} 
+						& \parbox{3cm}{GUI} 
+						& \parbox{3cm}{Game Logic} 
+						& \parbox{3cm}{Network} \\
+					\hline	Likelihood 
+						& low 
+						& low 
+						& low 
+						& high \\
+					\hline Severity 
+						&extremely high 
+						& high 
+						& extremely high
+						&  medium\\
+					\hline Consequences 
+						& \parbox{3cm}{No other task is completed} 
+						& \parbox{3cm}{will be a text based game}
+						& \parbox{3cm}{gameplay fails, not able to play game}
+						& \parbox{3cm}{unable to use multiple players accross different computers} \\
+					\hline Mitigation Strategies 
+						& \parbox{3cm}{
+									Schedule additional meeting times as a team
+									\\ \\This will increase meeting times from 2 hours/week to 4-5 hours/week as a team
+							}
+						&  \parbox{3cm}{
+									Schedule additional team members to help with GUI programming.
+									\\ \\For each day over, add additional team member to task until all working on it.
+							}
+						& \parbox{3cm}{
+								Will schedule additional meetings as a team to design and make decisions.
+								\\ \\WIll increase team meeting times from 1-2 hours/week to 4-5 hours/week.
+								} 
+						&\\
 					\hline
 				\end{tabular}
-			\end{center}
+
 
 \end{document}
