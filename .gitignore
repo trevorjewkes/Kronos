@@ -1,3 +1,5 @@
+Build
 *.aux
 *.log
 *.synctex*
+*.DS_Store
