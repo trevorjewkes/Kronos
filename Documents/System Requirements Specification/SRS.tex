@@ -30,12 +30,30 @@
 	\section{High Level Design}
 	
 		\subsection{Server}
-		
+		verification--Client(customer) can connect to game
 		\subsection{AI}
+		verification -- 
+			\begin{enumerate}
+				\item customer can play without other human players
+				\item plays correct game
+				\item makes legal moves
+			\end{enumerate}
 			
 		\subsection{Client}
-			user\\
-			gui
+			user--see requirements section
+			\begin{enumerate}
+				\item  choose game
+				\begin{enumerate}
+					\item game options, multiplayer, etc
+				\end{enumerate}
+				\item view GUI
+				\item login
+				\item use menu
+				\item game play
+				\item quit game
+				\item end game
+			\end{enumerate}
+
 			
 		\subsection{Control}
 			game logic \\
@@ -51,28 +69,66 @@
 	
 		\subsection{Login}
 			create user\\
-			username\\
-			password\\
-			successfully log in\\
-			data persists\\
+			\begin{itemize}
+				\item make new user
+				\item create username
+				\item make password, use password
+				\item change password
+				\item successfully login
+				\item 
+			\end{itemize}
+
 		\subsection{Main Menu}
 			main menu\\
-			account/profile \\
-			preferences/settings\\
-		\subsection{Game Table}
+				\begin{itemize}
+					\item button to edit account/profile
+					\item choose specific game
+					\item join game
+					\item create game
+				\end{itemize}
+			
+		\subsection{Game Table/GUI}
 			cards\\
-			user\\
-			AIs/other players
+			\begin{itemize}
+				\item view  cards
+				\item cards match values
+				\item see how many cards other users have (face down)
+				\item 
+			\end{itemize}
+			scoreboard
+			\begin{itemize}
+				\item see scores/bid
+				\item reflects appropriate score
+				\item updates after each turn
+			\end{itemize}
+			
 		\subsection{Game Play}
 			choose card\\
-			see other moves\\
+				\begin{itemize}	
+					\item play only legal moves
+				\end{itemize}
+			see when other players move\\
 			play by the rules
+			\begin{itemize}
+				\item play rules appropriate to game selected
+				
+			\end{itemize}
 		\subsection{Game End Event}
-			end at proper time\\
-			option to play again\\
-			option to return to main menu
+			\begin{itemize}
+				\item end at proper time
+				\item option to play again
+				\item option to return to main menu
+			\end{itemize}
+
 		\subsection{Other}	
-			multiplayer options\\
-			how a user disconnecting is handled
+			multiplayer options
+			\begin{itemize}
+				\item AI fills in as needed
+				\item 1-3 other humans can join game
+				\item disconnecting user is replaced with AI that takes place
+				\item after determined amount of time of inactivity, player is removed from game
+				\item when disconnected accidentally, can rejoin same game if game is still in play
+			\end{itemize}
+			
 		
 \end{document}
