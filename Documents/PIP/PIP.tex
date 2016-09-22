@@ -38,7 +38,7 @@
 % --------------------------------------------------------------
     \section{Structure}
     	Each person in the team has been assigned as the head for a specific role. Each role is described briefly as follows:
-    	
+
     	\subsection{Manager}
 	    Trevor Jewkes
     	\begin{itemize}
@@ -59,8 +59,8 @@
 		Nieka Gutenberger
 		\begin{itemize}
 			\item In charge of GUI and interface
-    		\item Will oversee looks and game design
-    		\item will take minutes from meetings and distribute to team members
+    	\item Will oversee looks and game design
+    	\item Will take minutes from meetings and distribute to team members
 		\end{itemize}
 
     \subsection{Testing}
@@ -81,7 +81,7 @@
 		\end{itemize}
 
      \subsection{Other Roles}
-   	In addtion to these roles, each team member is expected to contribute to the project as needed, meaning there is no defined end to any team members' duties.  It is the responsibility of each team member to communicate their needs to the team Manager and the head of Scheduling and Mediation in order to allow all team members to be able to contribute and help in a timely manner.
+   	In addition to these roles, each team member is expected to contribute to the project as needed.  This means there is no defined end to any team members' duties.  It is the responsibility of each team member to communicate their needs to the team Manager and the head of Scheduling and Mediation in order to allow all team members to be able to contribute and help in a timely manner.
 
 
 % --------------------------------------------------------------
@@ -94,7 +94,7 @@
 
         \begin{enumerate}
 				\item Make suggestion for change to the person who's work is subject to be 	changed
-        \item if two cannot come to an agreement the discussion goes to group for 	decision
+        \item If two cannot come to an agreement the discussion goes to the group for a	decision
         \item If group cannot come to a decision, the Team Leader for the section will have final say in decision
 		\end{enumerate}
 
@@ -105,13 +105,13 @@
 
     \subsubsection{Improvements and Bugs}
 
-    	Take similarly to conflict resolution.  Need to make sure each person in group agrees to solution to bug (unless head makes decision).
+    	Improvements and Bugs will be handled similarly to conflict resolution.  The manager needs to make sure each person in the team agrees to a solution to the bug (unless head makes decision).
 
     \subsection{Styles and Conventions}
     	The team will follow the Google C++ style guide.
 
     \subsection{Testing Framework}
-    	We will be using the Catch C++ testing framework.  It is a single header file that can be included in th source tree under the Boost Software License with no dependencies and provides a way to organize and automate testing.  Source and more information can be found at github.com/philsquared/Catch.
+    	We will be using the Catch C++ testing framework.  It is a single header file that can be included in the source tree under the Boost Software License with no dependencies and provides a way to organize and automate testing.  Source and more information can be found at github.com/philsquared/Catch.
 
 % --------------------------------------------------------------
 %                         Schedule Section --need to put dates/timelines with this
@@ -121,57 +121,57 @@
 	\tab We will start with developing general game logic design.  This falls at the beginning because it is the beginning of the critical path.  During this stage we will form the basic structures found in the game, such as the cards, players (including how the players will function with their hands, turn, and scores).
 	After the basic logic is determined, we can go on to the Gameboard.  The Gameboard will hold the logic that connects all of the different parts of the game together.  This portion is expected to take the first two weeks.\\
 
-Concurrently, we will work on account information where a user may be created and used to login to a profile in the game. This will \\
+Concurrently, we will work on account information where a user may be created and used to login to a profile in the game. \\
 
-Directly after each bit of game logic is created, the GUI counterpart may be created and added so that functionality may be used immediately.\\
+Directly after each section of game logic is created and decided upon, the GUI counterpart may be created and added so that functionality may be used immediately in gameplay.\\
 
 Last will come the specific game requirements.  Here the team will differentiate between Hearts and Spades with rules and gameplay.\\
 
-At this point, the project will be ready for deployment.  Attached is a PERT chart that illustrates the plan of action the team will take.
+At this point, the project will be ready for deployment.  Attached is a PERT chart and timeline that illustrates the plan of action the team will take in order to reach the desired deadline and finish a successful project.
 
 
 % --------------------------------------------------------------
-%                         Risks Section	
+%                         Risks Section
 % --------------------------------------------------------------
     \section{Risks}
 
 	    There are several risks associated with different parts of the game.  The following table addresses the four most likely parts of the project that could create setbacks for the team.
 
 				\begin{tabular}{| c | c | c | c | c |}
-					\hline	 
-						&\parbox{3cm}{Design Logic} 
-						& \parbox{3cm}{GUI} 
-						& \parbox{3cm}{Game Logic} 
+					\hline
+						&\parbox{3cm}{Design Logic}
+						& \parbox{3cm}{GUI}
+						& \parbox{3cm}{Game Logic}
 						& \parbox{3cm}{Network} \\
-					\hline	Likelihood 
-						& low 
-						& low 
-						& low 
-						& high \\
-					\hline Severity 
-						&extremely high 
-						& high 
-						& extremely high
-						&  medium\\
-					\hline Consequences 
-						& \parbox{3cm}{No other task is completed} 
-						& \parbox{3cm}{will be a text based game}
-						& \parbox{3cm}{gameplay fails, not able to play game}
-						& \parbox{3cm}{unable to use multiple players accross different computers} \\
-					\hline Mitigation Strategies 
+					\hline	Likelihood
+						& Low
+						& Low
+						& Low
+						& High \\
+					\hline Severity
+						& Extremely High
+						& High
+						& Extremely High
+						& Medium\\
+					\hline Consequences
+						& \parbox{3cm}{No other task is completed-product failure}
+						& \parbox{3cm}{Will be a text based game instead of a GUI-based game}
+						& \parbox{3cm}{Gameplay fails, not able to play game-product failure}
+						& \parbox{3cm}{Unable to use multiple players across different computers-not to customer's satisfaction} \\
+					\hline Mitigation Strategies
 						& \parbox{3cm}{
 									Schedule additional meeting times as a team
 									\\ \\This will increase meeting times from 2 hours/week to 4-5 hours/week as a team
 							}
 						&  \parbox{3cm}{
 									Schedule additional team members to help with GUI programming.
-									\\ \\For each day over, add additional team member to task until all working on it.
+									\\ \\For each day over, an additional team member will be assigned to the task until all team members are working on it.
 							}
 						& \parbox{3cm}{
 								Will schedule additional meetings as a team to design and make decisions.
-								\\ \\WIll increase team meeting times from 1-2 hours/week to 4-5 hours/week.
-								} 
-						&\parbox{3cm}{Shedule one additional team member every other day until all team members are working on the network portion of the software.  }\\
+								\\ \\Will increase team meeting times from 1-2 hours/week to 4-5 hours/week.
+								}
+						&\parbox{3cm}{Schedule one additional team member every other day until all team members are working on the network portion of the software.  }\\
 					\hline
 				\end{tabular}
 
