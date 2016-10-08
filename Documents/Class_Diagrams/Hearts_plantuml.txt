@@ -1,0 +1,31 @@
+@startuml
+
+title Hearts - Class Diagram
+
+
+class Hearts {
+  +Card[][] history
+  +void Lock()
+  +void startRound()
+  +void startGame()
+  +void deal()
+}
+
+class Card {
+  + int id
+  + bool discarded
+  + void display()
+}
+class Deck {
+  + Card[] cards
+  + void shuffle()
+}
+class Scoreboard {
+  + string[] names
+  + string[] teams
+  + int[] bids
+  + int[] scores
+  + void display()
+}
+
+@enduml
