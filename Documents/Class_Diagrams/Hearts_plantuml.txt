@@ -4,28 +4,46 @@ title Hearts - Class Diagram
 
 
 class Hearts {
-  +Card[][] history
-  +void Lock()
-  +void startRound()
+  public
+  ..
   +void startGame()
+  ..
+  private
+  ..
+  +Deck deck
+  +Card[][] history
+  +int turn
+  +int round
+  +void startRound()
   +void deal()
+  +void updateScore()
+  +int whoseTurn()
+  +void endGame()
 }
 
 class Card {
   + int id
+  + enum suite
   + bool discarded
-  + void display()
+  + bool validMove
 }
+
 class Deck {
   + Card[] cards
   + void shuffle()
+  + void getDeck()
 }
+
 class Scoreboard {
   + string[] names
   + string[] teams
   + int[] bids
   + int[] scores
-  + void display()
+  + void getInfo()
 }
+
+Deck *-- Card: Composition
+Hearts *-- Deck: Composition
+Hearts *-- Scoreboard: Composition
 
 @enduml
