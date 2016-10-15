@@ -1,0 +1,38 @@
+@startuml
+
+class Table {
+	+ Card[] hand
+	+ Player[] players
+	+ void showHand()	
+	+ void tableMenu()
+	+ void exitGame()
+	+ void viewHistory()
+	+ void getHint()
+	+ void displayCenter()
+	+ void redrawTable()
+	+ void bid()
+	+ void pass()
+	+ void drawCard()
+	+ void endOfGameDisplay()
+}
+
+class Lobby {
+	+ void login()
+	+ void createAccount()
+	+ void chooseGame()
+	+ void gameOptions()
+	+ void userSettings()
+	+ void createTable()
+}
+
+class Player {
+	+ string name
+	+ int score
+	+ int bid
+	+ int numCards
+	+ enum team
+}
+
+Table *-- Player: Composition
+
+@enduml
