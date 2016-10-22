@@ -1,0 +1,139 @@
+\documentclass[11pt, titlepage]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabto}	%for using \tab
+
+% --------------------------------------------------------------
+%                         Title Page Info
+% --------------------------------------------------------------
+\newcommand{\className}{CS 3450}	%for footer
+\newcommand{\footerName}{ATP} 		%for footer
+\author{Brandon Smith, Nieka Gutenberger, Joseph Coppin, Ryan Frazier, Trevor Jewkes}
+\title{Acceptance Test Procedures}
+\date{\today}
+
+\pagestyle{fancy}
+\rhead{\thepage}
+\cfoot{\className\ -- \footerName}
+
+\usepackage{sectsty}
+\setlength{\headheight}{14pt}
+
+
+\begin{document}
+	\maketitle
+	\setcounter{tocdepth}{1}
+	% --------------------------------------------------------------
+	%                         Proposal Section
+	% --------------------------------------------------------------
+	\section{Hearts Logic--Server}
+	
+		\subsection{Server}
+		Verification:
+		\begin{itemize}
+			\item Client(customer) can connect to a game and play.
+		\end{itemize}
+		
+		\subsection{AI}
+		Verification:
+			\begin{itemize}
+				\item Customer can play without other human players
+				\item AI plays correct game
+				\item AI makes legal moves
+			\end{itemize}
+			
+		\subsection{Client}
+			Verification:
+			\begin{itemize}
+				\item  Be able to choose game to play
+				\begin{enumerate}
+					\item Be able to choose game options, multiplayer, etc
+				\end{enumerate}
+				\item User can view GUI
+				\item User can login
+				\item User can view and access menu
+				\item User can play appropriate game play
+				\item User can quit game (in fit of rage)
+				\item User experiences correct end game sequence
+			\end{itemize}
+
+			
+	\section{Client}
+	
+		\subsection{Login}
+			\subsubsection{Create user}
+			Verification:
+			\begin{itemize} 
+				\item Make new user
+				\item Create username
+				\item Make password, use password
+				\item Change password
+				\item Successfully login 
+			\end{itemize}
+
+		\subsection{Main Menu}
+			\subsubsection{Main menu}
+			Verification:
+				\begin{itemize}
+					\item Button to edit account/profile
+					\item Choose specific game
+					\item Join game
+					\item Create game
+				\end{itemize}
+			
+		\subsection{Game Table/GUI}
+			\subsubsection{Cards}
+			Verification:
+			\begin{itemize}
+				\item View  cards
+				\item Cards match values listed on card
+				\item See how many cards other users have (face down) 
+			\end{itemize}
+			\subsubsection{Scoreboard}
+			Verification:
+			\begin{itemize}
+				\item See scores/bid
+				\item Reflects appropriate score
+				\item Updates after each turn
+			\end{itemize}
+			
+		\subsection{Game Play}
+			\subsubsection{Choose card}
+			Verification:
+				\begin{itemize}	
+					\item Play only legal moves
+				\end{itemize}
+			\subsubsection{Moves}
+			Verification:
+			\begin{itemize}
+				\item 	sSe when other players move
+			\end{itemize}
+		
+			\subsubsection{Rules}
+			Verification:
+			\begin{itemize}
+				\item Play rules appropriate to game selected	
+			\end{itemize}
+		
+		\subsection{Game End Event}
+			Verification:
+			\begin{itemize}
+				\item End at proper time
+				\item Option to play again
+				\item Option to return to main menu
+			\end{itemize}
+
+		\subsection{Other}	
+			\subsubsection{multiplayer options}
+			Verification:
+			\begin{itemize}
+				\item AI fills in as needed
+				\item 1-3 other humans can join game
+				\item Disconnecting user is replaced with AI that takes place
+				\item After determined amount of time of inactivity, player is removed from game
+				\item When disconnected accidentally, can rejoin same game if game is still in play
+			\end{itemize}
+			
+		
+\end{document}
