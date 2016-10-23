@@ -1,6 +1,8 @@
 #include "deck.h"
-#include "card.h"
+#include "card.h" // Suit enum
 #include <cassert>
+#include <algorithm>
+#include <random>
 
 Deck::Deck() : topCardIndex(0) {
   cards.reserve(52);
