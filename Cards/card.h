@@ -21,7 +21,7 @@ public:
 	bool isDiscarded() { return discarded; }
 	Suit getSuit() { return suit; }
 	void setValid(bool valid_t) { valid = valid_t; }
-	void setDiscarded(bool discarded_t) { discarded = discarded; }
+	void setDiscarded(bool discarded_t) { discarded = discarded_t; }
 	bool operator<(const Card& a) const;
 	
 	~Card();
