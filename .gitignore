@@ -5,4 +5,4 @@ Build
 *.DS_Store
 .*
 !.gitignore
-bin/*
+*/bin/*
