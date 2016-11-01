@@ -1,9 +1,14 @@
-// wxWidgets "Hello world" Program
+#include "wxDeck.h"
+
 // For compilers that support precompilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include <cassert>
+#include <vector>
+#include <iostream>
+
 class MyApp: public wxApp
 {
 public:
@@ -21,20 +26,34 @@ class MyFrame: public wxFrame
 public:
     MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 private:
-		wxStaticBitmap* m_cardBM1;
-		wxStaticBitmap* m_cardBM2;
-		wxStaticBitmap* m_cardBM3;
-		wxStaticBitmap* m_cardBM4;
-		wxStaticText* text1;
+		std::vector<wxStaticBitmap*> m_cardHand;
+		std::vector<wxStaticBitmap*> m_centerCards;
+		wxDeck bmDeck;
+		Turn turn = SECOND;
+		wxStaticText* m_player1Text;
+		wxStaticText* m_player2Text;
+		wxStaticText* m_player3Text;
+		wxStaticText* m_userText;
     void OnHello(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
-		void chooseCard(wxMouseEvent& event);
-		void chooseCard2(wxMouseEvent& event);
-		void chooseCard3(wxMouseEvent& event);
-		void chooseCard4(wxMouseEvent& event);
+		void setCardHand(std::vector<Card_ID> cardIds);
+		void cardEvent0(wxMouseEvent& event);
+		void cardEvent1(wxMouseEvent& event);
+		void cardEvent2(wxMouseEvent& event);
+		void cardEvent3(wxMouseEvent& event);
+		void cardEvent4(wxMouseEvent& event);
+		void cardEvent5(wxMouseEvent& event);
+		void cardEvent6(wxMouseEvent& event);
+		void cardEvent7(wxMouseEvent& event);
+		void cardEvent8(wxMouseEvent& event);
+		void cardEvent9(wxMouseEvent& event);
+		void cardEvent10(wxMouseEvent& event);
+		void cardEvent11(wxMouseEvent& event);
+		void cardEvent12(wxMouseEvent& event);
     wxDECLARE_EVENT_TABLE();
 };
+
 
 enum
 {
@@ -51,7 +70,7 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame( "Card Test", wxPoint(50, 50), wxSize(450, 340) );
+    MyFrame *frame = new MyFrame( "Card Test", wxPoint(50, 50), wxSize(650, 440) );
     frame->Show( true );
     return true;
 }
@@ -72,38 +91,208 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     CreateStatusBar();
     SetStatusText( "Welcome to wxWidgets!" );
 
+		//-------------------------------------------------------------
+		//The top player info
 		wxBoxSizer* bSizer;
 		bSizer = new wxBoxSizer( wxVERTICAL );
-		text1 = new wxStaticText( this, wxID_ANY, wxT("Double click to choose a card"), wxDefaultPosition, wxDefaultSize, 0 );
-		bSizer->Add(text1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL,5);
+		m_player2Text = new wxStaticText( this, wxID_ANY, wxT("Player 2\nTricks: 2\nScore: 2"), wxDefaultPosition, wxDefaultSize, 0 );
+		bSizer->Add(m_player2Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
 
+		//-------------------------------------------------------------
+		//The middle row | Player1 | Center cards | Player 3 |
+
+		//Player1
+		wxGridSizer* gSizer1;
+		gSizer1 = new wxGridSizer(0, 3, 0, 0); //3 columns
+
+		m_player1Text = new wxStaticText( this, wxID_ANY, wxT("Player 1\nTricks: 1\nScore: 1"), wxDefaultPosition, wxDefaultSize, 0 );
+		gSizer1->Add(m_player1Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+
+		//the middle cards
 		wxFlexGridSizer* fgSizer1;
-		fgSizer1 = new wxFlexGridSizer( 0, 4, 0, 0 );
+		fgSizer1 = new wxFlexGridSizer( 0, 4, 0, 0 ); //4 items
 		fgSizer1->SetFlexibleDirection( wxBOTH );
 		fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-		m_cardBM1 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/Cropped/s09.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-		fgSizer1->Add( m_cardBM1, 0, wxTOP|wxBOTTOM|wxLEFT, 5 );
+		//initialize the cards
+		wxStaticBitmap* tmpCard;
+		for (int i = 0; i < 3; ++i) {
+			tmpCard = new wxStaticBitmap( this,
+																		wxID_ANY,
+																		wxBitmap(bmDeck[D01] ,
+																		wxBITMAP_TYPE_ANY ),
+																		wxDefaultPosition,
+																		wxDefaultSize,
+																		0 );
+			m_centerCards.push_back(tmpCard);	
+			fgSizer1->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+		}
+		//last card needs to be full size
+		tmpCard = new wxStaticBitmap( this, wxID_ANY, wxBitmap(bmDeck[D01F], wxBITMAP_TYPE_ANY), wxDefaultPosition, wxDefaultSize, 0 );
+		m_centerCards.push_back(tmpCard);
+		fgSizer1->Add( tmpCard, 0, wxTOP|wxBOTTOM, 5 );
+		assert(m_centerCards.size() == 4);
 
-		m_cardBM2 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/Cropped/c01.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-		fgSizer1->Add( m_cardBM2, 0, wxTOP|wxBOTTOM, 5 );
+		gSizer1->Add(fgSizer1, 0, wxALL, 5);
 
-		m_cardBM3 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/Cropped/h11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-		fgSizer1->Add( m_cardBM3, 0, wxTOP|wxBOTTOM, 5 );
+		//player3
+		m_player3Text = new wxStaticText( this, wxID_ANY, wxT("Player 3\nTricks: 3\nScore: 3"), wxDefaultPosition, wxDefaultSize, 0 );
+		gSizer1->Add(m_player3Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
 
-		m_cardBM4 = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/Scaled/d02.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-		fgSizer1->Add( m_cardBM4, 0, wxTOP|wxBOTTOM, 5 );
+		bSizer->Add(gSizer1, 0, wxALL, 5);
 
-		bSizer->Add(fgSizer1, 1, wxEXPAND, 5);
+		//-------------------------------------------------------------
+		//The user hand and info layout 
+		wxFlexGridSizer* fgSizer2;
+		fgSizer2 = new wxFlexGridSizer( 0, 16, 0, 0 );
+		fgSizer2->SetFlexibleDirection( wxBOTH );
+		fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+		fgSizer2->Add(40, 0, 1, wxEXPAND, 5); //spacer
+
+		//initialize the cards in m_cardHand
+		//code generated from clickHelper.py
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D01],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent0), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D02],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent1), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D03],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent2), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D04],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent3), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D05],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent4), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D06],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent5), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D07],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent6), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D08],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent7), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D09],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent8), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D10],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent9), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D11],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent10), NULL, this );
+tmpCard = new wxStaticBitmap( this,
+wxID_ANY,
+wxBitmap( bmDeck[D12],
+wxBITMAP_TYPE_ANY ),
+wxDefaultPosition,
+wxDefaultSize,
+0 );
+m_cardHand.push_back(tmpCard);
+fgSizer2->Add(tmpCard, 0, wxTOP|wxBOTTOM, 5);
+tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent11), NULL, this );
+// end of code generation
+
+		//last card needs to be full size
+		tmpCard = new wxStaticBitmap( this, wxID_ANY, wxBitmap( bmDeck[H11F], wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+		tmpCard->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::cardEvent12 ), NULL, this );
+		m_cardHand.push_back(tmpCard);
+		fgSizer2->Add( tmpCard, 0, wxTOP|wxBOTTOM, 5 );
+		assert(m_cardHand.size() == 13);
+		//-------------------------------------------------------------
+
+		fgSizer2->Add(40, 0, 1, wxEXPAND, 5); //spacer
+
+		m_userText = new wxStaticText( this, wxID_ANY, wxT("Player 7\nTricks: 7\nScore: 7"), wxDefaultPosition, wxDefaultSize, 0 );
+		fgSizer2->Add(m_userText, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+
+
+		bSizer->Add(fgSizer2, 1, wxEXPAND, 5);
 
 		this->SetSizer(bSizer);
 		this->Layout();
 		this->Center(wxBOTH);
-
-		m_cardBM1->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::chooseCard ), NULL, this );
-		m_cardBM2->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::chooseCard2 ), NULL, this );
-		m_cardBM3->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::chooseCard3 ), NULL, this );
-		m_cardBM4->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame::chooseCard4 ), NULL, this );
 }
 void MyFrame::OnExit(wxCommandEvent& event)
 {
@@ -113,50 +302,98 @@ void MyFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox( "This is a wxWidgets' Hello world sample",
                   "About Hello World", wxOK | wxICON_INFORMATION );
+		std::vector<Card_ID> newHand = {C01,C02,C03,C03,C04,C05,C05,C10,C12,D06,H02,D02,C02F};
+		setCardHand(newHand);
 }
 void MyFrame::OnHello(wxCommandEvent& event)
 {
     wxLogMessage("Hello world from wxWidgets!");
 }
-void MyFrame::chooseCard(wxMouseEvent& event) {
-    //wxMessageBox( "You clicked a card","mouse click event", wxOK | wxICON_INFORMATION );
-		m_cardBM1->SetBitmap(wxBitmap( wxT("../img/Cropped/s11.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM2->SetBitmap(wxBitmap( wxT("../img/Cropped/s12.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM3->SetBitmap(wxBitmap( wxT("../img/Cropped/s13.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM4->SetBitmap(wxBitmap( wxT("../img/Scaled/s01.png"), wxBITMAP_TYPE_ANY ));
-		text1->SetLabel(wxT("Player1\nTricks: 9\nScore: 5"));
-		this->Layout();
-		SetStatusText("Spades");
+
+//code generation from clickHelper.py
+void MyFrame::cardEvent0(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[0]->GetBitmap());
+SetStatusText("card 0 clicked");
 }
-void MyFrame::chooseCard2(wxMouseEvent& event) {
-    //wxMessageBox( "You clicked a card","mouse click event", wxOK | wxICON_INFORMATION );
-		m_cardBM1->SetBitmap(wxBitmap( wxT("../img/Cropped/h01.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM2->SetBitmap(wxBitmap( wxT("../img/Cropped/h12.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM3->SetBitmap(wxBitmap( wxT("../img/Cropped/h13.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM4->SetBitmap(wxBitmap( wxT("../img/Scaled/h05.png"), wxBITMAP_TYPE_ANY ));
-		text1->SetLabel(wxT("Player1\nTricks: 2\nScore: 5"));
-		this->Layout();
-		SetStatusText("Hearts");
+
+void MyFrame::cardEvent1(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[1]->GetBitmap());
+SetStatusText("card 1 clicked");
 }
-void MyFrame::chooseCard3(wxMouseEvent& event) {
-    //wxMessageBox( "You clicked a card","mouse click event", wxOK | wxICON_INFORMATION );
-		m_cardBM1->SetBitmap(wxBitmap( wxT("../img/Cropped/d01.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM2->SetBitmap(wxBitmap( wxT("../img/Cropped/d12.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM3->SetBitmap(wxBitmap( wxT("../img/Cropped/d13.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM4->SetBitmap(wxBitmap( wxT("../img/Scaled/d05.png"), wxBITMAP_TYPE_ANY ));
-		text1->SetLabel(wxT("Player1\nTricks: 56\nScore: 43"));
-		this->Layout();
-		SetStatusText("Diamonds");
+
+void MyFrame::cardEvent2(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[2]->GetBitmap());
+SetStatusText("card 2 clicked");
 }
-void MyFrame::chooseCard4(wxMouseEvent& event) {
-    //wxMessageBox( "You clicked a card","mouse click event", wxOK | wxICON_INFORMATION );
-		m_cardBM1->SetBitmap(wxBitmap( wxT("../img/Cropped/c01.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM2->SetBitmap(wxBitmap( wxT("../img/Cropped/c12.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM3->SetBitmap(wxBitmap( wxT("../img/Cropped/c13.png"), wxBITMAP_TYPE_ANY ));
-		m_cardBM4->SetBitmap(wxBitmap( wxT("../img/Scaled/c05.png"), wxBITMAP_TYPE_ANY ));
-		text1->SetLabel(wxT("Player1\nTricks: 10\nScore: 34"));
-		this->Layout();
-		SetStatusText("Clubs");
+
+void MyFrame::cardEvent3(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[3]->GetBitmap());
+SetStatusText("card 3 clicked");
+}
+
+void MyFrame::cardEvent4(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[4]->GetBitmap());
+SetStatusText("card 4 clicked");
+}
+
+void MyFrame::cardEvent5(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[5]->GetBitmap());
+SetStatusText("card 5 clicked");
+}
+
+void MyFrame::cardEvent6(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[6]->GetBitmap());
+SetStatusText("card 6 clicked");
+}
+
+void MyFrame::cardEvent7(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[7]->GetBitmap());
+SetStatusText("card 7 clicked");
+}
+
+void MyFrame::cardEvent8(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[8]->GetBitmap());
+SetStatusText("card 8 clicked");
+}
+
+void MyFrame::cardEvent9(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[9]->GetBitmap());
+SetStatusText("card 9 clicked");
+}
+
+void MyFrame::cardEvent10(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[10]->GetBitmap());
+SetStatusText("card 10 clicked");
+}
+
+void MyFrame::cardEvent11(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[11]->GetBitmap());
+SetStatusText("card 11 clicked");
+}
+
+void MyFrame::cardEvent12(wxMouseEvent& event)
+{
+m_centerCards[(int)turn]->SetBitmap(m_cardHand[12]->GetBitmap());
+SetStatusText("card 12 clicked");
+}
+//end of code generation
+void MyFrame::setCardHand(std::vector<Card_ID> cardIds)
+{
+	for (int i = 0; i < 13; ++i) {
+		m_cardHand[i]->SetBitmap(wxBitmap( bmDeck[cardIds[i]], wxBITMAP_TYPE_ANY ));
+	}
 }
 
 Button::Button(const wxString& title)
