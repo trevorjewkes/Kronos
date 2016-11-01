@@ -96,7 +96,6 @@ std::string HeartsGame::value(int i)
 
 void HeartsGame::displayCards(std::vector<Card>& hand)//displays the deck for screen purposes.
 {
-	//std::sort(hand.begin(), hand.end());  sorts the hand but causes problems when it sorts the center pile
 	for (size_t i = 0; i<hand.size(); ++i)
 	{
 		std::cout << (i + 1) << ". The " << value(hand[i].getValue()) << " of " << suite(hand[i].getSuit()) << " " << std::endl;
@@ -144,7 +143,7 @@ int HeartsGame::findTwoOfClubs(std::vector<Player>& p)  //looks through each han
 Card HeartsGame::getCardsToPass(std::vector<Card>& h, std::string p)  //gets and stores cards for passing
 {
 	std::cout << p << " what card would you like to pass?" << std::endl;
-
+	std::sort(h.begin(), h.end());
 	int card;
 	displayCards(h);
 	std::cin >> card;
@@ -236,8 +235,11 @@ int HeartsGame::passCards(std::vector<Player>& p, int round)  //function for pas
 		{
 			std::vector<Card> temp = p[i].getHand();
 			pass.push_back(getCardsToPass(temp, p[i].getip()));
+
 			pass.push_back(getCardsToPass(temp, p[i].getip()));
+
 			pass.push_back(getCardsToPass(temp, p[i].getip()));
+
 			p[i].setHand(temp);
 		}
 
@@ -336,23 +338,26 @@ bool HeartsGame::validateMove(Player& p, bool& broken, std::vector<Card> Center,
 Card HeartsGame::getmove(Player& p, bool& b, std::vector<Card> c, int t, int i)
 {
 	int move;
+	bool valid = false;
 	std::vector<Card> h = p.getHand();
+	while (!valid){
 	std::cout << p.getip() << " what card would you like to play?" << std::endl;
 	displayCards(h);
 	std::cin >> move;
 	std::swap(h[h.size() - 1], h[move - 1]);
 	Card play = h[h.size() - 1];
-	if (!validateMove(p, b, c, play, t, i))
-	{
-		std::cout << "That is not a valid Move" << std::endl; return getmove(p, b, c, t, i);
+	valid = validateMove(p,b,c,play,t,i);
+		if (!valid)
+		{
+			std::cout << "That is not a valid Move" << std::endl;
+		}
 	}
-	else {
 		h.pop_back();
 		p.setHand(h);
 		p.sortHand();
 		std::cout << "You played the " << value(play.getValue()) << " of " << suite(play.getSuit()) << std::endl;
 		return play;
-	}
+
 }
 
 void HeartsGame::updateScore(std::vector<Player>& p)//adds round score to Score
