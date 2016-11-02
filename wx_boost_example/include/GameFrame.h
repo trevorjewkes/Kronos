@@ -1,5 +1,5 @@
-#ifndef MYFRAME_H
-#define MYFRAME_H
+#ifndef GAMEFRAME_H
+#define GAMEFRAME_H
 
 #include "wxDeck.h"
 #include <wx/wxprec.h>
@@ -14,10 +14,10 @@ enum
     ID_Hello = 1
 };
 
-class MyFrame: public wxFrame
+class GameFrame: public wxFrame
 {
 public:
-    MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    GameFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 private:
 		std::vector<wxStaticBitmap*> m_cardHand;
 		std::vector<wxStaticBitmap*> m_centerCards;
@@ -47,4 +47,4 @@ private:
     wxDECLARE_EVENT_TABLE();
 };
 
-#endif /* ifndef MYFRAME_H */
+#endif /* ifndef GAMEFRAME_H */

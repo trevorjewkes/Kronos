@@ -1,14 +1,11 @@
 #include "wxDeck.h"
-#include "MyFrame.h"
+#include "GameFrame.h"
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
-#include <cassert>
-#include <vector>
-#include <iostream>
 
 class MyApp: public wxApp
 {
@@ -26,7 +23,7 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame( "Card Test", wxPoint(50, 50), wxSize(650, 540) );
+    GameFrame *frame = new GameFrame( "Card Test", wxPoint(50, 50), wxSize(650, 540) );
     frame->Show( true );
     return true;
 }
