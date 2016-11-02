@@ -5,6 +5,7 @@
 //code generated with cardHelper.py
 //hash card id to img string filename
 wxDeck::wxDeck() {
+m_hash.emplace(BLANK, "../img/Cropped/blank.png");
 m_hash.emplace(CARD_BACK, "../img/Cropped/card_back.png");
 m_hash.emplace(C01, "../img/Cropped/c01.png");
 m_hash.emplace(C02, "../img/Cropped/c02.png");
@@ -58,6 +59,7 @@ m_hash.emplace(S10, "../img/Cropped/s10.png");
 m_hash.emplace(S11, "../img/Cropped/s11.png");
 m_hash.emplace(S12, "../img/Cropped/s12.png");
 m_hash.emplace(S13, "../img/Cropped/s13.png");
+m_hash.emplace(BLANK_F, "../img/Scaled/blank.png");
 m_hash.emplace(CARD_BACK_F, "../img/Scaled/card_back.png");
 m_hash.emplace(C01F, "../img/Scaled/c01.png");
 m_hash.emplace(C02F, "../img/Scaled/c02.png");

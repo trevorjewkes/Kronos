@@ -16,6 +16,7 @@ enum Turn {
 //F is for full card
 //clipped card is used far more often
 enum Card_ID {
+	BLANK,
 	CARD_BACK,
 	C01,
 	C02,
@@ -69,6 +70,7 @@ enum Card_ID {
 	S11,
 	S12,
 	S13,
+	BLANK_F,
 	CARD_BACK_F,
 	C01F,
 	C02F,
