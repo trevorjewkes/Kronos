@@ -43,5 +43,8 @@ public:
 	void setPassCards(std::vector<int> cards, std::string ip, int checker);
 	int playCard(std::string values, std::string ip, int checker, int currentPlayer);
 	bool brokenHearts = false;
+	int endTurn();
+	void endRound();
+	int turn = 0;
 };
 

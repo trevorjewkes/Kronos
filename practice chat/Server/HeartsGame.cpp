@@ -306,7 +306,8 @@ bool HeartsGame::noLeadSuit(Suit s, std::vector<Card> h)  //compares hand agains
 bool HeartsGame::validateMove(int index, Card move, int t, int i)
 {
 	Suit lead;
-	if (i != 0) { lead = centerPile[0].getSuit(); }//sets the lead suit
+	if (centerPile.size() > 0) lead = centerPile[0].getSuit();
+	if (i != 0 && centerPile.size() > 0) { lead = centerPile[0].getSuit(); }//sets the lead suit
 	if (t == 1 && move.getSuit() == HEARTS) { return false; }//cannot play hearts in first round
 	if ((t == 1 && move.getSuit() == SPADES) && (move.getValue() == 12)) { return false; }//cannot play queen of spades in first round
 	if ((t == 1 && i == 0) && (move.getSuit() != CLUBS && move.getValue() != 2)) { return false; }//must play 2 of clubs at the first of each round
@@ -462,20 +463,62 @@ void HeartsGame::setPassCards(std::vector<int> cards, std::string ip, int checke
 int HeartsGame::playCard(std::string values, std::string ip, int checker, int currentPlayer)
 {
 	int j = 0;
-	currentPlayer;
 	for (int i = 0; i < players.size(); i++)
 	{
 		if (players[i].getIp() == ip && (currentPlayer == i))
 		{
 			Card tmp = players[i].getHand()[atoi(values.data())-1];
-			if (!validateMove(i, tmp, 13 - players[i].getHand().size(), checker))
+			if (!validateMove(i, tmp, 13 - players[i].getHand().size(), turn))
 			{
 				return -1;
 			}
+			
 			players[i].removeCardFromHand(tmp);
 			centerPile.push_back(tmp);
 			j = i;
 		}
 	}
+	turn++;
+	if (turn > 3) turn = 0;
 	return j;
+}
+
+int HeartsGame::endTurn()
+{
+	Suit leadSuit = centerPile[0].getSuit();
+	int maxIndex = 0;
+	int maxValue = 0;
+	int score = 0;
+	for (int i = 0; i < centerPile.size(); i++)
+	{
+		Card tmp = centerPile[i];
+		if (tmp.getSuit() == leadSuit && tmp.getValue() > maxValue)
+		{
+			maxValue = tmp.getValue();
+			maxIndex = i;
+		}
+		if (tmp.getSuit() == SPADES && tmp.getValue() == 11) score += 13;
+		if (tmp.getSuit() == HEARTS) score++;
+	}
+	players[maxIndex].incrementRoundScore(score);
+	centerPile.clear();
+	return maxIndex;
+}
+
+void HeartsGame::endRound()
+{
+	for (int i = 0; i < players.size(); i++)
+	{
+		if (players[i].getRoundScore() == 26)
+		{
+			players[(i + 1) % 4].setRoundScore(26);
+			players[(i + 2) % 4].setRoundScore(26);
+			players[(i + 3) % 4].setRoundScore(26);
+			break;
+		}
+	}
+	for (int i = 0; i < players.size(); i++)
+	{
+		players[i].startNewRound();
+	}
 }

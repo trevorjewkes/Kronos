@@ -195,9 +195,21 @@ public:
 					else if(turns >= 4)
 					{
 						turns = 0;
-						//calcscore
+						checker = 0;
+						currentPlayer = game.endTurn();
 						sendUpdate(participant1);
-						//send to first player again
+						if (game.players[0].getHand().size() == 0)
+						{
+							game.endRound();
+							roundId++;
+							players = game.play_Hearts();
+							for (auto participant1 : participants_)
+							{
+								sendUpdate(participant1);
+								sendCards(participant1);
+								sendRequest(participant1, "PASS");
+							}
+						}
 					}
 				}
 			}
