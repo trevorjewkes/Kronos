@@ -22,54 +22,45 @@
 
 \section{Hearts Class}
 
-\subsection{Deck deck}
-	Object deck which holds an array of 52 cards.
-\subsection{Card[][] history}
-	Array holds previous cards in play, allows client to view history.
-\subsection{int turn}
-	Variable to hold turn number for use in game logic.
-\subsection{int round}
-	Variable to hold round number for use in game logic.
-\subsection{void startRound()}
-	Start round will first update each client with their hands and then ask which cards need to be passed, it then will call a private function take turn.  
-\subsection{void deal()}
-	This function gives each player the appropriate cards at the beginning of each game or round.
-\subsection{void updateScore()}
-	This function updates the score after each player goes (or after each round depending on specific game)
-\subsection{void whoseTurn()}
-	This function keeps track of which player is next to play.
-\subsection{void endGame()}
-	This funcion allows the client to exit or play an additional game.
 
-\section{Scoreboard Class}
 
-\subsection{string[] names}
-	String of player name.
-\subsection{string[] teams}
-	String of team player is on.
-\subsection{int bids}
-	Int of player bid.
-\subsection{int scores}
-	Int of player score.
-\subsection{void getInfo()}
-	This function calculates and updates information needed for displaying score for player.
+\subsection{std::string suite(int i)}  
+	converts enum ints to string of suit
+\subsection{std::vector $\langle$Card$\rangle$ initializeDeck()} 
+	creates deck of cards taken from Card.cpp
+\subsection{std::string makename(int n) } 
+	converts Player + int into Player names
+\subsection{std::vector$\langle$Player$\rangle$  creatPlayers(int p) } 
+	Creats a vector of Players to play the game.
+\subsection{std::string value(int i)}
+\subsection{void displayCards(std::vector$\langle$Card$\rangle$ \& hand)}
+	displays the deck for screen purposes.
+\subsection{void dealCards(std::vector$\langle$Player$\rangle$ \& players, std::vector$\langle$Card$\rangle$ \& Deck)}
+\subsection{int findTwoOfClubs(std::vector$\langle$Player$\rangle$ \& p)}  
+	looks through each hand to find the 2 of clubs
+\subsection{Card getCardsToPass(std::vector$\langle$Card$\rangle$ \& h, std::string p) }
+	gets and stores cards for passing
+\subsection{int fixPass(int r, int p, int c)}
+\subsection{void assignPassedCards(std::vector$\langle$Player$\rangle$ \& p, std::vector$\langle$Card$\rangle$ \& h, int r)  }
+	takes the passed cards and redistributes based on round
+\subsection{int passCards(std::vector$\langle$Player$\rangle$ \& p, int round)  }
+	function for passing cards at beginging of round
+\subsection{int scoretrick(std::vector$\langle$Card$\rangle$ \& center, std::vector$\langle$Player$\rangle$ \& players, int\& turn)}
+\subsection{void displayroundScores(std::vector$\langle$Player$\rangle$ p)}
+\subsection{void displayScores(std::vector$\langle$Player$\rangle$  p)}
+\subsection{bool allhearts(std::vector$\langle$Card$\rangle$ h)  }
+	checks to see if a players hand is all hearts.
+\subsection{bool noLeadSuit(Suit s, std::vector$\langle$Card$\rangle$ h) }
+	 compares hand against the lead suit
+\subsection{bool validateMove(Player\& p, bool\& broken, std::vector$\langle$Card$\rangle$  Center, Card move, int t, int i)}
+\subsection{Card getmove(Player\& p, bool\& b, std::vector$\langle$Card$\rangle$  c, int t, int i)}
+\subsection{void updateScore(std::vector$\langle$Player$\rangle$ \& p)}
+	adds round score to Score
+\subsection{bool playRound(std::vector$\langle$Player$\rangle$ \& players, std::vector$\langle$std::vector$\langle$Card$\rangle$ $\rangle$\& history, int round)}
+\subsection{void startGame(std::vector$\langle$Player$\rangle$ \& players, std::vector$\langle$std::vector$\langle$Card$\rangle$ $\rangle$\& history) }
+	 uses players and calls round until game is over
+\subsection{void play\_Hearts(int num)}
 
-\section{DeckClass}
 
-\subsection{Card[] cards}
-	This is an array (of size 52) of card objects to be used in a game.
-\subsection{void shuffle()}
-	This function changes the id values to different array elements to randomize a deck to be played in a game.
-\subsection{void getDeck()}
-	This allows the game logic to pull the information of the Deck class and use it for a game.
-\section{Card Class}
 
-\subsection{int id}
-	This variable represents and corresponds to a specific card in a standard playing deck.
-\subsection{enum suite}
-	The card object will be one of four suites, enumerated to represent hearts, diamonds, spades, and clubs.
-\subsection{bool discarded}
-	This indicates whether a card has been discarded or played in a game.
-\subsection{bool validMove}
-	This indicates whether a card is playable in the current hand of play.
 \end{document}
