@@ -1,0 +1,39 @@
+-- Spades Rules --
+
+Spades is played by four people in two partnerships. The cards rank ace (the highest) to the 2 (the lowest). Spades are always trumps. Each player receives 13 cards. Bidding and play proceed in a clockwise direction. In the bidding phase you declare the number of tricks you intend to win; in the playing phase you try to win those tricks. The object of the game is to fulfill the total bid by the partnership.
+
+You may choose to bid Nil, meaning you intend not to win any tricks. Before you even pick up your cards, you may bid Double Nil. This is the same as a Nil bid, except all rewards and penalties are doubled. If one or both players in a partnership bid Nil, their bids are scored independently, then combined to determine the partnership’s score.
+
+You must follow suit if you can, otherwise you may take the trick with a trump or discard something from a non-trump suit. Spades cannot be lead until they’ve been broken (until they’ve been used to trump an earlier lead). A trick is won by the highest trump or by the highest card of the suit led.
+
+If you make your bid, you receive 10 points for each trick in the bid, one point for each trick above the bid. A Nil bid counts for 100 points if you succeed, 100 against if you fail. Double Nil is 200. The game is to 500 points.
+
+Not all Spades games use bags, but ours does. Every point in excess of your total bid counts as one bag. If you collect 10 bags, you lose 100 points.
+
+-- Strategies --
+
+Try to estimate the number of tricks you’ll take as accurately as possible. Count kings and aces as one trick each. The value of your lower-ranking trumps depends on the presence of voids, singletons, or doubletons in your off-suits (non-trumps).
+
+If you have a similar hand, but a singleton (one club) instead, you can expect to take two tricks with your low trumps. With three trumps and a void in one suit, you might take three tricks. Additional trump cards above three are worth one trick each on average.
+
+If someone else is bidding Nil, that will make it easier for you to win tricks, and you might consider adding one trick to your estimation. In a perfect world, the total amount of tricks bid in each hand of Spades should equal 13, since there are 13 tricks to be won.
+
+If you are the third or last player to bid, consider how the other players have been bidding. If the bid count is low, you may want to include marginal cards (such as a pair of queens) as one trick.
+
+Bid Nil, obviously, if you’re pretty sure you won’t be taking any tricks. Some danger signs to look for in your hand are a suit of three or fewer cards that contains any high-cards.
+
+The exception to this is when you have a void or a singleton in a suit. In this case, there’s a good chance you can dump the king harmlessly before you take a trick.
+
+If you have a hand that’s long in spades (four or more), it is very unlikely you can carry out a successful Nil bid (those spades will be the implements used to dig your grave). You’re bound to win a trick, costing you 100 points.
+
+Your strategy during play should depend somewhat on the total bid for tricks that will be taken. If the total bid is very high (12 or more tricks), you need to be aggressive. Fight for tricks, throw off low cards whenever possible. Avoid taking any tricks from your partner. By doing so, you may prevent your opponents from fulfilling their contract. Also, with a high total bid, it is unlikely you’ll be taking many bags for your team, no matter what.
+
+Spades is like Hearts in one respect: sometimes it’s better to lose tricks. If the bid is low (10 or less), you should avoid taking any tricks you hadn’t counted on.
+
+What if the total bid for tricks is exactly 11? In this case, base your play on other factors. If you have accumulated only a few bags, try to win the tricks at first. Change this strategy as circumstances dictate. You can increase your options in later tricks by playing your middle cards early.
+
+Another tactic you can use when trying to make your bid is to watch your partner’s plays closely. If he or she inadvertently loses a trick that’s normally a win (for example, if your partner gets trumped early), try to make it up by taking one trick above your own bid.
+
+If an opponent bids Nil, you will need to make sure that he or she takes one trick. To do this, play the lowest cards possible, and don’t worry about fulfilling your contract (assuming the total bid is low, which is probable). Save your low cards specifically for trying to stick the Nil bidder.
+
+	--From http://www.hoylegaming.com/rules/showrule.aspx?RuleID=227
