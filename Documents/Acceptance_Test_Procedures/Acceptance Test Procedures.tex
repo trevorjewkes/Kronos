@@ -27,113 +27,139 @@
 	% --------------------------------------------------------------
 	%                         Proposal Section
 	% --------------------------------------------------------------
-	\section{Hearts Logic--Server}
+	\section{Server}
 	
 		\subsection{Server}
+		Validation:
+		\begin{enumerate}
+			\item Client can connect to the server when opening the client.
+		\end{enumerate}
 		Verification:
-		\begin{itemize}
-			\item Client(customer) can connect to a game and play.
-		\end{itemize}
 		
-		\subsection{AI}
-		Verification:
-			\begin{itemize}
-				\item Customer can play without other human players
-				\item AI plays correct game
-				\item AI makes legal moves
-			\end{itemize}
-			
-		\subsection{Client}
-			Verification:
-			\begin{itemize}
-				\item  Be able to choose game to play
-				\begin{enumerate}
-					\item Be able to choose game options, multiplayer, etc
-				\end{enumerate}
-				\item User can view GUI
-				\item User can login
-				\item User can view and access menu
-				\item User can play appropriate game play
-				\item User can quit game (in fit of rage)
-				\item User experiences correct end game sequence
-			\end{itemize}
+		Unit Test for connecting to server.
 
 			
 	\section{Client}
 	
 		\subsection{Login}
 			\subsubsection{Create user}
+			Validation:
+			\begin{enumerate} 
+				\item Create a new user to 'log in' to access server.
+				\item Create username to identify player.
+				\item Create password.
+				\item Abiltiy to change password if needed
+				\item Successfully login or logout each game.
+			\end{enumerate}
+			
 			Verification:
-			\begin{itemize} 
-				\item Make new user
-				\item Create username
-				\item Make password, use password
-				\item Change password
-				\item Successfully login 
-			\end{itemize}
+			
+			Unit Tests for creating user funcitons.
+			\begin{enumerate}
+				\item unit test for function createAccount()			
+				\item unit test for function userSettings()
+			\end{enumerate}
 
 		\subsection{Main Menu}
 			\subsubsection{Main menu}
-			Verification:
-				\begin{itemize}
-					\item Button to edit account/profile
+			Validation:
+				\begin{enumerate}
+					\item Menu to edit account/profile
 					\item Choose specific game
-					\item Join game
-					\item Create game
-				\end{itemize}
+					\begin{enumerate}
+						\item Choose Hearts
+						\item Choose Spades
+					\end{enumerate}
+					\item Option to join game or create game
+					\begin{enumerate}
+						 \item In joining game, able to select/specify table to join
+						 \item In creating game, choose options for gameplay
+						 \begin{enumerate}
+						 	\item Choose Computer Players or AI
+						 	\item Choose Private or Public
+						 \end{enumerate}
+					\end{enumerate}
+				\end{enumerate}
+			Verification:
 			
+			Unit Test for choosing game, enuring only specific options work when creating/joining games.
+			\begin{enumerate}
+				\item unit test for function chooseGame()
+				\item unit test for function gameOptions()		
+			\end{enumerate}
 		\subsection{Game Table/GUI}
 			\subsubsection{Cards}
-			Verification:
-			\begin{itemize}
-				\item View  cards
+			Validation:
+			\begin{enumerate}
+				\item View  cards, ensure cards are delt properly
 				\item Cards match values listed on card
 				\item See how many cards other users have (face down) 
-			\end{itemize}
-			\subsubsection{Scoreboard}
+			\end{enumerate}
 			Verification:
-			\begin{itemize}
-				\item See scores/bid
-				\item Reflects appropriate score
-				\item Updates after each turn
-			\end{itemize}
 			
-		\subsection{Game Play}
-			\subsubsection{Choose card}
-			Verification:
-				\begin{itemize}	
-					\item Play only legal moves
-				\end{itemize}
+			Unit Tests for how cards will look, how cards are shuffled, how many cards are visable to player.
+			\begin{enumerate}
+				\item unit test for function createTable()		
+				\item unit test for function showHand()
+				\item unit test for function drawCard()	
+			\end{enumerate}
+			\subsubsection{Scoreboard}
+			Validation:
+			\begin{enumerate}
+				\item See scores/bid
+				\item Reflects appropriate score at the end of each turn
+				\item Players info and cards sent each time a player selects a card.
+			\end{enumerate}
+			Verifcation:
+			
+			Unit Tests for ensuring correct information is passed to scoreboard.
+			\begin{enumerate}
+				\item unit test for function displayCenter()			
+			\end{enumerate}
+	
 			\subsubsection{Moves}
+			Validation:
+			\begin{enumerate}
+				\item  See when other players move
+				\item  Each turn is shown with appropriate amount of time
+				\item  Can see past hand from option menu
+			\end{enumerate}
 			Verification:
-			\begin{itemize}
-				\item 	sSe when other players move
-			\end{itemize}
 		
-			\subsubsection{Rules}
-			Verification:
-			\begin{itemize}
-				\item Play rules appropriate to game selected	
-			\end{itemize}
-		
+			Unit Test for ensuring correct information is sent to display.
+			\begin{enumerate}
+				\item unit test for function redrawTable()
+				\item unit test for function getHint()
+				\item unit test for function viewHistory()			
+			\end{enumerate}
 		\subsection{Game End Event}
-			Verification:
-			\begin{itemize}
+			Validation:
+			\begin{enumerate}
+				\item If connection removed prematurely, AI will fill in so gameplay will continue without problems
 				\item End at proper time
+				\item Score for round displays on screen
 				\item Option to play again
 				\item Option to return to main menu
-			\end{itemize}
-
-		\subsection{Other}	
-			\subsubsection{multiplayer options}
+			\end{enumerate}
 			Verification:
-			\begin{itemize}
+			
+			Unit Test for making sure all premature exits are taken care of by creating and using AI.\\
+			Unit Test for making sure each function dealing with new game works correctly.
+			\begin{enumerate}
+				\item unit test for function endOfGameDisplay()			
+			\end{enumerate}
+		\subsection{Other}	
+			\subsubsection{Multiplayer Options}
+			Validation:
+			\begin{enumerate}
 				\item AI fills in as needed
 				\item 1-3 other humans can join game
 				\item Disconnecting user is replaced with AI that takes place
 				\item After determined amount of time of inactivity, player is removed from game
 				\item When disconnected accidentally, can rejoin same game if game is still in play
-			\end{itemize}
+			\end{enumerate}
+			Verification:
 			
+			Unit Test for ensuring that multiplayer functions work as expected.
 		
 \end{document}
