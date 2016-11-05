@@ -1,8 +1,10 @@
 #include "MainFrame.hpp"
 #include "RulesWindow.hpp"
+#include "LoginLayout.hpp"
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MENU(wxID_EXIT,  MainFrame::OnExit)
@@ -67,8 +69,22 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	
 	this->SetMenuBar( m_menubar );
 	
-	
 	this->Centre( wxBOTH );
+
+	//add a layout to the starting screen
+	std::vector<wxBoxSizer*> layouts;
+	layouts.push_back( new LoginLayout(this, "Login window") );
+	layouts.push_back( new LoginLayout(this, "Login window 2") );
+	this->SetSizer(layouts[0]);
+	this->Layout();
+	layouts[0]->Fit(this);
+	this->Center();
+
+	this->SetSizer(layouts[1]);
+	this->Layout();
+	layouts[1]->Fit(this);
+	this->Center();
+
 	
 	// Connect Events
 	this->Connect( m_menuItemLoadHand->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadPlayerHand ) );
