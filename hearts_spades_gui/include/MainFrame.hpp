@@ -25,7 +25,9 @@ private:
 	void serverSettingsDialog( wxCommandEvent& event );
 	void connectToServer( wxCommandEvent& event );
 	void showHeartsRules( wxCommandEvent& event );
+	std::string getHeartsRules();
 	void showSpadesRules( wxCommandEvent& event );
+	std::string getSpadesRules();
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();

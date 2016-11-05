@@ -1,5 +1,7 @@
 #include "MainFrame.hpp"
+#include "RulesWindow.hpp"
 #include <sstream>
+#include <fstream>
 #include <string>
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
@@ -96,13 +98,47 @@ void MainFrame::connectToServer( wxCommandEvent& event )
 	std::cout.flush();
 	SetStatusText(oss.str());
 }
+std::string MainFrame::getHeartsRules()
+{
+	std::ifstream fin("../rules/HeartsRules.txt");	
+	std::string content( (std::istreambuf_iterator<char>(fin) ), (std::istreambuf_iterator<char>() ) );
+	fin.close();
+	return content;
+}
 void MainFrame::showHeartsRules( wxCommandEvent& event )
 {
-	wxMessageBox("-- Hearts Rules --\n\nRules go here.", "Hearts Rules");
+	static std::string rules = getHeartsRules();
+	//std::cout << rules << std::endl;
+	//std::cout.flush();
+
+	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+	wxFrame* frame = new wxFrame((wxFrame *)NULL, -1,  wxT("Hearts Rules"), wxPoint(50,50), wxSize(450,450));
+	RulesWindow* window = new RulesWindow(frame, wxID_ANY, rules);
+	sizer->Add(window, 1, wxEXPAND);
+	frame->SetSizer(sizer);
+
+	frame->Show();
+}
+std::string MainFrame::getSpadesRules()
+{
+	std::ifstream fin("../rules/SpadesRules.txt");	
+	std::string content( (std::istreambuf_iterator<char>(fin) ), (std::istreambuf_iterator<char>() ) );
+	fin.close();
+	return content;
 }
 void MainFrame::showSpadesRules( wxCommandEvent& event )
 {
-	wxMessageBox("-- Spades Rules --\n\nRules go here.", "Hearts Rules");
+	static std::string rules = getSpadesRules();
+	//std::cout << rules << std::endl;
+	//std::cout.flush();
+
+	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+	wxFrame* frame = new wxFrame((wxFrame *)NULL, -1,  wxT("Spades Rules"), wxPoint(50,50), wxSize(450,450));
+	RulesWindow* window = new RulesWindow(frame, wxID_ANY, rules);
+	sizer->Add(window, 1, wxEXPAND);
+	frame->SetSizer(sizer);
+
+	frame->Show();
 }
 void MainFrame::OnExit(wxCommandEvent& event)
 {
