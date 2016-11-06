@@ -72,20 +72,13 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
-	std::vector<wxBoxSizer*> layouts;
-	layouts.push_back( new LoginLayout(this, "Login window") );
-	layouts.push_back( new LoginLayout(this, "Login window 2") );
-	this->SetSizer(layouts[0]);
+	m_layouts.push_back( new LoginLayout(this));
+	this->SetSizer(m_layouts[0]);
 	this->Layout();
-	layouts[0]->Fit(this);
+	//layouts[0]->Fit(this);
 	this->Center();
+	//this->ShowFullScreen(true, 0);
 
-	this->SetSizer(layouts[1]);
-	this->Layout();
-	layouts[1]->Fit(this);
-	this->Center();
-
-	
 	// Connect Events
 	this->Connect( m_menuItemLoadHand->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadPlayerHand ) );
 	this->Connect( m_menuItemLoadCenter->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadCenterCards ) );

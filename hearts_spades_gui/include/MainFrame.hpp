@@ -13,6 +13,7 @@ public:
     MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 private:
 	ServerDialog m_serverDialog;
+	std::vector<wxBoxSizer*> m_layouts;
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
 	wxMenu* m_menuTest;
