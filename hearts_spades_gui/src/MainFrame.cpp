@@ -1,6 +1,8 @@
 #include "MainFrame.hpp"
 #include "RulesWindow.hpp"
 #include "LoginLayout.hpp"
+#include "LobbyLayout.hpp"
+#include "CreateGameLayout.hpp"
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -12,8 +14,7 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL)
-{
+        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL) {
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -72,20 +73,12 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
-	std::vector<wxBoxSizer*> layouts;
-	layouts.push_back( new LoginLayout(this, "Login window") );
-	layouts.push_back( new LoginLayout(this, "Login window 2") );
-	this->SetSizer(layouts[0]);
+	this->SetSizer(new LobbyLayout(this));
 	this->Layout();
-	layouts[0]->Fit(this);
+	//layouts[0]->Fit(this);
 	this->Center();
+	//this->ShowFullScreen(true, 0);
 
-	this->SetSizer(layouts[1]);
-	this->Layout();
-	layouts[1]->Fit(this);
-	this->Center();
-
-	
 	// Connect Events
 	this->Connect( m_menuItemLoadHand->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadPlayerHand ) );
 	this->Connect( m_menuItemLoadCenter->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadCenterCards ) );
@@ -97,6 +90,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
+
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {

@@ -5,11 +5,13 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include "MainFrame.hpp"
 
 class LoginLayout : public wxBoxSizer
 {
 	public:
-		LoginLayout(wxWindow* parent, wxString msg, int orient = wxVERTICAL);
+		LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
+		//good size is wxSize(350,350)
 };
 
 #endif /* ifndef LOGINLAYOUT_HPP */
