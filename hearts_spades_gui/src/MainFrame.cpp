@@ -1,6 +1,8 @@
 #include "MainFrame.hpp"
 #include "RulesWindow.hpp"
 #include "LoginLayout.hpp"
+#include "LobbyLayout.hpp"
+#include "CreateGameLayout.hpp"
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -12,8 +14,7 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL)
-{
+        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL) {
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -72,8 +73,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
-	m_layouts.push_back( new LoginLayout(this));
-	this->SetSizer(m_layouts[0]);
+	this->SetSizer(new LobbyLayout(this));
 	this->Layout();
 	//layouts[0]->Fit(this);
 	this->Center();
@@ -90,6 +90,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
+
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {

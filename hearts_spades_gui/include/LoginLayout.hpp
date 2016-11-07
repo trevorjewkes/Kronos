@@ -11,6 +11,7 @@ class LoginLayout : public wxBoxSizer
 {
 	public:
 		LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
+		//good size is wxSize(350,350)
 };
 
 #endif /* ifndef LOGINLAYOUT_HPP */
