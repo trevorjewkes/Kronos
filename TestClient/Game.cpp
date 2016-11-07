@@ -5,7 +5,7 @@
 Game::Game()
 {
 	m_resolver = new boost::asio::ip::tcp::resolver(io_service);
-	auto endpoint_iterator = m_resolver->resolve({ "192.168.1.102", "8080" });
+	auto endpoint_iterator = m_resolver->resolve({ "129.123.141.248", "8080" });
 	chat = new chat_client(io_service, endpoint_iterator);
 	t = new std::thread([this]() { io_service.run(); });
 }
