@@ -1,4 +1,5 @@
 cards = [
+"BLANK",
 "CARD_BACK",
 "C01",
 "C02",
@@ -54,6 +55,7 @@ cards = [
 "S13"
 ]
 fullcards = [
+"BLANK_F",
 "CARD_BACK_F",
 "C01F",
 "C02F",
