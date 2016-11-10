@@ -17,8 +17,11 @@
 
 \maketitle
 
-\centerline{\includegraphics{Hearts_Class_diagram.png}}
+	\noindent\makebox[\textwidth{\includegraphics[width=\textwidth]{hearts.png}}]
 \centerline{Hearts Low Level Design Diagram}
+
+
+
 
 \section{Hearts Class}
 
@@ -26,7 +29,7 @@
 
 \subsection{std::string suite(int i)}  
 	converts enum ints to string of suit
-\subsection{std::vector $\langle$Card$\rangle$ initializeDeck()} 
+\subsection{std::vector $\langle$Card$\rangle$ initializeDeck()} \
 	creates deck of cards taken from Card.cpp
 \subsection{std::string makename(int n) } 
 	converts Player + int into Player names
