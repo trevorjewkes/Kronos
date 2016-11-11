@@ -6,7 +6,7 @@
 #endif
 #include <iostream>
 
-CreateGameLayout::CreateGameLayout( MainFrame* parent, int orient): wxBoxSizer(orient)
+CreateGameLayout::CreateGameLayout( CreateGameDialog* parent, int orient): wxBoxSizer(orient)
 {
 	wxGridSizer* gSizer3;
 	gSizer3 = new wxGridSizer( 0, 2, 0, 0 );
@@ -83,4 +83,7 @@ CreateGameLayout::CreateGameLayout( MainFrame* parent, int orient): wxBoxSizer(o
 	
 	wxButton* m_button10 = new wxButton( parent, wxID_ANY, wxT("Create Game"), wxDefaultPosition, wxDefaultSize, 0 );
 	this->Add( m_button10, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+	//connect events
+	m_button10->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CreateGameDialog::createGameBtn ), NULL, parent );
 }

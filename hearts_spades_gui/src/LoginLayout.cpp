@@ -1,10 +1,11 @@
 #include "LoginLayout.hpp"
+#include "LoginDialog.hpp"
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
 
-LoginLayout::LoginLayout( MainFrame* parent, int orient): wxBoxSizer(orient)
+LoginLayout::LoginLayout( LoginDialog* parent, int orient): wxBoxSizer(orient)
 {
 	
 	this->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
@@ -36,6 +37,6 @@ LoginLayout::LoginLayout( MainFrame* parent, int orient): wxBoxSizer(orient)
 	this->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
 
 	// Connect Events
-	//loginBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::login ), NULL, this );
-	//createAccountBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::createAcount ), NULL, this );
+	loginBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnLoginBtn ), NULL, parent );
+	createAccountBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnCreateAccountBtn ), NULL, parent );
 }

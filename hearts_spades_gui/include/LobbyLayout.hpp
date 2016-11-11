@@ -10,7 +10,7 @@
 class LobbyLayout : public wxBoxSizer
 {
 	public:
-		LobbyLayout(MainFrame* parent, int orient = wxVERTICAL);
+		LobbyLayout(LobbyDialog* parent, int orient = wxVERTICAL);
 		//good size wxSize(350,350);
 };
 

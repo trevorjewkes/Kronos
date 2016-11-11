@@ -14,7 +14,7 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL) {
+        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL), m_createGameDialog(NULL) {
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -73,7 +73,11 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
-	this->SetSizer(new LobbyLayout(this));
+	// dummy sizer for main frame
+	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+	sizer->Add(new wxStaticText(this, wxID_ANY, wxT("Success"), wxDefaultPosition, wxDefaultSize,0));
+
+	this->SetSizer(sizer);
 	this->Layout();
 	//layouts[0]->Fit(this);
 	this->Center();
@@ -90,11 +94,12 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
-
+	m_loginDialog.Show();
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {
 	SetStatusText("Load Center Cards");
+	m_lobbyDialog.Show();
 }
 void MainFrame::serverSettingsDialog( wxCommandEvent& event )
 {
