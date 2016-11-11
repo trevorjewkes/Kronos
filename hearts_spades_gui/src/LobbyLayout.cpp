@@ -6,7 +6,7 @@
 #endif
 #include <iostream>
 
-LobbyLayout::LobbyLayout( MainFrame* parent, int orient): wxBoxSizer(orient)
+LobbyLayout::LobbyLayout( LobbyDialog* parent, int orient): wxBoxSizer(orient)
 {
 	this->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
 	
@@ -63,12 +63,11 @@ LobbyLayout::LobbyLayout( MainFrame* parent, int orient): wxBoxSizer(orient)
 	this->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
 
 	//connect events
-	m_joinPrivateHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPrivateHeartsGame ), NULL, parent );
-	m_joinPrivateSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPrivateSpadesGame ), NULL, parent );
-	m_joinPublicHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPublicHeartsGame ), NULL, parent );
-	m_joinPublicSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPublicSpadesGame ), NULL, parent );
-
-	m_createNewSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::createNewHeartsGame ), NULL, parent );
-	m_createNewHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::createNewSpadesGame ), NULL, parent );
+	m_joinPrivateHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::joinPrivateHeartsGame ), NULL, parent );
+	m_joinPrivateSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::joinPrivateSpadesGame ), NULL, parent );
+	m_joinPublicHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::joinPublicHeartsGame ), NULL, parent );
+	m_joinPublicSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::joinPublicSpadesGame ), NULL, parent );
+	m_createNewSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::createNewHeartsGame ), NULL, parent );
+	m_createNewHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LobbyDialog::createNewSpadesGame ), NULL, parent );
 }
 
