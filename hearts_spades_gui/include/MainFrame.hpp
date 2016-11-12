@@ -7,37 +7,19 @@
 #endif
 #include <iostream>
 #include "ServerDialog.hpp"
+#include "LoginDialog.hpp"
+#include "LobbyDialog.hpp"
+#include "CreateGameDialog.hpp"
 
 class MainFrame: public wxFrame
 {
 public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
-	void joinPrivateSpadesGame(wxCommandEvent& event) {
-		std::cout << "Join private Spades game!\n";
-		std::cout.flush();
-	}
-	void joinPrivateHeartsGame(wxCommandEvent& event) {
-		std::cout << "Join private Hearts game!\n";
-		std::cout.flush();
-	}
-	void joinPublicSpadesGame(wxCommandEvent& event) {
-		std::cout << "Join public Spades game!\n";
-		std::cout.flush();
-	}
-	void joinPublicHeartsGame(wxCommandEvent& event) {
-		std::cout << "Join public Hearts game!\n";
-		std::cout.flush();
-	}
-	void createNewSpadesGame(wxCommandEvent& event) {
-		std::cout << "Create new Spades game!\n";
-		std::cout.flush();
-	}
-	void createNewHeartsGame(wxCommandEvent& event) {
-		std::cout << "Create new Hearts game!\n";
-		std::cout.flush();
-	}
 private:
 	ServerDialog m_serverDialog;
+	LoginDialog m_loginDialog;
+	LobbyDialog m_lobbyDialog;
+	CreateGameDialog m_createGameDialog;
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
 	wxMenu* m_menuTest;
