@@ -10,7 +10,7 @@
 class CreateGameLayout : public wxBoxSizer
 {
 	public:
-		CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
+		CreateGameLayout(CreateGameDialog* parent, int orient = wxVERTICAL);
 		//a good size is wxSize(250,350) when put inside a frame
 };
 

@@ -2,8 +2,9 @@
 
 ## TODO:
 
-- abstract gui card class that 
+- figure out where to put event handler functions
+- be able to switch between screens as per the Finite State Machine diagram
+- implement the game board
 
 ## ISSUES
 
-My main plan now is to make each individual window (lobby, login, create account) accessible through the menu bar. The main playing field will be in the main frame. I tried making layouts and adding each one to the mainframe and then adding a new one to try to replace it. Weird stuff happened. You have to bind a button to a frame upon creation. Also event handling gets really hard.
