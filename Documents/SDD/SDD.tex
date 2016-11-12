@@ -46,13 +46,18 @@ This screen will be the view that will be use for play of the game. Since Spades
 This the End-of-Game screen. It will display the winner of the game along with the final scores for the game.
 
  There are two buttons, "Play Again" and "Main Menu". The "Play Again" button is used to play again with the same players. The "Main Menu" button will return the user to the main menu.
+ 
 
-//***************************************************************************************************************//
-//Hearts Section//
+
+%***************************************************************************************************************//
+%Hearts Section//
+
+ \newpage
  \noindent\makebox[\textwidth{\includegraphics[width=\textwidth]{hearts.png}}]
 
- \section{Hearts Class}
+ \section{Server Low Level Design}
 
+\subsection{Hearts Class}
  \begin{itemize}
  	\item string suite(int i)
  		\begin{itemize}
@@ -134,14 +139,16 @@ This the End-of-Game screen. It will display the winner of the game along with t
 
  \end{itemize}
 
- //***************************************************************************************************************//
- //Client Section//
-
+ %***************************************************************************************************************//
+ %Client Section//
+\newpage
 
  \centerline{\includegraphics{Client State Diagram.png}}
  \noindent\makebox[\textwidth{\includegraphics[width=\textwidth]{clientClassDiagram.png}}]
 
- \section{MainFrame}
+ \section{Client Low-Level Design }
+ 
+ \subsection{MainFrame}
  	This class is inherited publically from wxFrame.
 
  	\begin{itemize}
@@ -202,7 +209,7 @@ This the End-of-Game screen. It will display the winner of the game along with t
  	\end{itemize}
 
 
- \section{ServerDialog }
+ \subsection{ServerDialog }
  	This class is inherited publically from wxDialog.
  	\begin{itemize}
  	\item public:
@@ -230,7 +237,7 @@ This the End-of-Game screen. It will display the winner of the game along with t
  		\end{itemize}
  	\end{itemize}
 
- \section{RulesWindow }
+ \subsection{RulesWindow }
  	This class is inherited  publically from wxScrolledWindow
 
  	\begin{itemize}
@@ -249,7 +256,7 @@ This the End-of-Game screen. It will display the winner of the game along with t
  	\end{itemize}
 
 
- \section{LoginLayout }
+ \subsection{LoginLayout }
  	This class is inherited  publically from wxBoxSizer
  	\begin{itemize}
  		\item public:
@@ -261,7 +268,7 @@ This the End-of-Game screen. It will display the winner of the game along with t
 
 
 
- \section{LobbyLayout}
+ \subsection{LobbyLayout}
  	This class is inherited  publically from wxBoxSizer
  		\begin{itemize}
  			\item public:
@@ -271,7 +278,7 @@ This the End-of-Game screen. It will display the winner of the game along with t
  			\end{itemize}
  		\end{itemize}
 
- \section{CreateGameLayout}
+ \subsection{CreateGameLayout}
  	This class is inherited  publically from wxBoxSizer
 
  		\begin{itemize}
