@@ -4,36 +4,36 @@ title Client - Class Diagram
 
 
 class MainFrame {
- +MainFrame(const wxString\& title, const wxPoint\& pos, const wxSize\& size);
-+void joinPrivateSpadesGame(wxCommandEvent\& event) {}
-+void joinPrivateHeartsGame(wxCommandEvent\& event) {}
-+void joinPublicSpadesGame(wxCommandEvent\& event) {}
-+void joinPublicHeartsGame(wxCommandEvent\& event) {}
-+void createNewSpadesGame(wxCommandEvent\& event) {}
-+void createNewHeartsGame(wxCommandEvent\& event) {}
+ +MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
++void joinPrivateSpadesGame(wxCommandEvent& event) {}
++void joinPrivateHeartsGame(wxCommandEvent& event) {}
++void joinPublicSpadesGame(wxCommandEvent& event) {}
++void joinPublicHeartsGame(wxCommandEvent& event) {}
++void createNewSpadesGame(wxCommandEvent& event) {}
++void createNewHeartsGame(wxCommandEvent& event) {}
 
--ServerDialog m\_serverDialog;
--wxMenuBar* m\_menubar;
- -xMenu* m\_menuFile;
- -wxMenu* m\_menuTest;
- -wxMenu* m\_menuServer;
- -wxMenu* m\_menuHelp;
- -wxMenu* m\_menuGameRules;
- -void loadPlayerHand( wxCommandEvent\& event );
- -void loadCenterCards( wxCommandEvent\& event );
- -void serverSettingsDialog( wxCommandEvent\& event );
- -void connectToServer( wxCommandEvent\& event );
- -void showHeartsRules( wxCommandEvent\& event );
+-ServerDialog m_serverDialog;
+-wxMenuBar* m_menubar;
+ -xMenu* m_menuFile;
+ -wxMenu* m_menuTest;
+ -wxMenu* m_menuServer;
+ -wxMenu* m_menuHelp;
+ -wxMenu* m_menuGameRules;
+ -void loadPlayerHand( wxCommandEvent& event );
+ -void loadCenterCards( wxCommandEvent& event );
+ -void serverSettingsDialog( wxCommandEvent& event );
+ -void connectToServer( wxCommandEvent& event );
+ -void showHeartsRules( wxCommandEvent& event );
  -string getHeartsRules();
- -void showSpadesRules( wxCommandEvent\& event );
+ -void showSpadesRules( wxCommandEvent& event );
  -string getSpadesRules();
- -void OnExit(wxCommandEvent\& event);
- -void OnAbout(wxCommandEvent\& event);
- -wxDECLARE\_EVENT\_TABLE();
+ -void OnExit(wxCommandEvent& event);
+ -void OnAbout(wxCommandEvent& event);
+ -wxDECLARE_EVENT_TABLE();
 }
 class RulesWindow {
  +RulesWindow(wxWindow* parent, wxWindowID id, string rules);
- -string m\_rules;
+ -string m_rules;
 }
 
 class LoginLayout {
@@ -50,18 +50,18 @@ class CreateGameLayout {
 
 class ServerDialog {
 +ServerDialog( );
-+string getIP() { return m\_ip; };
-+int getPort() { return m\_port; };
++string getIP() { return m_ip; };
++int getPort() { return m_port; };
 
--string m\_ip;
--int m\_port;
--wxWindow* m\_parent;
--wxStaticText* m\_staticTextIP;
--wxTextCtrl* m\_textCtrlIP;
--wxStaticText* m\_staticTextPort;
--wxTextCtrl* m\_textCtrlPort;
--wxButton* m\_submitBtn;
--void OnClose(wxCommandEvent\& event);
+-string m_ip;
+-int m_port;
+-wxWindow* m_parent;
+-wxStaticText* m_staticTextIP;
+-wxTextCtrl* m_textCtrlIP;
+-wxStaticText* m_staticTextPort;
+-wxTextCtrl* m_textCtrlPort;
+-wxButton* m_submitBtn;
+-void OnClose(wxCommandEvent& event);
 }
 
 MainFrame *--left- RulesWindow
