@@ -17,66 +17,149 @@
 
 \maketitle
 
-\centerline{\includegraphics{Client_Class_diagram.png}}
-\centerline{Client Class Diagram}
+\centerline{\includegraphics{Client State Diagram.png}}
+\noindent\makebox[\textwidth{\includegraphics[width=\textwidth]{clientClassDiagram.png}}]
 
-\section{Table}
+\section{MainFrame}
+	This class is inherited publically from wxFrame.
 
-\subsection{Card[] hand}
-	An array of cards holding each players hand.
-\subsection{Player[] players}
-	An array of player objects.
-\subsection{void showHand()}
-	A function that prints out the player’s hand onto the GUI.
-\subsection{void tableMenu()}
-	A menu dropdown that includes the following: (plus any other options we see fit to add in the future)
-	\subsubsection{void exitGame()}
-		Facilitates a call to the server about early game withdrawal.
-	\subsubsection{void viewHistory()}
-		Shows a history of each trick in the given round
-	\subsubsection{void getHint()}
-		Provides the user with a “good” playable card. (Possibly using the logic from the hard AI)
-\subsection{void displayCenter()}
-	Controls the display of the center play area as the game is played.
-\subsection{void redrawTable()}
-	Updates the table after each move is made, in between tricks, and after each round.
-\subsection{void bid()}
-	Used in Spades to handle the bid scenario.
-\subsection{void pass()}
-	Used in Hearts to handle the pass scenario
-\subsection{void drawCard()}
-	Used in Crazy 8s to handle the draw card scenario.
-\subsection{void endOfGameDisplay)}
-	Is called at the end of a game to display winners, everyone’s final scores, and an option to play again or return to the main menu.
+	\begin{itemize}
+		\item public:
+
+		\begin{itemize}
+			\item MainFrame(const wxString\& title, const wxPoint\& pos, const wxSize\& size);
+				\\ In the main frame, the main components of the software are held. Following are the functions included:
+
+			\item void joinPrivateSpadesGame(wxCommandEvent\& event) {}
+				\\This function allows a user to join a spades game that is closed to public use.
+
+			\item void joinPrivateHeartsGame(wxCommandEvent\& event) {}
+				\\ This function allows a user to join a hearts game that is closed to public view.
+
+			\item void joinPublicSpadesGame(wxCommandEvent\& event) {}
+				\\ This function will allow user to connect to first available spades game.
+
+			\item void joinPublicHeartsGame(wxCommandEvent\& event) {}
+				\\ This function will allow user to connect to first available hearts game.
+
+			\item void createNewSpadesGame(wxCommandEvent\& event) {}
+				\\	This function will create a new Spades Game.
+
+			\item void createNewHeartsGame(wxCommandEvent\& event) {}
+				\\ This function will create a new Hearts Game.
+
+		\end{itemize}
+
+		\item 	private:
+
+		\begin{itemize}
+			\item ServerDialog m\_serverDialog;
+			\item wxMenuBar* m\_menubar;
+			\item xMenu* m\_menuFile;
+			\item wxMenu* m\_menuTest;
+			\item wxMenu* m\_menuServer;
+			\item wxMenu* m\_menuHelp;
+			\item wxMenu* m\_menuGameRules;
+			\item void loadPlayerHand( wxCommandEvent\& event );
+				\\Allows for players hand to be loaded on screen from server.
+			\item void loadCenterCards( wxCommandEvent\& event );
+				\\Allows for cards to be placed in middle of screen after play.
+			\item void serverSettingsDialog( wxCommandEvent\& event );
+			\item void connectToServer( wxCommandEvent\& event );
+				\\Allows player to connect to server to play game of choice.
+			\item void showHeartsRules( wxCommandEvent\& event );
+				\\Allows user to get Hearts Rules.
+			\item std::string getHeartsRules();
+			\item void showSpadesRules( wxCommandEvent\& event );
+				\\Allows user to get Spades Rules.
+			\item std::string getSpadesRules();
+			\item void OnExit(wxCommandEvent\& event);
+				\\Allows user to exit program.
+			\item void OnAbout(wxCommandEvent\& event);
+				\\Allows user to see details of program.
+			\item wxDECLARE\_EVENT\_TABLE();
+		\end{itemize}
+	\end{itemize}
 
 
-\section{Player}
+\section{ServerDialog }
+	This class is inherited publically from wxDialog.
+	\begin{itemize}
+	\item public:
 
-\subsection{string name}
-	String that holds the name of a player.
-\subsection{int score}
-	Int that holds the score of a player.
-\subsection{int bid}
-	Int that holds the value bidded in a game of Spades.
-\subsection{int numCards}
-	Int that holds the number of cards player has left to play.
-\subsection{enum team}
-	Marks player as in team 1, team 2 or on no team depending on game played.
+	\begin{itemize}
+		\item ServerDialog( wxWindow* parent, wxWindowID id = wxID\_ANY, const wxString\& title = wxEmptyString, const wxPoint\& pos = wxDefaultPosition, const wxSize\& size = wxDefaultSize, long style = wxDEFAULT\_DIALOG\_STYLE );
+
+		\item std::string getIP() { return m\_ip; };
+
+		\item int getPort() { return m\_port; };
+	\end{itemize}
+
+	\item private:
+	\item protected:
+		\begin{itemize}
+			\item std::string m\_ip;
+			\item	int m\_port;
+			\item	wxWindow* m\_parent;
+			\item	wxStaticText* m\_staticTextIP;
+			\item	wxTextCtrl* m\_textCtrlIP;
+			\item	wxStaticText* m\_staticTextPort;
+			\item	wxTextCtrl* m\_textCtrlPort;
+			\item	wxButton* m\_submitBtn;
+			\item	void OnClose(wxCommandEvent\& event);
+		\end{itemize}
+	\end{itemize}
+
+\section{RulesWindow }
+	This class is inherited  publically from wxScrolledWindow
+
+	\begin{itemize}
+		\item 	public:
+		\begin{itemize}
+			\item RulesWindow(wxWindow* parent, wxWindowID id, std::string rules);
+				\\This allows user to read and learn rules for either Hearts or Spades.
+		\end{itemize}
+	\end{itemize}
+
+	\begin{itemize}
+		\item 	private:
+		\begin{itemize}
+			\item std::string m\_rules;
+		\end{itemize}
+	\end{itemize}
 
 
-\section{Lobby}
-\subsection{void login()}
-	This function allows for the user to enter their credentials and will send a login request to the server. 
-\subsection{void createAccount()}
-	This function allows for the user to create an account and send that information to the server
-\subsection{void chooseGame()}
-	This function will take the user's request to start one of the games and send the corresponding request to the server.
-\subsection{void gameOptions()}
-	This function will take the user's request to play a public or private game.
-\subsection{void userSetting()}
-	This function will open the window for the user to see their stats and a set amount of options.
-\subsection{void createTable()}
-	This function will be called to start the game and will create the table for play to begin. It will also send a start game request to the server.
+\section{LoginLayout }
+	This class is inherited  publically from wxBoxSizer
+	\begin{itemize}
+		\item public:
+		\begin{itemize}
+			\item	LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
+				\\This function will bring up a screen where user may login to play game.
+		\end{itemize}
+	\end{itemize}
 
+
+
+\section{LobbyLayout}
+	This class is inherited  publically from wxBoxSizer
+		\begin{itemize}
+			\item public:
+			\begin{itemize}
+				\item	LobbyLayout(MainFrame* parent, int orient = wxVERTICAL);
+					\\This function allows the user to access the game lobby.
+			\end{itemize}
+		\end{itemize}
+
+\section{CreateGameLayout}
+	This class is inherited  publically from wxBoxSizer
+
+		\begin{itemize}
+			\item public:
+			\begin{itemize}
+				\item	CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
+					\\When called, this function sets up a game layout for game play.
+			\end{itemize}
+		\end{itemize}
 
 \end{document}
