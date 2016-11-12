@@ -24,33 +24,16 @@ class MainFrame {
  -void serverSettingsDialog( wxCommandEvent\& event );
  -void connectToServer( wxCommandEvent\& event );
  -void showHeartsRules( wxCommandEvent\& event );
- -std::string getHeartsRules();
+ -string getHeartsRules();
  -void showSpadesRules( wxCommandEvent\& event );
- -std::string getSpadesRules();
+ -string getSpadesRules();
  -void OnExit(wxCommandEvent\& event);
  -void OnAbout(wxCommandEvent\& event);
  -wxDECLARE\_EVENT\_TABLE();
 }
-
-class ServerDialog {
-+ServerDialog( wxWindow* parent, wxWindowID id = wxID\_ANY, const wxString\& title = wxEmptyString, const wxPoint\& pos = wxDefaultPosition, const wxSize\& size = wxDefaultSize, long style = wxDEFAULT\_DIALOG\_STYLE );
-+std::string getIP() { return m\_ip; };
-+int getPort() { return m\_port; };
-
-\item std::string m\_ip;
- -int m\_port;
- -wxWindow* m\_parent;
- -wxStaticText* m\_staticTextIP;
- -wxTextCtrl* m\_textCtrlIP;
- -wxStaticText* m\_staticTextPort;
- -wxTextCtrl* m\_textCtrlPort;
- -wxButton* m\_submitBtn;
- -void OnClose(wxCommandEvent\& event);
-}
-
 class RulesWindow {
- +RulesWindow(wxWindow* parent, wxWindowID id, std::string rules);
- -std::string m\_rules;
+ +RulesWindow(wxWindow* parent, wxWindowID id, string rules);
+ -string m\_rules;
 }
 
 class LoginLayout {
@@ -65,5 +48,25 @@ class CreateGameLayout {
   +CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
 }
 
+class ServerDialog {
++ServerDialog( );
++string getIP() { return m\_ip; };
++int getPort() { return m\_port; };
 
+-string m\_ip;
+-int m\_port;
+-wxWindow* m\_parent;
+-wxStaticText* m\_staticTextIP;
+-wxTextCtrl* m\_textCtrlIP;
+-wxStaticText* m\_staticTextPort;
+-wxTextCtrl* m\_textCtrlPort;
+-wxButton* m\_submitBtn;
+-void OnClose(wxCommandEvent\& event);
+}
+
+MainFrame *--left- RulesWindow
+MainFrame *-- LobbyLayout
+MainFrame *-- LoginLayout
+MainFrame *--right- CreateGameLayout
+MainFrame *-- ServerDialog
 @enduml
