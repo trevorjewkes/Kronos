@@ -1,0 +1,69 @@
+@startuml
+
+title Client - Class Diagram
+
+
+class MainFrame {
+ +MainFrame(const wxString\& title, const wxPoint\& pos, const wxSize\& size);
++void joinPrivateSpadesGame(wxCommandEvent\& event) {}
++void joinPrivateHeartsGame(wxCommandEvent\& event) {}
++void joinPublicSpadesGame(wxCommandEvent\& event) {}
++void joinPublicHeartsGame(wxCommandEvent\& event) {}
++void createNewSpadesGame(wxCommandEvent\& event) {}
++void createNewHeartsGame(wxCommandEvent\& event) {}
+
+-ServerDialog m\_serverDialog;
+-wxMenuBar* m\_menubar;
+ -xMenu* m\_menuFile;
+ -wxMenu* m\_menuTest;
+ -wxMenu* m\_menuServer;
+ -wxMenu* m\_menuHelp;
+ -wxMenu* m\_menuGameRules;
+ -void loadPlayerHand( wxCommandEvent\& event );
+ -void loadCenterCards( wxCommandEvent\& event );
+ -void serverSettingsDialog( wxCommandEvent\& event );
+ -void connectToServer( wxCommandEvent\& event );
+ -void showHeartsRules( wxCommandEvent\& event );
+ -std::string getHeartsRules();
+ -void showSpadesRules( wxCommandEvent\& event );
+ -std::string getSpadesRules();
+ -void OnExit(wxCommandEvent\& event);
+ -void OnAbout(wxCommandEvent\& event);
+ -wxDECLARE\_EVENT\_TABLE();
+}
+
+class ServerDialog {
++ServerDialog( wxWindow* parent, wxWindowID id = wxID\_ANY, const wxString\& title = wxEmptyString, const wxPoint\& pos = wxDefaultPosition, const wxSize\& size = wxDefaultSize, long style = wxDEFAULT\_DIALOG\_STYLE );
++std::string getIP() { return m\_ip; };
++int getPort() { return m\_port; };
+
+\item std::string m\_ip;
+ -int m\_port;
+ -wxWindow* m\_parent;
+ -wxStaticText* m\_staticTextIP;
+ -wxTextCtrl* m\_textCtrlIP;
+ -wxStaticText* m\_staticTextPort;
+ -wxTextCtrl* m\_textCtrlPort;
+ -wxButton* m\_submitBtn;
+ -void OnClose(wxCommandEvent\& event);
+}
+
+class RulesWindow {
+ +RulesWindow(wxWindow* parent, wxWindowID id, std::string rules);
+ -std::string m\_rules;
+}
+
+class LoginLayout {
+  +LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+class LobbyLayout {
+  +LobbyLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+class CreateGameLayout {
+  +CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+
+@enduml

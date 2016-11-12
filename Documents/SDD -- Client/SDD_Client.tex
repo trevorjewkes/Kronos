@@ -28,17 +28,30 @@
 
 		\begin{itemize}
 			\item MainFrame(const wxString\& title, const wxPoint\& pos, const wxSize\& size);
+				\\ In the main frame, the main components of the software are held. Following are the functions included:
+
 			\item void joinPrivateSpadesGame(wxCommandEvent\& event) {}
+				\\This function allows a user to join a spades game that is closed to public use.
+
 			\item void joinPrivateHeartsGame(wxCommandEvent\& event) {}
+				\\ This function allows a user to join a hearts game that is closed to public view.
+
 			\item void joinPublicSpadesGame(wxCommandEvent\& event) {}
+				\\ This function will allow user to connect to first available spades game.
+
 			\item void joinPublicHeartsGame(wxCommandEvent\& event) {}
+				\\ This function will allow user to connect to first available hearts game.
+
 			\item void createNewSpadesGame(wxCommandEvent\& event) {}
-			\item void createNewHeartsGame(wxCommandEvent\& event) {}...
+				\\	This function will create a new Spades Game.
+
+			\item void createNewHeartsGame(wxCommandEvent\& event) {}
+				\\ This function will create a new Hearts Game.
+
 		\end{itemize}
-	\end{itemize}
-	\begin{itemize}
+
 		\item 	private:
-		
+
 		\begin{itemize}
 			\item ServerDialog m\_serverDialog;
 			\item wxMenuBar* m\_menubar;
@@ -48,15 +61,22 @@
 			\item wxMenu* m\_menuHelp;
 			\item wxMenu* m\_menuGameRules;
 			\item void loadPlayerHand( wxCommandEvent\& event );
+				\\Allows for players hand to be loaded on screen from server.
 			\item void loadCenterCards( wxCommandEvent\& event );
+				\\Allows for cards to be placed in middle of screen after play.
 			\item void serverSettingsDialog( wxCommandEvent\& event );
 			\item void connectToServer( wxCommandEvent\& event );
+				\\Allows player to connect to server to play game of choice.
 			\item void showHeartsRules( wxCommandEvent\& event );
+				\\Allows user to get Hearts Rules.
 			\item std::string getHeartsRules();
 			\item void showSpadesRules( wxCommandEvent\& event );
+				\\Allows user to get Spades Rules.
 			\item std::string getSpadesRules();
 			\item void OnExit(wxCommandEvent\& event);
+				\\Allows user to exit program.
 			\item void OnAbout(wxCommandEvent\& event);
+				\\Allows user to see details of program.
 			\item wxDECLARE\_EVENT\_TABLE();
 		\end{itemize}
 	\end{itemize}
@@ -66,19 +86,17 @@
 	This class is inherited publically from wxDialog.
 	\begin{itemize}
 	\item public:
-	
+
 	\begin{itemize}
-		\item ServerDialog( wxWindow* parent, wxWindowID id = wxID\_ANY, const wxString\& title = wxEmptyString, const wxPoint\& pos = wxDefaultPosition, const wxSize\& size = wxDefaultSize, long style = wxDEFAULT\_DIALOG\_STYLE ); 
+		\item ServerDialog( wxWindow* parent, wxWindowID id = wxID\_ANY, const wxString\& title = wxEmptyString, const wxPoint\& pos = wxDefaultPosition, const wxSize\& size = wxDefaultSize, long style = wxDEFAULT\_DIALOG\_STYLE );
 
 		\item std::string getIP() { return m\_ip; };
 
 		\item int getPort() { return m\_port; };
 	\end{itemize}
-	
-	\end{itemize}
-	\begin{itemize}
-		\item private:
-		\item protected: 
+
+	\item private:
+	\item protected:
 		\begin{itemize}
 			\item std::string m\_ip;
 			\item	int m\_port;
@@ -91,9 +109,6 @@
 			\item	void OnClose(wxCommandEvent\& event);
 		\end{itemize}
 	\end{itemize}
-	
-	
-
 
 \section{RulesWindow }
 	This class is inherited  publically from wxScrolledWindow
@@ -102,6 +117,7 @@
 		\item 	public:
 		\begin{itemize}
 			\item RulesWindow(wxWindow* parent, wxWindowID id, std::string rules);
+				\\This allows user to read and learn rules for either Hearts or Spades.
 		\end{itemize}
 	\end{itemize}
 
@@ -112,14 +128,14 @@
 		\end{itemize}
 	\end{itemize}
 
-	
+
 \section{LoginLayout }
 	This class is inherited  publically from wxBoxSizer
 	\begin{itemize}
 		\item public:
 		\begin{itemize}
 			\item	LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
-				//good size is wxSize(350,350)
+				\\This function will bring up a screen where user may login to play game.
 		\end{itemize}
 	\end{itemize}
 
@@ -131,20 +147,18 @@
 			\item public:
 			\begin{itemize}
 				\item	LobbyLayout(MainFrame* parent, int orient = wxVERTICAL);
-				
-				//good size wxSize(350,350);
+					\\This function allows the user to access the game lobby.
 			\end{itemize}
 		\end{itemize}
-		
+
 \section{CreateGameLayout}
 	This class is inherited  publically from wxBoxSizer
-	
+
 		\begin{itemize}
 			\item public:
 			\begin{itemize}
 				\item	CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
-				
-				//a good size is wxSize(250,350) when put inside a frame
+					\\When called, this function sets up a game layout for game play.
 			\end{itemize}
 		\end{itemize}
 
