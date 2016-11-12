@@ -1,0 +1,72 @@
+@startuml
+
+title Client - Class Diagram
+
+
+class MainFrame {
+ +MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
++void joinPrivateSpadesGame(wxCommandEvent& event) {}
++void joinPrivateHeartsGame(wxCommandEvent& event) {}
++void joinPublicSpadesGame(wxCommandEvent& event) {}
++void joinPublicHeartsGame(wxCommandEvent& event) {}
++void createNewSpadesGame(wxCommandEvent& event) {}
++void createNewHeartsGame(wxCommandEvent& event) {}
+
+-ServerDialog m_serverDialog;
+-wxMenuBar* m_menubar;
+ -xMenu* m_menuFile;
+ -wxMenu* m_menuTest;
+ -wxMenu* m_menuServer;
+ -wxMenu* m_menuHelp;
+ -wxMenu* m_menuGameRules;
+ -void loadPlayerHand( wxCommandEvent& event );
+ -void loadCenterCards( wxCommandEvent& event );
+ -void serverSettingsDialog( wxCommandEvent& event );
+ -void connectToServer( wxCommandEvent& event );
+ -void showHeartsRules( wxCommandEvent& event );
+ -string getHeartsRules();
+ -void showSpadesRules( wxCommandEvent& event );
+ -string getSpadesRules();
+ -void OnExit(wxCommandEvent& event);
+ -void OnAbout(wxCommandEvent& event);
+ -wxDECLARE_EVENT_TABLE();
+}
+class RulesWindow {
+ +RulesWindow(wxWindow* parent, wxWindowID id, string rules);
+ -string m_rules;
+}
+
+class LoginLayout {
+  +LoginLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+class LobbyLayout {
+  +LobbyLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+class CreateGameLayout {
+  +CreateGameLayout(MainFrame* parent, int orient = wxVERTICAL);
+}
+
+class ServerDialog {
++ServerDialog( );
++string getIP() { return m_ip; };
++int getPort() { return m_port; };
+
+-string m_ip;
+-int m_port;
+-wxWindow* m_parent;
+-wxStaticText* m_staticTextIP;
+-wxTextCtrl* m_textCtrlIP;
+-wxStaticText* m_staticTextPort;
+-wxTextCtrl* m_textCtrlPort;
+-wxButton* m_submitBtn;
+-void OnClose(wxCommandEvent& event);
+}
+
+MainFrame *--left- RulesWindow
+MainFrame *-- LobbyLayout
+MainFrame *-- LoginLayout
+MainFrame *--right- CreateGameLayout
+MainFrame *-- ServerDialog
+@enduml
