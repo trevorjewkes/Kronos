@@ -1,21 +1,37 @@
-cmake_minimum_required (VERSION 2.8)
-project (hearts CXX)
+cmake_minimum_required(VERSION 3.3)
+
+if(CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES Debug Release)
+  set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES}" CACHE STRING
+    "Set the configurations to what we need" FORCE
+    )
+endif()
+
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "-std=c++11 -Ofast -Wall -pedantic -Wextra -Wuninitialized -Wmaybe-uninitialized ${CMAKE_CXX_FLAGS}")
+	set(CMAKE_CXX_FLAGS "-std=c++11 -Ofast -Wall -pedantic -Wextra -Wunused ${CMAKE_CXX_FLAGS}")
 	MESSAGE(STATUS "GNU CXX Flags: " ${CMAKE_CXX_FLAGS})	
 endif()
 
-file(GLOB_RECURSE sources "src/*.cpp" "PlayerAPI/src/*.cpp")
-file(GLOB_RECURSE test_src "src/*.cpp" "test/*.cpp" "PlayerAPI/src/*.cpp")
+project(Hearts)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}) # Findexternpro.cmake
+set(externpro_REV 16.07.1)
+find_package(externpro REQUIRED)
+xpCommonFlags()
+xpGetExtern(externIncs externLibs PUBLIC wxWidgets boost)
+
+file(GLOB_RECURSE sources "src/*.cpp")
+file(GLOB_RECURSE test_src "src/*.cpp" "test/*.cpp")
 list(REMOVE_ITEM test_src "${CMAKE_CURRENT_LIST_DIR}/src/app.cpp")
-find_package(wxWidgets COMPONENTS core base)
-include(${wxWidgets_USE_FILE})
 
-add_executable(${PROJECT_NAME} ${sources})
-target_include_directories(${PROJECT_NAME} PUBLIC include PlayerAPI/include)
-target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES} ${Boost_LIBRARIES})
+#add_executable(${PROJECT_NAME} chatClient.cpp chat_message.hpp main.cpp Game.cpp Game.h)
+#target_link_libraries(${PROJECT_NAME} ${externLibs})
+#target_include_directories(${PROJECT_NAME} ${externIncs})
 
-#add_executable(wxTest ${test_src})
-#target_include_directories(wxTest PUBLIC lib include test PlayerAPI/include)
-#target_link_libraries(wxTest ${wxWidgets_LIBRARIES} ${Boost_LIBRARIES})
+add_executable(${PROJECT_NAME} WIN32 ${sources})
+target_link_libraries(${PROJECT_NAME} ${externLibs})
+target_include_directories(${PROJECT_NAME} ${externIncs} PUBLIC include ${CMAKE_CURRENT_LIST_DIR}/img)
+
+add_executable(hTest ${test_src})
+target_link_libraries(hTest ${externLibs})
+target_include_directories(hTest ${externIncs} PUBLIC lib include test)
