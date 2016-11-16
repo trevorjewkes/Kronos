@@ -1,8 +1,6 @@
 #include "MainFrame.hpp"
 #include "RulesWindow.hpp"
-#include "LoginLayout.hpp"
-#include "LobbyLayout.hpp"
-#include "CreateGameLayout.hpp"
+#include "GameBoardLayout.hpp"
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -73,15 +71,9 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
-	// dummy sizer for main frame
-	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-	sizer->Add(new wxStaticText(this, wxID_ANY, wxT("Success"), wxDefaultPosition, wxDefaultSize,0));
-
-	this->SetSizer(sizer);
+	this->SetSizer(new GameBoardLayout(this));
 	this->Layout();
-	//layouts[0]->Fit(this);
 	this->Center();
-	//this->ShowFullScreen(true, 0);
 
 	// Connect Events
 	this->Connect( m_menuItemLoadHand->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadPlayerHand ) );
