@@ -23,7 +23,7 @@ int totalId = 0;
 int roundId = 0;
 int turns = 0;
 int checker = 0;
-HeartsGame game;
+HeartsGame *game;
 std::vector<Player> players;
 int currentPlayer = 0;
 
@@ -50,15 +50,23 @@ typedef std::shared_ptr<chat_participant> chat_participant_ptr;
 class chat_room
 {
 public:
+	void initGame()
+	{
+		game = new HeartsGame(players);
+	}
   void join(chat_participant_ptr participant, std::string ip)
   {
 	  participant->id = totalId++;
-	  std::cout << totalId << std::endl;
+	 // std::cout << totalId << std::endl;
     participants_.insert(participant);
-	game.addPlayer(totalId, ip);
+	Player p1(participant->id, ip);
+	p1.setName(ip + std::to_string(participant->id));
+	players.push_back(p1);
+	//game.addPlayer(totalId, ip);
 	if (totalId == 4)
 	{
-		players = game.play_Hearts();
+		initGame();
+		game->play_Hearts();
 		std::cout << "Got to here." << std::endl;
 		for (auto participant1 : participants_)
 		{
@@ -90,11 +98,11 @@ public:
   void sendCards(chat_participant_ptr participant)
   {
 	  std::string message = "CARDS ";
-	  message += std::to_string(game.players[participant->id].getHand().size());
-	  for (int i = 0; i < game.players[participant->id].getHand().size(); i++)
+	  message += std::to_string(game->players[participant->id].getHand().size());
+	  for (int i = 0; i < game->players[participant->id].getHand().size(); i++)
 	  {
-		  message += ' ' + std::to_string(game.players[participant->id].getHand()[i].getSuit());
-		  message += ' ' + std::to_string(game.players[participant->id].getHand()[i].getValue());
+		  message += ' ' + std::to_string(game->players[participant->id].getHand()[i].getSuit());
+		  message += ' ' + std::to_string(game->players[participant->id].getHand()[i].getValue());
 	  }
 	  chat_message msg;
 	  msg.body_length(message.size());
@@ -153,13 +161,13 @@ public:
 		{
 			if (parsePass(values, ip) == 4)
 			{
-				game.passCards(roundId++);
+				game->passCards(roundId++);
 				checker = 0;
 				for (auto participant1 : participants_)
 				{
 					sendCards(participant1);
 					sendUpdate(participant1);
-					if (participant1->id == (game.findTwoOfClubs()))
+					if (participant1->id == (game->findTwoOfClubs()))
 					{
 						sendRequest(participant1, "PLAY");
 						currentPlayer = participant1->id;
@@ -169,7 +177,13 @@ public:
 		}
 		if (request == "PLAY")
 		{
-			int tmpId = game.playCard(values, ip, checker++, currentPlayer);
+			std::string tmpName;
+			for (int i = 0; i < players.size(); i++)
+			{
+				if (players[i].getName() == ip + std::to_string(i))
+					tmpName = players[i].getName();
+			}
+			int tmpId = game->playCard(values, tmpName);
 			if (tmpId == -1)
 			{
 				for (auto participant1 : participants_)
@@ -196,13 +210,13 @@ public:
 					{
 						turns = 0;
 						checker = 0;
-						currentPlayer = game.endTurn();
+						currentPlayer = game->endTurn(currentPlayer);
 						sendUpdate(participant1);
-						if (game.players[0].getHand().size() == 0)
+						if (game->players[0].getHand().size() == 0)
 						{
-							game.endRound();
+							game->endRound();
 							roundId++;
-							players = game.play_Hearts();
+							game->play_Hearts();
 							for (auto participant1 : participants_)
 							{
 								sendUpdate(participant1);
@@ -222,17 +236,17 @@ public:
   void sendUpdate(chat_participant_ptr participant)
   {
 	  std::string message = "UPDATE CENTER ";
-	  message += std::to_string(game.centerPile.size());
+	  message += std::to_string(game->centerPile.size());
 	  message += ' ';
-	  for (int i = 0; i < game.centerPile.size(); i++)
+	  for (int i = 0; i < game->centerPile.size(); i++)
 	  {
-		  message += ' ' + std::to_string(game.centerPile[i].getSuit());
-		  message += ' ' + std::to_string(game.centerPile[i].getValue());
+		  message += ' ' + std::to_string(game->centerPile[i].getSuit());
+		  message += ' ' + std::to_string(game->centerPile[i].getValue());
 	  }
 	  message += " SCORES";
-	  for (int i = 0; i < game.players.size(); i++)
+	  for (int i = 0; i < game->players.size(); i++)
 	  {
-		  message += ' ' + std::to_string(game.players[i].getTotalScore());
+		  message += ' ' + std::to_string(game->players[i].getTotalScore());
 	  }
 	  chat_message msg;
 	  msg.body_length(message.size());
@@ -256,7 +270,14 @@ public:
 		  }
 	  }
 	  cards.push_back(atoi(tmp.data()));
-	  game.setPassCards(cards, ip, checker++);
+	  std::string tmpName;
+	  for (int i = 0; i < players.size(); i++)
+	  {
+		  if (players[i].getName() == ip + std::to_string(i))
+			  tmpName = players[i].getName();
+	  }
+	  
+	  game->setPassCards(cards, tmpName);
 	  passes++;
 	  return passes;
   }

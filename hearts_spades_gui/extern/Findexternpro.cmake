@@ -74,7 +74,7 @@ unset(externpro_DIR CACHE)
 # find the path to the externpro directory
 getCompilerPrefix(COMPILER)
 getNumBits(BITS)
-set(externpro_SIG 16.10.1-${COMPILER}-${BITS})
+set(externpro_SIG ${externpro_REV}-${COMPILER}-${BITS})
 set(PFX86 "ProgramFiles(x86)")
 find_path(externpro_DIR
   NAMES
