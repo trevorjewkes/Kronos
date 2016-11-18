@@ -59,6 +59,7 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
 
   //create player hand vector
+  //pass in i to the id in the wxStaticBitmap
   for (int i = 0; i < 12; ++i) {
     tempBitmap = new wxStaticBitmap( m_parent, i, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
     m_player_hand.push_back(tempBitmap);
