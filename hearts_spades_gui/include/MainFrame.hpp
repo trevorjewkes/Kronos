@@ -15,13 +15,13 @@ class MainFrame: public wxFrame
 {
 public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+	LoginDialog m_loginDialog;
   void cardClicked( wxMouseEvent& event )
   {
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
 private:
 	ServerDialog m_serverDialog;
-	LoginDialog m_loginDialog;
 	LobbyDialog m_lobbyDialog;
 	CreateGameDialog m_createGameDialog;
 	wxMenuBar* m_menubar;

@@ -87,6 +87,7 @@ void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
 	m_loginDialog.Show();
+  m_createGameDialog.Show();
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {
