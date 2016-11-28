@@ -25,19 +25,19 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	fgSizer1->SetFlexibleDirection( wxBOTH );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_bitmap6 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer1->Add( m_bitmap6, 0, wxTOP|wxBOTTOM|wxLEFT, 5 );
-	
-	m_bitmap7 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer1->Add( m_bitmap7, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap8 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer1->Add( m_bitmap8, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap9 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/scaled/spades/1.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer1->Add( m_bitmap9, 0, wxTOP|wxBOTTOM, 5 );
-	
-	
+  //create center hand cards in the vector
+  wxStaticBitmap* tempBitmap;
+  for (int i = 0; i < 3; ++i) {
+    tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    m_center_cards.push_back(tempBitmap);
+  }
+  tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/scaled/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  m_center_cards.push_back(tempBitmap);
+  //add the cards to the sizer
+  for (int i = 0; i < 4; ++i) {
+	  fgSizer1->Add( m_center_cards[i], 0, wxTOP|wxBOTTOM, 5 );
+  }
+
 	gSizer1->Add( fgSizer1, 1, wxEXPAND, 5 );
 	
 	m_Player3Text = new wxStaticText( m_parent, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -57,59 +57,34 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	
 	
 	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
-	
-	m_bitmap42 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap42, 0, wxTOP|wxBOTTOM|wxLEFT, 5 );
-	
-	m_bitmap43 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap43, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap44 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap44, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap45 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap45, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap46 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap46, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap47 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap47, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap48 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap48, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap49 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap49, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap50 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap50, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap51 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap51, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap52 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap52, 0, wxTOP|wxBOTTOM, 5 );
-	
-	m_bitmap53 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/11.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap53, 0, wxTOP|wxBOTTOM, 5 );
 
-	m_bitmap54 = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/scaled/diamonds/2.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( m_bitmap54, 0, wxTOP|wxBOTTOM|wxRIGHT, 5 );
+  //create player hand vector
+  for (int i = 0; i < 12; ++i) {
+    tempBitmap = new wxStaticBitmap( m_parent, i, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    m_player_hand.push_back(tempBitmap);
+  }
+  //add the last card as full
+  tempBitmap = new wxStaticBitmap( m_parent, 12, wxBitmap( wxT("../img/scaled/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  m_player_hand.push_back(tempBitmap);
+  //add the player cards to the sizer
+  for (int i = 0; i < 13; ++i) {
+	  fgSizer4->Add( m_player_hand[i], 0, wxTOP|wxBOTTOM, 5 );
+  }
 	
-	
-	
+  //spacer
 	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
 	
-	m_staticText6 = new wxStaticText( m_parent, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText6->Wrap( -1 );
-	fgSizer4->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	m_userText = new wxStaticText( m_parent, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_userText->Wrap( -1 );
+	fgSizer4->Add( m_userText, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	bSizer3->Add( fgSizer4, 1, wxEXPAND, 5 );
 	
 	this->Add( bSizer3, 1, wxEXPAND, 5 );
 	
-	// Connect Events
-	m_bitmap42->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MainFrame::cardClicked ), NULL, m_parent );
+  // Connect events for player hand
+  for (int i = 0; i < 13; ++i) {
+    m_player_hand[i]->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MainFrame::cardClicked ), NULL, m_parent );
+  }
 }
