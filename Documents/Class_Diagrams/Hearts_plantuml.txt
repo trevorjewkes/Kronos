@@ -1,0 +1,49 @@
+@startuml
+
+title Hearts - Class Diagram
+
+
+class Hearts {
+  public
+  ..
+  +void startGame()
+  ..
+  private
+  ..
+  +Deck deck
+  +Card[][] history
+  +int turn
+  +int round
+  +void startRound()
+  +void deal()
+  +void updateScore()
+  +int whoseTurn()
+  +void endGame()
+}
+
+class Card {
+  + int id
+  + enum suite
+  + bool discarded
+  + bool validMove
+}
+
+class Deck {
+  + Card[] cards
+  + void shuffle()
+  + void getDeck()
+}
+
+class Scoreboard {
+  + string[] names
+  + string[] teams
+  + int[] bids
+  + int[] scores
+  + void getInfo()
+}
+
+Deck *-- Card: Composition
+Hearts *-- Deck: Composition
+Hearts *-- Scoreboard: Composition
+
+@enduml

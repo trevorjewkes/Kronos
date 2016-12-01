@@ -1,0 +1,107 @@
+\documentclass[11pt, titlepage]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tabto}	%for using \tab
+
+% --------------------------------------------------------------
+%                         Title Page Info
+% --------------------------------------------------------------
+\newcommand{\className}{CS 3450}	%for footer
+\newcommand{\footerName}{SRS} 		%for footer
+\author{Brandon Smith, Nieka Gutenberger, Joseph Coppin, Ryan Frazier, Trevor Jewkes}
+\title{System Requirements Specifications}
+\date{\today}
+
+\pagestyle{fancy}
+\rhead{\thepage}
+\cfoot{\className\ -- \footerName}
+
+\usepackage{sectsty}
+\setlength{\headheight}{14pt}
+
+
+\begin{document}
+	\maketitle
+	\setcounter{tocdepth}{1}
+	% --------------------------------------------------------------
+	%                         Proposal Section
+	% --------------------------------------------------------------
+	\section{Functionality}
+		Client-Server program that allows client to play card games against other humans or against a computer.
+	\begin{itemize}
+		\item Client can connect to a game and play.
+		\item Client may choose between Hearts and Spades.
+		\item Client can play without other human players
+		\item AI plays correct game
+		\item AI makes legal moves
+		\item Menu to choose options
+			\begin{itemize}
+			\item exit game
+			\item see past move
+			\end{itemize}
+	\end{itemize}
+	
+	\section{Usabiltiy}
+		\begin{itemize}
+			\item  Be able to choose game to play
+			\begin{itemize}
+				\item change game options
+				\item change number of players
+			\end{itemize}
+			\item User can view GUI
+			\item User can login
+			\begin{itemize}
+				\item Make new user
+				\item Create username
+				\item Make password, use password
+				\item Change password
+				\item Successfully login 
+			\end{itemize}
+			\item User can view and access menu
+			\item User can play appropriate game play
+			\item User can quit game (in fit of rage)
+			\item User experiences correct end game sequence
+			
+		\end{itemize}
+	\section{Reliabilty}
+		\begin{itemize}
+			\item Game logic, rules and cards all function in an appropriate manner and as expected.
+			\item Abrupt errors will be handled so that user is not affected by other player disconnection.
+		\end{itemize}
+	\section{Performance}
+	\begin{itemize}
+		\item Program handles player and AI disconnection from game gracefully.
+	\end{itemize}
+	\section{Supportability}
+		\begin{itemize}
+			\item Unit tests for all functions will be included for source code.
+			\item Game instructions will be included in program
+			\item Game development supported through Dec 16, 2016.
+		\end{itemize}
+	\section{+}
+		\subsection{Design Constraints}
+			\begin{itemize}
+				\item Team will use wxWidgets 3.1.0 (www.wxwidgets.org) as the GUI library for client side software.
+				\item Boost version 1.62.0 (www.boost.org) will be used as additional libraries for the code.
+			\end{itemize}			
+		\subsection{Implementation Contraints}
+			\begin{itemize}
+				\item Group standards (as set forth in PIP) will be adhered to.
+				\item Project will be built with externpro (https://github.com/smanders/externpro) and cmake (https://cmake.org).
+			\end{itemize}
+		\subsection{Interface Constraints}
+			\begin{itemize}
+				\item Network compatibilty with other groups is necessary for gameplay between servers.
+				\item Each client must be able to work with all other servers.
+			\end{itemize}
+		\subsection{Physical Constraints}
+			\begin{itemize}
+				\item Software will be depoyable on Linux and Windows distributions.
+				\begin{itemize}
+					\item At current time, Mac systems are unable to use the mandated externpro build.
+				\end{itemize}
+			\end{itemize}
+			
+		
+\end{document}

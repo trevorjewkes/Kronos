@@ -1,0 +1,25 @@
+@startuml
+
+title Component Diagram for Card Game
+
+cloud "AWS Server" as Server {
+	database SQLite { 
+	folder "Client acount data"
+	folder "Game stats"
+	}
+	component AI
+	component "Core Game Logic" {
+		folder Hearts
+		folder Spades
+	}
+}
+
+node Client {
+	component GUI
+	component "Legal move checking"
+}
+
+Client --> Server : player move
+Server --> Client: game state
+
+@enduml

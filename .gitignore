@@ -3,3 +3,6 @@ Build
 *.log
 *.synctex*
 *.DS_Store
+.*
+!.gitignore
+*/bin/*
