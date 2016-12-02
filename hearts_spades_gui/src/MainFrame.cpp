@@ -13,6 +13,7 @@ wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL){
+	wxInitAllImageHandlers();
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -101,6 +102,23 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   this->m_lobbyDialog.Show( true );
   this->m_loginDialog.Show( true );
   this->m_serverDialog.Show( true  );
+  for (int i = 0; i < 4; i++)
+  {
+	  
+	  if (i == 0)
+	  {
+		  Player tmp(i, "PLAYER");
+		  players.push_back(tmp);
+	  }
+	  else
+	  {
+		  Player tmp(i*-1, "AI");
+		  if (i == 1) tmp.setName("Sally");
+		  else if (i == 2) tmp.setName("Bob");
+		  else if (i == 3) tmp.setName("Kenneth");
+		  players.push_back(tmp);
+	  }
+  }
 }
 void MainFrame::setState(GameState state) {
   switch(state) {

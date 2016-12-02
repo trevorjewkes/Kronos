@@ -9,6 +9,7 @@
 #include "ServerDialog.hpp"
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
+#include "HeartsGame.hpp"
 #include "CreateGameDialog.hpp"
 
 enum GameState {
@@ -44,6 +45,8 @@ private:
 	wxMenu* m_menuServer;
 	wxMenu* m_menuHelp;
 	wxMenu* m_menuGameRules;
+	std::vector<Player> players;
+	HeartsGame* gameHearts;
 
 	void loadPlayerHand( wxCommandEvent& event );
 	void loadCenterCards( wxCommandEvent& event );
