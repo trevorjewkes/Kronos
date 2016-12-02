@@ -10,7 +10,7 @@
 class CreateGameDialog : public wxDialog
 {
 public:
-	CreateGameDialog( wxWindow* parent, const wxString& title, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+	CreateGameDialog( wxWindow* parent, const wxString& title, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ); 
 	void createGameBtn(wxCommandEvent& event);
 };
 

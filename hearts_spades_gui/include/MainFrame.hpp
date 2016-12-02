@@ -36,6 +36,10 @@ private:
 	wxMenu* m_menuHelp;
 	wxMenu* m_menuGameRules;
 
+  wxStaticText* playerText[4];
+  std::vector<wxStaticBitmap*> m_center_cards;
+  std::vector<wxStaticBitmap*> m_player_hand;
+
 	void loadPlayerHand( wxCommandEvent& event );
 	void loadCenterCards( wxCommandEvent& event );
 	void serverSettingsDialog( wxCommandEvent& event );
@@ -44,6 +48,7 @@ private:
 	std::string getHeartsRules();
 	void showSpadesRules( wxCommandEvent& event );
 	std::string getSpadesRules();
+	void startGame( wxCommandEvent& event );
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
