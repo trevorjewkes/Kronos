@@ -22,6 +22,12 @@ public:
   {
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
+  void OnDialogClose( wxCloseEvent& event ) {
+    wxMessageBox("Nope! You must'nt close this window");
+  }
+  void OnLogin() {
+    SetStatusText(m_loginDialog.getUsername());
+  }
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;

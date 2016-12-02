@@ -6,6 +6,8 @@ LobbyDialog::LobbyDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	this->SetSizer(new LobbyLayout(this));	
 	this->Layout();
 	this->Center();
+
+  this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrame::OnDialogClose ) , NULL, parent);
 } 
 
 void LobbyDialog::joinPrivateSpadesGame(wxCommandEvent& event) {

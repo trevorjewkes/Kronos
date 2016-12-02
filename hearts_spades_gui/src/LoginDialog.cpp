@@ -1,4 +1,5 @@
 #include "LoginDialog.hpp"
+#include "MainFrame.hpp"
 
 LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style), m_createUserDialog(NULL), userName("Noname")
 {
@@ -35,6 +36,7 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	// Connect Events
 	loginBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnLoginBtn ), NULL, this );
 	createAccountBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnCreateAccountBtn ), NULL, this );
+  this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrame::OnDialogClose ) , NULL, parent);
 
 	this->SetSizer(bs);	
 	this->Layout();
@@ -48,6 +50,7 @@ void LoginDialog::OnLoginBtn(wxCommandEvent& event)
   password = m_textCtrlPassword->GetValue();
   if (m_createUserDialog.verifyUser(userName, password)) {
     this->Show(false);
+    //this->Close();
   } else {
     wxMessageBox(wxT("User not verified\nTry again or create a new user."));
   }
