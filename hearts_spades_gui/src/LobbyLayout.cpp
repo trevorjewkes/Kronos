@@ -12,11 +12,8 @@ LobbyLayout::LobbyLayout( LobbyDialog* parent, int orient): wxBoxSizer(orient)
 	
 	wxGridSizer* gSizer1;
 	gSizer1 = new wxGridSizer( 0, 2, 0, 0 );
-	
-	wxBitmap heartBmp;
-	heartBmp.LoadFile(wxT("C:/Users/Trevor/Desktop/Kronos/hearts_spades_gui/img/heart.png"), wxBITMAP_TYPE_PNG);
 
-	wxStaticBitmap* m_bitmap1 = new wxStaticBitmap( parent, wxID_ANY, heartBmp, wxDefaultPosition, wxDefaultSize, 0 );
+	wxStaticBitmap* m_bitmap1 = new wxStaticBitmap( parent, wxID_ANY, wxBitmap( wxT("../img/heart.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
 	gSizer1->Add( m_bitmap1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxStaticBitmap* m_bitmap2 = new wxStaticBitmap( parent, wxID_ANY, wxBitmap( wxT("../img/spade.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
