@@ -1,7 +1,7 @@
 #include "LoginDialog.hpp"
 #include "LoginLayout.hpp"
 
-LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style), userName("Jim"), password("password")
+LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style), m_createUserDialog(NULL), userName("Jim"), password("password")
 {
 	this->SetSizer(new LoginLayout(this));	
 	this->Layout();
@@ -16,4 +16,5 @@ void LoginDialog::OnLoginBtn(wxCommandEvent& event)
 void LoginDialog::OnCreateAccountBtn(wxCommandEvent& event)
 {
 	std::cout << "create account btn\n";	
+  m_createUserDialog.Show(true);
 }
