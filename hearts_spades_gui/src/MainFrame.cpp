@@ -12,7 +12,7 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL), m_createGameDialog(NULL) {
+        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL){
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -87,7 +87,6 @@ void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
 	m_loginDialog.Show();
-  m_createGameDialog.Show();
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {

@@ -7,3 +7,9 @@ CreateGameDialog::CreateGameDialog( wxWindow* parent, wxWindowID id, const wxStr
 	this->Layout();
 	this->Center();
 } 
+
+void CreateGameDialog::createGameBtn(wxCommandEvent& event) {
+  std::cout << "create new game!\n";
+  std::cout.flush();
+  this->Show(false);
+}

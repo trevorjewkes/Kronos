@@ -11,6 +11,11 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	
 	m_player2Text = new wxStaticText( m_parent, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_player2Text->Wrap( -1 );
+  m_player2Text->SetForegroundColour(wxColor(255,255,255));
+  wxFont font = m_player2Text->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  m_player2Text->SetFont(font);
 	this->Add( m_player2Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxGridSizer* gSizer1;
@@ -18,6 +23,11 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	
 	m_player1Text = new wxStaticText( m_parent, wxID_ANY, wxT("Player1\nTricks: 2 \nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_player1Text->Wrap( -1 );
+  m_player1Text->SetForegroundColour(wxColor(255,255,255));
+  font = m_player1Text->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  m_player1Text->SetFont(font);
 	gSizer1->Add( m_player1Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxFlexGridSizer* fgSizer1;
@@ -28,10 +38,10 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
   //create center hand cards in the vector
   wxStaticBitmap* tempBitmap;
   for (int i = 0; i < 3; ++i) {
-    tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
     m_center_cards.push_back(tempBitmap);
   }
-  tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/scaled/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  tempBitmap = new wxStaticBitmap( m_parent, wxID_ANY, wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
   m_center_cards.push_back(tempBitmap);
   //add the cards to the sizer
   for (int i = 0; i < 4; ++i) {
@@ -40,9 +50,14 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 
 	gSizer1->Add( fgSizer1, 1, wxEXPAND, 5 );
 	
-	m_Player3Text = new wxStaticText( m_parent, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_Player3Text->Wrap( -1 );
-	gSizer1->Add( m_Player3Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	m_player3Text = new wxStaticText( m_parent, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_player3Text->Wrap( -1 );
+  m_player3Text->SetForegroundColour(wxColor(255,255,255));
+  font = m_player3Text->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  m_player3Text->SetFont(font);
+	gSizer1->Add( m_player3Text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	this->Add( gSizer1, 1, wxEXPAND, 5 );
@@ -61,11 +76,11 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
   //create player hand vector
   //pass in i to the id in the wxStaticBitmap
   for (int i = 0; i < 12; ++i) {
-    tempBitmap = new wxStaticBitmap( m_parent, i, wxBitmap( wxT("../img/slice/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    tempBitmap = new wxStaticBitmap( m_parent, i, wxBitmap( wxT("../img/slice/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
     m_player_hand.push_back(tempBitmap);
   }
   //add the last card as full
-  tempBitmap = new wxStaticBitmap( m_parent, 12, wxBitmap( wxT("../img/scaled/hearts/4.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  tempBitmap = new wxStaticBitmap( m_parent, 12, wxBitmap( wxT("../img/scaled/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
   m_player_hand.push_back(tempBitmap);
   //add the player cards to the sizer
   for (int i = 0; i < 13; ++i) {
@@ -77,6 +92,11 @@ GameBoardLayout::GameBoardLayout( wxWindow* parent, int orient): wxBoxSizer(orie
 	
 	m_userText = new wxStaticText( m_parent, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_userText->Wrap( -1 );
+  m_userText->SetForegroundColour(wxColor(255,255,255));
+  font = m_userText->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  m_userText->SetFont(font);
 	fgSizer4->Add( m_userText, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	

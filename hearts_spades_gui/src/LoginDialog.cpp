@@ -11,6 +11,7 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 void LoginDialog::OnLoginBtn(wxCommandEvent& event)
 {
 	std::cout << "login btn\n";	
+  this->Show(false);
 }
 void LoginDialog::OnCreateAccountBtn(wxCommandEvent& event)
 {

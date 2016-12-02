@@ -1,9 +1,14 @@
 #!/bin/bash
 
-INFILES=$(ls Classic)
+#INFILES=$(ls Classic)
+#
+#for f in $INFILES
+#do
+#	echo "scaling image $f by %10 ..."
+#	convert -scale %15 +repage Classic/$f Scaled/$f  
+#done
 
-for f in $INFILES
+for i in back.png blank.png
 do
-	echo "scaling image $f by %10 ..."
-	convert -scale %15 +repage Classic/$f Scaled/$f  
+  convert -scale %15 +repage Cards/$i scaled/$i  
 done

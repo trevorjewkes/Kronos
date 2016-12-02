@@ -13,7 +13,7 @@ class GameBoardLayout : public wxBoxSizer
 		GameBoardLayout(wxWindow* parent, int orient = wxVERTICAL);
   private:
     wxWindow* m_parent;
-		wxStaticText* m_Player3Text;
+		wxStaticText* m_player3Text;
     wxStaticText* m_player2Text;
 		wxStaticText* m_player1Text;
     wxStaticText* m_userText;
