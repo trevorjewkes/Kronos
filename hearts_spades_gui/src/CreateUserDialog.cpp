@@ -63,6 +63,8 @@ void CreateUserDialog::OnCreateUserBtn(wxCommandEvent& event)
 }
 
 bool CreateUserDialog::verifyUser(std::string const& username, std::string const& password){
+  if (username == "" || password == "")
+    return false;
   return pw_hash[username] == password;  
 }
 

@@ -11,34 +11,40 @@ LobbyDialog::LobbyDialog( wxWindow* parent, wxWindowID id, const wxString& title
 } 
 
 void LobbyDialog::joinPrivateSpadesGame(wxCommandEvent& event) {
-  std::cout << "Join private Spades game!\n";
-  std::cout.flush();
+  wxTextEntryDialog input(this, "Enter name of private game:", "Join Private Spades Game");
+  if (input.ShowModal() == wxID_OK) {
+    if ((std::string)input.GetValue() == "private") {
+      this->Show(false);
+      //set state to private game
+    } else {
+      wxMessageBox("There is not private game with that name."); 
+    }
+  }
 }
 void LobbyDialog::joinPrivateHeartsGame(wxCommandEvent& event) {
-  std::cout << "Join private Hearts game!\n";
-  std::cout.flush();
+  wxTextEntryDialog input(this, "Enter name of private game:", "Join Private Hearts Game");
+  if (input.ShowModal() == wxID_OK) {
+    if ((std::string)input.GetValue() == "private") {
+      this->Show(false);
+      //set state to private game
+    } else {
+      wxMessageBox("There is not private game with that name."); 
+    }
+  }
 }
 void LobbyDialog::joinPublicSpadesGame(wxCommandEvent& event) {
-  std::cout << "Join public Spades game!\n";
-  std::cout.flush();
 	int res = wxMessageBox("Join public Spades game?", "Confirm", wxYES_NO, this);
 	if (res == wxYES) 
     this->Show(false);
 }
 void LobbyDialog::joinPublicHeartsGame(wxCommandEvent& event) {
-  std::cout << "Join public Hearts game!\n";
-  std::cout.flush();
 	int res = wxMessageBox("Join public Hearts game?", "Confirm", wxYES_NO, this);
 	if (res == wxYES) 
     this->Show(false);
 }
 void LobbyDialog::createNewSpadesGame(wxCommandEvent& event) {
-  std::cout << "Create new Spades game!\n";
-  std::cout.flush();
   m_createSpadesGameDialog.Show();
 }
 void LobbyDialog::createNewHeartsGame(wxCommandEvent& event) {
-  std::cout << "Create new Hearts game!\n";
-  std::cout.flush();
   m_createHeartsGameDialog.Show();
 }

@@ -11,6 +11,14 @@
 #include "LobbyDialog.hpp"
 #include "CreateGameDialog.hpp"
 
+enum GameState {
+  SERVER,
+  LOGIN,
+  LOBBY,
+  PLAYING,
+  END_GAME
+};
+
 class MainFrame: public wxFrame
 {
 public:
@@ -18,6 +26,7 @@ public:
 	ServerDialog m_serverDialog;
 	LoginDialog m_loginDialog;
 	LobbyDialog m_lobbyDialog;
+  void setState(GameState state);
   void cardClicked( wxMouseEvent& event )
   {
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
