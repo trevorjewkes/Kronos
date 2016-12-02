@@ -1,6 +1,5 @@
 #include "MainFrame.hpp"
 #include "RulesWindow.hpp"
-#include "GameBoardLayout.hpp"
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -34,6 +33,10 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	wxMenuItem* m_menuItemLoadCenter;
 	m_menuItemLoadCenter = new wxMenuItem( m_menuTest, wxID_ANY, wxString( wxT("Load Center") ) + wxT('\t') + wxT("CTRL-ALT-J") , wxEmptyString, wxITEM_NORMAL );
 	m_menuTest->Append( m_menuItemLoadCenter );
+
+	wxMenuItem* m_menuItemStartGame;
+	m_menuItemStartGame = new wxMenuItem( m_menuTest, wxID_ANY, wxString( wxT("Start Game") ) + wxT('\t') + wxT("CTRL-ALT-N") , wxEmptyString, wxITEM_NORMAL );
+	m_menuTest->Append( m_menuItemStartGame );
 	
 	m_menubar->Append( m_menuTest, wxT("Test") ); 
 	
@@ -73,7 +76,110 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
 	//add a layout to the starting screen
   this->SetBackgroundColour(wxColour(40,150,40));
-	this->SetSizer(new GameBoardLayout(this));
+
+  wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
+
+	playerText[0] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[0]->Wrap( -1 );
+  playerText[0]->SetForegroundColour(wxColor(255,255,255));
+  wxFont font = playerText[0]->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  playerText[0]->SetFont(font);
+	bs->Add( playerText[0], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	wxGridSizer* gSizer1;
+	gSizer1 = new wxGridSizer( 0, 3, 0, 0 );
+	
+	playerText[1] = new wxStaticText( this, wxID_ANY, wxT("Player1\nTricks: 2 \nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[1]->Wrap( -1 );
+  playerText[1]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[1]->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  playerText[1]->SetFont(font);
+	gSizer1->Add( playerText[1], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	wxFlexGridSizer* fgSizer1;
+	fgSizer1 = new wxFlexGridSizer( 0, 4, 0, 0 );
+	fgSizer1->SetFlexibleDirection( wxBOTH );
+	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+  //create center hand cards in the vector
+  wxStaticBitmap* tempBitmap;
+  for (int i = 0; i < 3; ++i) {
+    tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    m_center_cards.push_back(tempBitmap);
+  }
+  tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  m_center_cards.push_back(tempBitmap);
+  //add the cards to the sizer
+  for (int i = 0; i < 4; ++i) {
+	  fgSizer1->Add( m_center_cards[i], 0, wxTOP|wxBOTTOM, 5 );
+  }
+
+	gSizer1->Add( fgSizer1, 1, wxEXPAND, 5 );
+	
+	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[2]->Wrap( -1 );
+  playerText[2]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[2]->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  playerText[2]->SetFont(font);
+	gSizer1->Add( playerText[2], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	bs->Add( gSizer1, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer4;
+	fgSizer4 = new wxFlexGridSizer( 0, 16, 0, 0 );
+	fgSizer4->SetFlexibleDirection( wxBOTH );
+	fgSizer4->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	
+	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
+
+  //create player hand vector
+  //pass in i to the id in the wxStaticBitmap
+  for (int i = 0; i < 12; ++i) {
+    tempBitmap = new wxStaticBitmap( this, i, wxBitmap( wxT("../img/slice/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    m_player_hand.push_back(tempBitmap);
+  }
+  //add the last card as full
+  tempBitmap = new wxStaticBitmap( this, 12, wxBitmap( wxT("../img/scaled/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  m_player_hand.push_back(tempBitmap);
+  //add the player cards to the sizer
+  for (int i = 0; i < 13; ++i) {
+	  fgSizer4->Add( m_player_hand[i], 0, wxTOP|wxBOTTOM, 5 );
+  }
+	
+  //spacer
+	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
+	
+	playerText[3] = new wxStaticText( this, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[3]->Wrap( -1 );
+  playerText[3]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[3]->GetFont();
+  font.SetPointSize(16);
+  font.SetWeight(wxFONTWEIGHT_BOLD);
+  playerText[3]->SetFont(font);
+	fgSizer4->Add( playerText[3], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	bSizer3->Add( fgSizer4, 1, wxEXPAND, 5 );
+	
+	bs->Add( bSizer3, 1, wxEXPAND, 5 );
+	
+  // Connect events for player hand
+  for (int i = 0; i < 13; ++i) {
+    m_player_hand[i]->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MainFrame::cardClicked ), NULL, this );
+  }
+
+	this->SetSizer(bs);
 	this->Layout();
 	this->Center();
 
@@ -84,19 +190,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Connect( m_menuItemConnectToServer->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::connectToServer ) );
 	this->Connect( m_menuItemSpadesRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showSpadesRules ) );
 	this->Connect( m_menuItemHeartsRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showHeartsRules ) );
-
-  //need to init all the windows
-  //this->Show( false );
-  //this->m_lobbyDialog.Show( false );
-  //this->m_loginDialog.Show( false );
-  //this->m_serverDialog.Show( false  );
-
-  //this->Show( false );
-  //this->m_lobbyDialog.Show( false );
-  //this->m_loginDialog.Show( false );
-  //this->m_serverDialog.Show( false  );
-
-  //setState(LOGIN);
+  this->Connect( m_menuItemStartGame->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::startGame ) );
 
   this->Show( true );
   this->m_lobbyDialog.Show( true );
@@ -119,41 +213,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 		  players.push_back(tmp);
 	  }
   }
-}
-void MainFrame::setState(GameState state) {
-  switch(state) {
-    case SERVER:
-      std::cout << "server state\n";
-      Show( false );
-      m_lobbyDialog.Show( false );
-      m_loginDialog.Show( false );
-      m_serverDialog.Show( true );
-      break;
-    case LOGIN:
-      std::cout << "login state\n";
-      Show( false );
-      m_lobbyDialog.Show( false );
-      m_loginDialog.Show( true );
-      m_serverDialog.Show( false );
-      break;
-    case LOBBY:
-      std::cout << "lobby state\n";
-      Show( false );
-      m_lobbyDialog.Show( true );
-      m_loginDialog.Show( false );
-      m_serverDialog.Show( false );
-      break;
-    case PLAYING:
-      std::cout << "playing state\n";
-      Show( true );
-      m_lobbyDialog.Show( false );
-      m_loginDialog.Show( false );
-      m_serverDialog.Show( false );
-      break;
-    default:
-      std::cout << "not a valid state\n";
-      break;
-  }
+
+  //this->m_serverDialog.Show( true  );
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
@@ -218,6 +279,14 @@ void MainFrame::showSpadesRules( wxCommandEvent& event )
 	frame->SetSizer(sizer);
 
 	frame->Show();
+}
+void MainFrame::startGame( wxCommandEvent& event ) {
+	int res = wxMessageBox("Start Game?", "Confirm", wxYES_NO, this);
+	if (res == wxYES) {
+    std::cout << "Start game!\n";
+    SetStatusText("You have started the Game!");
+  }
+
 }
 void MainFrame::OnExit(wxCommandEvent& event)
 {
