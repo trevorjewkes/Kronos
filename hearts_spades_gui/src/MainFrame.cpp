@@ -12,7 +12,7 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL), m_createGameDialog(NULL) {
+        : wxFrame(NULL, wxID_ANY, title, pos, size), m_serverDialog(NULL), m_loginDialog(NULL), m_lobbyDialog(NULL){
     CreateStatusBar();
     SetStatusText( "Welcome to Hearts and Spades!" );
 
@@ -71,6 +71,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Centre( wxBOTH );
 
 	//add a layout to the starting screen
+  this->SetBackgroundColour(wxColour(40,150,40));
 	this->SetSizer(new GameBoardLayout(this));
 	this->Layout();
 	this->Center();
@@ -82,6 +83,59 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Connect( m_menuItemConnectToServer->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::connectToServer ) );
 	this->Connect( m_menuItemSpadesRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showSpadesRules ) );
 	this->Connect( m_menuItemHeartsRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showHeartsRules ) );
+
+  //need to init all the windows
+  //this->Show( false );
+  //this->m_lobbyDialog.Show( false );
+  //this->m_loginDialog.Show( false );
+  //this->m_serverDialog.Show( false  );
+
+  //this->Show( false );
+  //this->m_lobbyDialog.Show( false );
+  //this->m_loginDialog.Show( false );
+  //this->m_serverDialog.Show( false  );
+
+  //setState(LOGIN);
+
+  this->Show( true );
+  this->m_lobbyDialog.Show( true );
+  this->m_loginDialog.Show( true );
+  this->m_serverDialog.Show( true  );
+}
+void MainFrame::setState(GameState state) {
+  switch(state) {
+    case SERVER:
+      std::cout << "server state\n";
+      Show( false );
+      m_lobbyDialog.Show( false );
+      m_loginDialog.Show( false );
+      m_serverDialog.Show( true );
+      break;
+    case LOGIN:
+      std::cout << "login state\n";
+      Show( false );
+      m_lobbyDialog.Show( false );
+      m_loginDialog.Show( true );
+      m_serverDialog.Show( false );
+      break;
+    case LOBBY:
+      std::cout << "lobby state\n";
+      Show( false );
+      m_lobbyDialog.Show( true );
+      m_loginDialog.Show( false );
+      m_serverDialog.Show( false );
+      break;
+    case PLAYING:
+      std::cout << "playing state\n";
+      Show( true );
+      m_lobbyDialog.Show( false );
+      m_loginDialog.Show( false );
+      m_serverDialog.Show( false );
+      break;
+    default:
+      std::cout << "not a valid state\n";
+      break;
+  }
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
