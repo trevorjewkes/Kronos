@@ -9,6 +9,8 @@ struct Status
 {
 	std::vector<Card> hand;
 	std::vector<Card> center;
+	std::vector<int> scores;
+	std::vector<int> tricks;
 };
 
 class HeartsGame

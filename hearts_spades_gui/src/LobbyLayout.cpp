@@ -3,7 +3,6 @@
 
 LobbyLayout::LobbyLayout( LobbyDialog* parent, int orient): wxBoxSizer(orient)
 {
-	wxInitAllImageHandlers();
 	this->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
 	
 	wxStaticText* m_staticText8 = new wxStaticText( parent, wxID_ANY, wxT("Choose a game"), wxDefaultPosition, wxDefaultSize, 0 );

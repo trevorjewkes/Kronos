@@ -35,8 +35,8 @@ public:
 		  {
 			  m_state = PLAYING;
 			  SetStatusText("Play a card");
-			  //UPDATESTATUS
 		  }
+		  //UPDATESTATUS
 	  }
 	  else if (m_state == PLAYING)
 	  {

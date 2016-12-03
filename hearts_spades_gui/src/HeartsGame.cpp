@@ -228,6 +228,7 @@ bool HeartsGame::pass(int index)
 			for (int j = 0; j < 3; j++)
 			{
 				cardsToPass[i].push_back(HeartsAI::getPass(players[i].getHand()));
+				players[i].removeCardFromHand(players[0].getHand()[index]);
 			}
 		}
 		passCards(round++);
@@ -329,6 +330,7 @@ int HeartsGame::endTurn(int currentPlayer)
 		if (tmp.getSuit() == HEARTS) score++;
 	}
 	players[(maxIndex+currentPlayer)%players.size()].incrementRoundScore(score);
+	players[(maxIndex + currentPlayer) % players.size()].incrementTricksWon();
 	centerPile.clear();
 	return (maxIndex+currentPlayer)%players.size();
 }
@@ -370,5 +372,10 @@ Status HeartsGame::updateStatus()
 	Status tmp;
 	tmp.center = centerPile;
 	tmp.hand = players[0].getHand();
+	for (int i = 0; i < players.size(); i++)
+	{
+		tmp.scores.push_back(players[i].getTotalScore());
+		tmp.tricks.push_back(players[i].getTricksWon());
+	}
 	return tmp;
 }
