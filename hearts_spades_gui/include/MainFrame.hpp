@@ -17,7 +17,7 @@ public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
   void cardClicked( wxMouseEvent& event )
   {
-    std::cout << "Left Double Click: " << event.LeftDClick() << std::endl;
+    std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
 private:
 	ServerDialog m_serverDialog;
