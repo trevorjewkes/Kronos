@@ -56,17 +56,26 @@ int HeartsGame::findTwoOfClubs()
 //takes the round number
 void HeartsGame::passCards(int round)  
 {
-		for (size_t i = 0; i < players.size(); i++)
-		{
-			Card card1 = cardsToPass[(i+round+1)%players.size()][0];
-			Card card2 = cardsToPass[(i + round + 1) % players.size()][1];
-			Card card3 = cardsToPass[(i + round + 1) % players.size()][2];
-			players[i].insertCardToHand(card1);
-			players[i].insertCardToHand(card2);
-			players[i].insertCardToHand(card3);
-		}
+	int pass = 0;
+	if ((round + 1) % 4 == 1) pass = 1;
+	if ((round + 1) % 4 == 2) pass = 3;
+	if ((round + 1) % 4 == 3) pass = 2;
+	for (size_t i = 0; i < players.size(); i++)
+	{
+		Card card1 = cardsToPass[(i + pass) % players.size()][0];
+		Card card2 = cardsToPass[(i + pass) % players.size()][1];
+		Card card3 = cardsToPass[(i + pass) % players.size()][2];
+		players[i].insertCardToHand(card1);
+		players[i].insertCardToHand(card2);
+		players[i].insertCardToHand(card3);
+	}
 
-		cardsToPass.clear();
+	cardsToPass.clear();
+	std::vector<Card> tmp;
+	for (int i = 0; i < 4; i++)
+	{
+		cardsToPass.push_back(tmp);
+	}
 }
 
 //checks to see if a players hand is all hearts.
@@ -190,13 +199,41 @@ void HeartsGame::dealCards(std::vector<Card>& Deck)
 //begins the game of hearts
 //can be called multiple times to 
 //play again
-void HeartsGame::play_Hearts()
+Status HeartsGame::play_Hearts()
 {
 	//creates deck of cards
 	auto deck = initializeDeck();  
 
 	//deals cards and resets round scores to 0
-	dealCards(deck);  
+	dealCards(deck); 
+	Status tmp;
+	for (auto player : players)
+	{
+		if (player.getId() >= 0)
+		{
+			tmp.center = centerPile;
+			tmp.hand = player.getHand();
+		}
+	}
+	return tmp;
+}
+
+bool HeartsGame::pass(int index)
+{
+	cardsToPass[0].push_back(players[0].getHand()[index]);
+	if (cardsToPass[0].size() == 3)
+	{
+		for (int i = 1; i < cardsToPass.size(); i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				cardsToPass[i].push_back(HeartsAI::getPass(players[i].getHand()));
+			}
+		}
+		passCards(round++);
+		return true;
+	}
+	return false;
 }
 
 //preps the passing cards
@@ -326,4 +363,12 @@ void HeartsGame::passCard(Card tmp, int i)
 void HeartsGame::setPrivatePasscode(std::string passcode)
 {
 	privatePasscode = passcode;
+}
+
+Status HeartsGame::updateStatus()
+{
+	Status tmp;
+	tmp.center = centerPile;
+	tmp.hand = players[0].getHand();
+	return tmp;
 }

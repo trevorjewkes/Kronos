@@ -17,7 +17,7 @@ public:
 	Status playCard(int index);
 	HeartsGame(std::vector<Player> &players);
 	~HeartsGame();
-	void play_Hearts();
+	Status play_Hearts();
 	//looks through each hand to find the 2 of clubs
 	int findTwoOfClubs();  
 	//function for passing cards at beginging of round
@@ -30,6 +30,8 @@ public:
 	std::vector<Card> getCenterPile() { return centerPile; }
 	std::string getPrivatePasscode() { return privatePasscode; }
 	void setPrivatePasscode(std::string passcode);
+	bool pass(int index);
+	Status updateStatus();
 private:
 
 	std::vector<Card> initializeDeck();
@@ -53,4 +55,15 @@ private:
 	std::string privatePasscode;
 };
 
+class HeartsAI
+{
+public:
+	static Card getPass(std::vector<Card> hand)
+	{
+		return hand[rand() % hand.size()];
+	}
+
+private:
+
+};
 #endif //HEARTS_GAME_HPP

@@ -176,7 +176,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	
   // Connect events for player hand
   for (int i = 0; i < 13; ++i) {
-    m_player_hand[i]->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MainFrame::cardClicked ), NULL, this );
+    m_player_hand[i]->Connect( wxEVT_LEFT_UP, wxMouseEventHandler( MainFrame::cardClicked ), NULL, this );
   }
 
 	this->SetSizer(bs);
@@ -285,6 +285,11 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	if (res == wxYES) {
     std::cout << "Start game!\n";
     SetStatusText("You have started the Game!");
+	gameHearts = new HeartsGame(players);
+	Status state = gameHearts->play_Hearts();
+	//UPDATE STATE HERE
+	m_state = PASSING;
+	SetStatusText("Select Cards to Pass");
   }
 
 }

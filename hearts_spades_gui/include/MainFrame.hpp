@@ -12,6 +12,13 @@
 #include "HeartsGame.hpp"
 #include "CreateGameDialog.hpp"
 
+enum State
+{
+	PASSING,
+	PLAYING,
+	WAITING
+};
+
 class MainFrame: public wxFrame
 {
 public:
@@ -21,6 +28,20 @@ public:
 	LobbyDialog m_lobbyDialog;
   void cardClicked( wxMouseEvent& event )
   {
+	  if (m_state == PASSING)
+	  {
+		  wxMessageBox("Passing Card");
+		  if (gameHearts->pass(event.GetId()))
+		  {
+			  m_state = PLAYING;
+			  SetStatusText("Play a card");
+			  //UPDATESTATUS
+		  }
+	  }
+	  else if (m_state == PLAYING)
+	  {
+		  wxMessageBox("Playing Card");
+	  }
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
   void OnDialogClose( wxCloseEvent& event ) {
@@ -38,7 +59,7 @@ private:
 	wxMenu* m_menuGameRules;
 	std::vector<Player> players;
 	HeartsGame* gameHearts;
-
+	State m_state = WAITING;
   wxStaticText* playerText[4];
   std::vector<wxStaticBitmap*> m_center_cards;
   std::vector<wxStaticBitmap*> m_player_hand;
