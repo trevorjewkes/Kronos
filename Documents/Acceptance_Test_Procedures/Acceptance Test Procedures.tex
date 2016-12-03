@@ -10,7 +10,9 @@
 \newcommand{\className}{CS 3450}	%for footer
 \newcommand{\footerName}{ATP} 		%for footer
 \author{Brandon Smith, Nieka Gutenberger, Joseph Coppin, Ryan Frazier, Trevor Jewkes}
-\title{Acceptance Test Procedures}
+\title{KRONOS\\ \\
+		 Acceptance Test Procedures}
+
 \date{\today}
 
 \pagestyle{fancy}
@@ -27,38 +29,39 @@
 	% --------------------------------------------------------------
 	%                         Proposal Section
 	% --------------------------------------------------------------
-	\section{Server}
-	
+	\section{Server--OLD}
+
 		\subsection{Server}
 		Validation:
 		\begin{enumerate}
 			\item Client can connect to the server when opening the client.
 		\end{enumerate}
 		Verification:
-		
+
 		Unit Test for connecting to server.
 
-			
-	\section{Client}
-	
+	%\section{Hearts}
+% --------------------------------------------------------------
+%			DO WE HAVE CLIENT UNTI TESTS???
+% --------------------------------------------------------------
+
+	\section{Client GUI}
+
 		\subsection{Login}
 			\subsubsection{Create user}
 			Validation:
-			\begin{enumerate} 
+			\begin{enumerate}
 				\item Create a new user to 'log in' to access server.
 				\item Create username to identify player.
 				\item Create password.
 				\item Abiltiy to change password if needed
 				\item Successfully login or logout each game.
+					\begin{item	}
+						\item cannot close out of window.
+						\item password must match
+					\end{item}
 			\end{enumerate}
-			
-			Verification:
-			
-			Unit Tests for creating user funcitons.
-			\begin{enumerate}
-				\item unit test for function createAccount()			
-				\item unit test for function userSettings()
-			\end{enumerate}
+
 
 		\subsection{Main Menu}
 			\subsubsection{Main menu}
@@ -72,20 +75,24 @@
 					\end{enumerate}
 					\item Option to join game or create game
 					\begin{enumerate}
-						 \item In joining game, able to select/specify table to join
+						 \item In joining game, able to select specific game to join
 						 \item In creating game, choose options for gameplay
+						 	\begin{itemize}
+						 		\item Ex: Choose name of private game
+								\item Ex: Choose number of human/computer players
+						 	\end{itemize}
 						 \begin{enumerate}
-						 	\item Choose Computer Players or AI
-						 	\item Choose Private or Public
+						 	\item Different levels of AI
+							\item Choose Private or Public
 						 \end{enumerate}
 					\end{enumerate}
 				\end{enumerate}
 			Verification:
-			
-			Unit Test for choosing game, enuring only specific options work when creating/joining games.
+
+			Unit Test for choosing game, ensuring only specific options work when creating/joining games.
 			\begin{enumerate}
 				\item unit test for function chooseGame()
-				\item unit test for function gameOptions()		
+				\item unit test for function gameOptions()
 			\end{enumerate}
 		\subsection{Game Table/GUI}
 			\subsubsection{Cards}
@@ -93,15 +100,15 @@
 			\begin{enumerate}
 				\item View  cards, ensure cards are delt properly
 				\item Cards match values listed on card
-				\item See how many cards other users have (face down) 
+				\item See how many cards other users have (face down)
 			\end{enumerate}
 			Verification:
-			
+
 			Unit Tests for how cards will look, how cards are shuffled, how many cards are visable to player.
 			\begin{enumerate}
-				\item unit test for function createTable()		
+				\item unit test for function createTable()
 				\item unit test for function showHand()
-				\item unit test for function drawCard()	
+				\item unit test for function drawCard()
 			\end{enumerate}
 			\subsubsection{Scoreboard}
 			Validation:
@@ -111,12 +118,12 @@
 				\item Players info and cards sent each time a player selects a card.
 			\end{enumerate}
 			Verifcation:
-			
+
 			Unit Tests for ensuring correct information is passed to scoreboard.
 			\begin{enumerate}
-				\item unit test for function displayCenter()			
+				\item unit test for function displayCenter()
 			\end{enumerate}
-	
+
 			\subsubsection{Moves}
 			Validation:
 			\begin{enumerate}
@@ -125,12 +132,12 @@
 				\item  Can see past hand from option menu
 			\end{enumerate}
 			Verification:
-		
+
 			Unit Test for ensuring correct information is sent to display.
 			\begin{enumerate}
 				\item unit test for function redrawTable()
 				\item unit test for function getHint()
-				\item unit test for function viewHistory()			
+				\item unit test for function viewHistory()
 			\end{enumerate}
 		\subsection{Game End Event}
 			Validation:
@@ -142,13 +149,13 @@
 				\item Option to return to main menu
 			\end{enumerate}
 			Verification:
-			
+
 			Unit Test for making sure all premature exits are taken care of by creating and using AI.\\
 			Unit Test for making sure each function dealing with new game works correctly.
 			\begin{enumerate}
-				\item unit test for function endOfGameDisplay()			
+				\item unit test for function endOfGameDisplay()
 			\end{enumerate}
-		\subsection{Other}	
+		\subsection{Other}
 			\subsubsection{Multiplayer Options}
 			Validation:
 			\begin{enumerate}
@@ -159,7 +166,7 @@
 				\item When disconnected accidentally, can rejoin same game if game is still in play
 			\end{enumerate}
 			Verification:
-			
+
 			Unit Test for ensuring that multiplayer functions work as expected.
-		
+
 \end{document}
