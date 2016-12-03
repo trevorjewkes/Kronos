@@ -220,15 +220,20 @@ Status HeartsGame::play_Hearts()
 
 bool HeartsGame::pass(int index)
 {
+  if (index >= players[0].getHand().size()) {
+    return false;
+  }
 	cardsToPass[0].push_back(players[0].getHand()[index]);
+				players[0].removeCardFromHand(players[0].getHand()[index]);
 	if (cardsToPass[0].size() == 3)
 	{
 		for (int i = 1; i < cardsToPass.size(); i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				cardsToPass[i].push_back(HeartsAI::getPass(players[i].getHand()));
-				players[i].removeCardFromHand(players[0].getHand()[index]);
+        Card tmp = HeartsAI::getPass(players[i].getHand());
+				cardsToPass[i].push_back(tmp);
+				players[i].removeCardFromHand(tmp);
 			}
 		}
 		passCards(round++);

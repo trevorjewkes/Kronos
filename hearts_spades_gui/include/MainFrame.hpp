@@ -37,6 +37,7 @@ public:
 			  SetStatusText("Play a card");
 		  }
 		  //UPDATESTATUS
+      updateScreen(gameHearts->updateStatus());
 	  }
 	  else if (m_state == PLAYING)
 	  {
@@ -50,6 +51,7 @@ public:
   void OnLogin() {
     SetStatusText(m_loginDialog.getUsername());
   }
+  void updateScreen(Status status);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
@@ -66,6 +68,24 @@ private:
 
 	void loadPlayerHand( wxCommandEvent& event );
 	void loadCenterCards( wxCommandEvent& event );
+  std::string getSuitString(Suit suit) {
+    switch (suit) {
+      case 0:
+        return "clubs";
+        break;
+      case 1:
+        return "hearts";
+        break;
+      case 2:
+        return "spades";
+        break;
+      case 3:
+        return "diamonds";
+        break;
+      default:
+        return "invalid";
+    }
+  };
 	void serverSettingsDialog( wxCommandEvent& event );
 	void connectToServer( wxCommandEvent& event );
 	void showHeartsRules( wxCommandEvent& event );

@@ -192,9 +192,9 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   this->Connect( m_menuItemStartGame->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::startGame ) );
 
   this->Show( true );
-  this->m_lobbyDialog.Show( true );
-  this->m_loginDialog.Show( true );
-  this->m_serverDialog.Show( true  );
+  //this->m_lobbyDialog.Show( true );
+  //this->m_loginDialog.Show( true );
+  //this->m_serverDialog.Show( true  );
   for (int i = 0; i < 4; i++)
   {
 	  
@@ -214,6 +214,40 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   }
 
   //this->m_serverDialog.Show( true  );
+}
+void MainFrame::updateScreen(Status status) {
+  //struct Status
+  //{
+  //  std::vector<Card> hand;
+  //  std::vector<Card> center;
+  //  std::vector<int> scores;
+  //  std::vector<int> tricks;
+  //};
+  // card.getSuit() returns enum
+  // card.getValue() return enum
+  // cast enums to ints
+  // 
+  //update player hand 
+  //construct a string for bitmap
+    int handSize = (int)status.hand.size();
+    std::string suit;
+    int value;
+    //suit = getSuitString(status.hand[i].getSuit());
+    //value = (int)status.hand[i].getValue();
+    
+    for (int i = 0; i < (handSize -1) ; i++) {
+      suit = getSuitString(status.hand[i].getSuit());
+      value = (int)status.hand[i].getValue();
+      m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    }
+    suit = getSuitString(status.hand[handSize-1].getSuit());
+    value = (int)status.hand[handSize-1].getValue();
+    m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+
+    for (int i = handSize; i < 13; ++i) {
+      m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
+    }
+  //update all player stats
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
@@ -284,11 +318,12 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	if (res == wxYES) {
     std::cout << "Start game!\n";
     SetStatusText("You have started the Game!");
-	gameHearts = new HeartsGame(players);
-	Status state = gameHearts->play_Hearts();
-	//UPDATE STATE HERE
-	m_state = PASSING;
-	SetStatusText("Select Cards to Pass");
+    gameHearts = new HeartsGame(players);
+    Status state = gameHearts->play_Hearts();
+    //UPDATE STATE HERE
+    m_state = PASSING;
+    SetStatusText("Select Cards to Pass");
+    updateScreen(gameHearts->updateStatus());
   }
 
 }
