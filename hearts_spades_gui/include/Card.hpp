@@ -28,10 +28,10 @@
 
 enum Suit
 {
-  HEARTS,
-  SPADES,
-  CLUBS,
-  DIAMONDS,
+	CLUBS,
+	HEARTS,
+	SPADES,
+	DIAMONDS,
   UNDEFINED
 };
 
@@ -56,19 +56,17 @@ class Card
 {
 private:
   Suit suit;
-  Value value;
+  int value;
 
 public:
   Card(Suit su);
-  Card(Suit su, Value val);
+  Card(Suit su, int val);
   Suit getSuit() const;
-  Value getValue() const;
+  int getValue() const;
 };
 
 bool operator<(const Card&, const Card&);
-bool operator>(const Card&, const Card&);
 bool operator==(const Card&, const Card&);
-bool operator!=(const Card&, const Card&);
 std::vector<Card> initializeDeck();
 
 #endif

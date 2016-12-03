@@ -27,7 +27,7 @@ Card::Card(Suit su) : suit(su), value(TWO)
 
 // Constructor for a card in a standard 52 card deck.
 // Values are from 2 to 14 corrosponding from 2 - Ace.
-Card::Card(Suit su, Value val) : suit(su), value(val)
+Card::Card(Suit su, int val) : suit(su), value(val)
 {
   if (val < 2 || val > 14)
   {
@@ -43,7 +43,7 @@ Suit Card::getSuit() const
 }
 
 // Returns a value of a card.
-Value Card::getValue() const
+int Card::getValue() const
 {
   return value;
 }
@@ -64,11 +64,6 @@ bool operator<(const Card& a, const Card& b)
     return a.getValue() < b.getValue();
 }
 
-bool operator>(const Card& a, const Card& b)
-{
-	return !(a < b);	
-}
-
 // Allows for the '==' comparison of two Card objects.
 bool operator==(const Card& a, const Card& b)
 {
@@ -80,11 +75,6 @@ bool operator==(const Card& a, const Card& b)
   {
     return false;
   }
-}
-
-bool operator!=(const Card& a, const Card& b)
-{
-	return !(a == b);
 }
 
 // Function used to deal out a random deck of 52 cards

@@ -10,11 +10,8 @@
 class CreateGameDialog : public wxDialog
 {
 public:
-	CreateGameDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
-	void createGameBtn(wxCommandEvent& event) {
-		std::cout << "create new game!\n";
-		std::cout.flush();
-	}
+	CreateGameDialog( wxWindow* parent, const wxString& title, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ); 
+	void createGameBtn(wxCommandEvent& event);
 };
 
 #endif /* ifndef CREATEGAMEDIALOG_HPP */

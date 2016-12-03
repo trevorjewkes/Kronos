@@ -31,10 +31,9 @@ private:
   int tricksWon;                 // Spades
 
 public:
-  Player(int idNumber, std::string ipAddress, std::string name = "noname");
-
-	int getId();
-	std::string getIp();
+  Player(int idNumber, std::string ipAddress);
+  void setIp(std::string ip);
+  int getId();
   void setName(std::string);
   std::string getName() const;
 
@@ -73,6 +72,9 @@ public:
   int getTricksWon() const;
   void setTricksWon(int);
   void incrementTricksWon();
+  void sortHand();
+  std::vector<Card> cardsToPass;
+  std::string getIp();
 };
 
 #endif

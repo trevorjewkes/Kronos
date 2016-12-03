@@ -12,18 +12,9 @@
 #include <algorithm>
 
 // Constructor for the Player class. Takes in the IP address of the client.
-Player::Player(int idNumber, std::string ipAddress, std::string name)
-  : id(idNumber), ip(ipAddress), name(name), roundScore(0), bid(0), bags(0), tricksWon(0)
+Player::Player(int idNumber, std::string ipAddress)
+  : id(idNumber), ip(ipAddress), roundScore(0), bid(0), bags(0), tricksWon(0)
 {
-}
-
-int Player::getId()
-{
-	return id;	
-}
-std::string Player::getIp()
-{
-	return ip;
 }
 
 // Sets the name of the Player. In the future, this function will query the
@@ -79,12 +70,24 @@ void Player::initializeHand(std::vector<Card>& deck, unsigned int numCards)
 // Inserts card into the hand in order.
 void Player::insertCardToHand(const Card& c)
 {
-  auto iterator = hand.begin();
+	if(hand.size() == 0) hand.push_back(c);
+	else 
+	{
+		auto iterator = hand.begin();
+		while (c < *iterator && iterator < hand.end())
+		{
+			iterator++;
+			if (iterator == hand.end()) break;
+		}
+		hand.emplace(iterator, c);
+	}
+  /*auto iterator = hand.begin();
   while (c < *iterator && iterator < hand.end())
   {
     iterator++;
   }
-  hand.emplace(iterator, c);
+  hand.emplace(iterator, c);*/
+	
 }
 
 // Attempts to remove card from hand. If card is in hand, it will be removed
@@ -186,4 +189,24 @@ void Player::setTricksWon(int t)
 void Player::incrementTricksWon()
 {
   tricksWon++;
+}
+
+void Player::sortHand()
+{
+	std::sort(hand.begin(), hand.end());
+}
+
+std::string Player::getIp()
+{
+	return ip;
+}
+
+int Player::getId()
+{
+	return id;
+}
+
+void Player::setIp(std::string ip)
+{
+	this->ip = ip;
 }
