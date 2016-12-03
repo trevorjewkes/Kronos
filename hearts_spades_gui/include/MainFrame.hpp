@@ -11,19 +11,33 @@
 #include "LobbyDialog.hpp"
 #include "CreateGameDialog.hpp"
 
+enum GameState {
+  SERVER,
+  LOGIN,
+  LOBBY,
+  PLAYING,
+  END_GAME
+};
+
 class MainFrame: public wxFrame
 {
 public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+	ServerDialog m_serverDialog;
+	LoginDialog m_loginDialog;
+	LobbyDialog m_lobbyDialog;
+  void setState(GameState state);
   void cardClicked( wxMouseEvent& event )
   {
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
+  void OnDialogClose( wxCloseEvent& event ) {
+    wxMessageBox("Nope! You must'nt close this window");
+  }
+  void OnLogin() {
+    SetStatusText(m_loginDialog.getUsername());
+  }
 private:
-	ServerDialog m_serverDialog;
-	LoginDialog m_loginDialog;
-	LobbyDialog m_lobbyDialog;
-	CreateGameDialog m_createGameDialog;
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
 	wxMenu* m_menuTest;

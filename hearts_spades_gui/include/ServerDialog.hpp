@@ -10,7 +10,7 @@
 class ServerDialog : public wxDialog 
 {
 public:
-	ServerDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+	ServerDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = "Server Settings", const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
 	std::string getIP() { return m_ip; };
 	int getPort() { return m_port; };
 private:
