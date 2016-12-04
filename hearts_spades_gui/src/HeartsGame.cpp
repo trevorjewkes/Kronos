@@ -212,6 +212,7 @@ void HeartsGame::play(bool start)
 		
 		if (turn == 4)
 		{
+			endTurn();
 			if (players[i].getHand().size() == 0)
 			{
 				endRound();
@@ -226,7 +227,7 @@ void HeartsGame::play(bool start)
 			turn = 0;
 			
 			//if (currentPlayerIndex == 1) currentPlayerIndex = 3;
-			endTurn();
+			
 			numTricks++;
 			centerPile.clear();
 			i = 0;
