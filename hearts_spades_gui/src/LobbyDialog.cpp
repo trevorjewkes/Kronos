@@ -17,6 +17,7 @@ void LobbyDialog::joinPrivateSpadesGame(wxCommandEvent& event) {
     if ((std::string)input.GetValue() == "private") {
       this->Show(false);
       //set state to private game
+	  isHearts = false;
     } else {
       wxMessageBox("There is not private game with that name."); 
     }
@@ -27,6 +28,7 @@ void LobbyDialog::joinPrivateHeartsGame(wxCommandEvent& event) {
   if (input.ShowModal() == wxID_OK) {
     if ((std::string)input.GetValue() == "private") {
       this->Show(false);
+	  isHearts = true;
       //set state to private game
     } else {
       wxMessageBox("There is not private game with that name."); 
@@ -35,13 +37,19 @@ void LobbyDialog::joinPrivateHeartsGame(wxCommandEvent& event) {
 }
 void LobbyDialog::joinPublicSpadesGame(wxCommandEvent& event) {
 	int res = wxMessageBox("Join public Spades game?", "Confirm", wxYES_NO, this);
-	if (res == wxYES) 
-    this->Show(false);
+	if (res == wxYES)
+	{
+		this->Show(false);
+		isHearts = false;
+	}
 }
 void LobbyDialog::joinPublicHeartsGame(wxCommandEvent& event) {
 	int res = wxMessageBox("Join public Hearts game?", "Confirm", wxYES_NO, this);
-	if (res == wxYES) 
-    this->Show(false);
+	if (res == wxYES)
+	{
+		this->Show(false);
+		isHearts = true;
+	}
 }
 void LobbyDialog::createNewSpadesGame(wxCommandEvent& event) {
   m_createSpadesGameDialog.Show();

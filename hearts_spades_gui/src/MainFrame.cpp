@@ -192,7 +192,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   this->Connect( m_menuItemStartGame->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::startGame ) );
 
   this->Show( true );
-  //this->m_lobbyDialog.Show( true );
+  this->m_lobbyDialog.Show( true );
   this->m_loginDialog.Show( true );
   //this->m_serverDialog.Show( true  );
   for (int i = 0; i < 4; i++)
@@ -220,24 +220,46 @@ void MainFrame::cardClicked(wxMouseEvent& event)
 {
 	if (m_state == PASSING)
 	{
-		if (gameHearts->pass(event.GetId()))
+		if (m_gameState == H)
 		{
+			if (gameHearts->pass(event.GetId()))
+			{
+				m_state = PLAYING;
+				SetStatusText("Play a card");
+				updateScreen(gameHearts->updateStatus());
+				gameHearts->play(true);
+			}
+			//UPDATESTATUS
+			updateScreen(gameHearts->updateStatus());
+		}
+		else
+		{
+			gameSpades->doBids(0);//getbidhere
 			m_state = PLAYING;
 			SetStatusText("Play a card");
-			updateScreen(gameHearts->updateStatus());
-			gameHearts->play(true);
+			updateScreen(gameSpades->updateStatus());
+			gameSpades->play(true);
 		}
-		//UPDATESTATUS
-		updateScreen(gameHearts->updateStatus());
 	}
 	else if (m_state == PLAYING)
 	{
-		if (gameHearts->playCard(event.GetId()))
+		if (m_gameState == H)
 		{
-			gameHearts->play(false);
-			gameHearts->play(false);
+			if (gameHearts->playCard(event.GetId()))
+			{
+				gameHearts->play(false);
+				gameHearts->play(false);
+			}
+			updateScreen(gameHearts->updateStatus());
 		}
-		updateScreen(gameHearts->updateStatus());
+		else
+		{
+			if (gameSpades->playCard(event.GetId()))
+			{
+				gameSpades->play(false);
+			}
+			updateScreen(gameHearts->updateStatus());
+		}
 	}
 	std::cout << "Left Double Click: " << event.GetId() << std::endl;
 }
@@ -280,7 +302,7 @@ void MainFrame::updateScreen(Status status) {
   updateCenterCards(status.center);
   
 
-  updateStats(status.scores, status.tricks);
+  updateStats(status.scores, status.tricks, status.bids);
   if (status.passing)
   {
 	  m_state = PASSING;
@@ -331,7 +353,7 @@ void MainFrame::updateCenterCards(std::vector<Card> cards) {
     m_center_cards[i]->Hide();
   }
 }
-void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
+void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks, std::vector<int> bids) {
   // playerText[4] 
   // player2 = index 0 
   // player1 = index 1   
@@ -340,9 +362,14 @@ void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
 	// playerText[1] = new wxStaticText( this, wxID_ANY, wxT("Player1\nTricks: 2 \nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
 
   for (int i = 0; i < 4; ++i) {
-    playerText[i]->SetLabel( players[i].getName() + "\n" + 
+	  std::string scoreStuff = players[i].getName() + "\n" + 
     "Tricks: " + std::to_string(tricks[i]) + "\n" +
-    "Score: " + std::to_string(scores[i]));
+    "Score: " + std::to_string(scores[i]);
+	if (bids.size() == 4)
+	{
+		scoreStuff += "Bids: " + std::to_string(bids[i]);
+	}
+	playerText[i]->SetLabel(scoreStuff);
   }
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
@@ -414,13 +441,34 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	if (res == wxYES) {
     std::cout << "Start game!\n";
     SetStatusText("You have started the Game!");
-    players[0].setName(m_loginDialog.getUsername());
-    gameHearts = new HeartsGame(players);
-    Status state = gameHearts->play_Hearts();
-    //UPDATE STATE HERE
-    m_state = PASSING;
-    SetStatusText("Select Cards to Pass");
-    updateScreen(gameHearts->updateStatus());
+	if (m_lobbyDialog.isHearts)
+	{
+		m_gameState = H;
+	}
+	else m_gameState = S;
+		
+	players[0].setName(m_loginDialog.getUsername());
+	if (m_gameState == H)
+	{
+		gameHearts = new HeartsGame(players);
+		Status state = gameHearts->play_Hearts();
+		//UPDATE STATE HERE
+		m_state = PASSING;
+		SetStatusText("Select Cards to Pass");
+		updateScreen(gameHearts->updateStatus());
+	}
+	else
+	{
+		gameSpades = new SpadesGame(players);
+		Status state = gameSpades->play_Spades();
+		int bid = getBid();
+		while (bid == -1)
+			bid = getBid();
+		gameSpades->doBids[bid];
+		m_state = PLAYING;
+		SetStatusText("Select Bid");
+		updateScreen(gameSpades->updateStatus());
+	}
   }
 }
 void MainFrame::OnExit(wxCommandEvent& event)

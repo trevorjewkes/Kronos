@@ -307,6 +307,7 @@ Status SpadesGame::updateStatus()
 	{
 		tmp.scores.push_back(players[i].getTotalScore());
 		tmp.tricks.push_back(players[i].getTricksWon());
+		tmp.bids.push_back(players[i].getBid());
 	}
 	tmp.isGameOver = isGameOver;
 	tmp.bidding = isBidding;

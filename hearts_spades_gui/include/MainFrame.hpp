@@ -12,12 +12,14 @@
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
 #include "HeartsGame.hpp"
+#include "SpadesGame.hpp"
 #include "CreateGameDialog.hpp"
 
 enum State
 {
 	PASSING,
 	PLAYING,
+	BIDDING,
 	WAITING
 };
 
@@ -46,7 +48,7 @@ public:
   void updateScreen2();
   void updatePlayerHand(std::vector<Card> hand);
   void updateCenterCards(std::vector<Card> cards);
-  void updateStats(std::vector<int> scores, std::vector<int> tricks);
+  void updateStats(std::vector<int> scores, std::vector<int> tricks, std::vector<int> bids);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
@@ -56,6 +58,7 @@ private:
 	wxMenu* m_menuGameRules;
 	std::vector<Player> players;
 	HeartsGame* gameHearts;
+	SpadesGame* gameSpades;
 	State m_state = WAITING;
 	GameState m_gameState;
   wxStaticText* playerText[4];
