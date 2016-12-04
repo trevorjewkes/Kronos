@@ -464,7 +464,7 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 		int bid = getBid();
 		while (bid == -1)
 			bid = getBid();
-		gameSpades->doBids[bid];
+		gameSpades->doBids(bid);
 		m_state = PLAYING;
 		SetStatusText("Select Bid");
 		updateScreen(gameSpades->updateStatus());
