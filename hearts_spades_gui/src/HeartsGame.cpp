@@ -76,6 +76,7 @@ void HeartsGame::passCards(int round)
 	{
 		cardsToPass.push_back(tmp);
 	}
+	isPassing = false;
 }
 
 //checks to see if a players hand is all hearts.
@@ -123,38 +124,42 @@ bool HeartsGame::validateMove(int index, Card move)
 	{
 		if (centerPile.size() == 0)
 		{
-			if (move.getSuit() != CLUBS && move.getValue() != TWO)
-				valid = false;
+			if (move.getSuit() == CLUBS && move.getValue() == TWO)
+				return true;
 			else
-				valid = true;
+				return false;
 		}
 		else
 		{
 			if (move.getSuit() != lead && noLeadSuit(lead, players[index].getHand()))
 			{
 				if (move.getSuit() == HEARTS)
-					valid = false;
+					return false;
 				else if (move.getSuit() == SPADES && move.getValue() == QUEEN)
-					valid = false;
+					return false;
 				else
-					valid = true;
+					return true;
 			}
 			else if (move.getSuit() != lead)
-				valid = false;
+				return false;
 			else
-				valid = true;
+				return true;
 		}
 	}
 	else
 	{
 		if (centerPile.size() == 0)
 		{
-			if (move.getSuit() == HEARTS)
+			if (move.getSuit() == HEARTS && (brokenHearts || allhearts(players[index].getHand())))
 			{
 				brokenHearts = true;
-				valid = true;
+				return true;
 			}
-			valid = true;
+			else if (move.getSuit() == HEARTS)
+			{
+				return false;
+			}
+			else return true;
 		}
 		else
 		{
@@ -163,17 +168,17 @@ bool HeartsGame::validateMove(int index, Card move)
 				if (move.getSuit() == HEARTS)
 				{
 					brokenHearts = true;
-					valid = true;
 				}
-				else
-					valid = true;
+				
+				return true;
 			}
 			else if (move.getSuit() != lead)
-				valid = false;
+				return false;
 			else
-				valid = true;
+				return true;
 		}
 	}
+	std::cout << "BROKEN VALIDATION\n";
 	return valid;
 }
 
@@ -204,23 +209,36 @@ void HeartsGame::play(bool start)
 		
 	for (int i = 0; i < 4; i++)
 	{
-		if (turn == 0)
-		{
-			centerPile.clear();
-		}
+		
 		if (turn == 4)
 		{
+			if (players[i].getHand().size() == 0)
+			{
+				endRound();
+				if (round % 4 == 3)
+				{
+					isPassing = false;
+				}
+				turn = 0;
+				if (isGameOver) return;
+				if (isPassing) return;
+			}
 			turn = 0;
+			
+			//if (currentPlayerIndex == 1) currentPlayerIndex = 3;
 			endTurn();
-			return;
+			numTricks++;
+			centerPile.clear();
+			i = 0;
 			
 		}
 		bool valid = false;
 		do
 		{
 			if (players[(currentPlayerIndex) % players.size()].getId() == 0) return;
-			valid = playCard(HeartsAI::getPlay(players[(currentPlayerIndex) % players.size()].getHand()),
-				players[(currentPlayerIndex) % players.size()].getId());
+			//for AI
+			valid = playCard(HeartsAI::getPlay(players[(currentPlayerIndex)].getHand()), 
+							players[(currentPlayerIndex)].getId());
 		} while (!valid);
 		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
 		turn++;
@@ -232,6 +250,8 @@ void HeartsGame::play(bool start)
 //play again
 Status HeartsGame::play_Hearts()
 {
+	isPassing = true;
+	brokenHearts = false;
 	//creates deck of cards
 	auto deck = initializeDeck();  
 
@@ -246,6 +266,7 @@ Status HeartsGame::play_Hearts()
 			tmp.hand = player.getHand();
 		}
 	}
+	numTricks = 0;
 	return tmp;
 }
 
@@ -362,12 +383,13 @@ void HeartsGame::endTurn()
 			maxValue = tmp.getValue();
 			maxIndex = i;
 		}
-		if (tmp.getSuit() == SPADES && tmp.getValue() == 11) score += 13;
+		if (tmp.getSuit() == SPADES && tmp.getValue() == QUEEN) score += 13;
 		if (tmp.getSuit() == HEARTS) score++;
 	}
-	players[(maxIndex+currentPlayerIndex)%players.size()].incrementRoundScore(score);
-	players[(maxIndex + currentPlayerIndex) % players.size()].incrementTricksWon();
-	currentPlayerIndex = (maxIndex+currentPlayerIndex)%players.size();
+	int winningPlayer = (maxIndex + currentPlayerIndex) % players.size();
+	players[winningPlayer].incrementRoundScore(score);
+	players[winningPlayer].incrementTricksWon();
+	currentPlayerIndex = winningPlayer;
 }
 
 //finishes the round and applies scores
@@ -387,7 +409,11 @@ void HeartsGame::endRound()
 	for (int i = 0; i < players.size(); i++)
 	{
 		players[i].startNewRound();
+		if (players[i].getTotalScore() >= 100) gameOver();
 	}
+	centerPile.clear();
+	turn = 0;
+	play_Hearts();
 }
 
 //passes a card
@@ -404,10 +430,12 @@ void HeartsGame::setPrivatePasscode(std::string passcode)
 
 bool HeartsGame::playCard(int index)
 {
-	if (index >= players[0].getHand().size()) return 0;
+	if (index >= players[0].getHand().size()) return false;
+	bool valid = playCard(players[0].getHand()[index], players[0].getId());
+	if (!valid) return false;
 	currentPlayerIndex = (currentPlayerIndex + 1) % 4;
 	turn++;
-	return playCard(players[0].getHand()[index], players[0].getId());
+	return true;
 }
 
 Status HeartsGame::updateStatus()
@@ -420,5 +448,12 @@ Status HeartsGame::updateStatus()
 		tmp.scores.push_back(players[i].getTotalScore());
 		tmp.tricks.push_back(players[i].getTricksWon());
 	}
+	tmp.isGameOver = isGameOver;
+	tmp.passing = isPassing;
 	return tmp;
+}
+
+void HeartsGame::gameOver()
+{
+	isGameOver = true;
 }

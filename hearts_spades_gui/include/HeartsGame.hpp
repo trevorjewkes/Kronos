@@ -11,6 +11,8 @@ struct Status
 	std::vector<Card> center;
 	std::vector<int> scores;
 	std::vector<int> tricks;
+	bool isGameOver;
+	bool passing;
 };
 
 class HeartsGame
@@ -36,7 +38,7 @@ public:
 	Status updateStatus();
 	void play(bool start);
 private:
-
+	bool isPassing = false;
 	std::vector<Card> initializeDeck();
 	void dealCards(std::vector<Card>& Deck);
 	int currentPlayerIndex;
@@ -50,7 +52,8 @@ private:
 	std::vector<Card> centerPile;
 	
 	bool brokenHearts = false;
-	
+	void gameOver();
+	bool isGameOver = false;
 	int turn = 0;
 	int round = 0;
 	int numTricks = 0;
