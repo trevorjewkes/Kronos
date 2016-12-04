@@ -21,6 +21,12 @@ enum State
 	WAITING
 };
 
+enum GameState
+{
+	H,
+	S
+};
+
 class MainFrame: public wxFrame
 {
 public:
@@ -28,31 +34,8 @@ public:
 	ServerDialog m_serverDialog;
 	LoginDialog m_loginDialog;
 	LobbyDialog m_lobbyDialog;
-  void cardClicked( wxMouseEvent& event )
-  {
-	  if (m_state == PASSING)
-	  {
-		  if (gameHearts->pass(event.GetId()))
-		  {
-			  m_state = PLAYING;
-			  SetStatusText("Play a card");
-			  updateScreen(gameHearts->updateStatus());
-			  gameHearts->play(true);
-		  }
-		  //UPDATESTATUS
-      updateScreen(gameHearts->updateStatus());
-	  }
-	  else if (m_state == PLAYING)
-	  {
-		  if (gameHearts->playCard(event.GetId()))
-		  {
-			  gameHearts->play(false);
-			  updateScreen(gameHearts->updateStatus());
-		  }
-		  updateScreen(gameHearts->updateStatus());
-	  }
-    std::cout << "Left Double Click: " << event.GetId() << std::endl;
-  }
+	void cardClicked(wxMouseEvent& event);
+  
   void OnDialogClose( wxCloseEvent& event ) {
     wxMessageBox("Nope! You must'nt close this window");
   }
@@ -60,12 +43,14 @@ public:
     SetStatusText(m_loginDialog.getUsername());
   }
   void updateScreen(Status status);
+  void updateScreen2();
   void updatePlayerHand(std::vector<Card> hand);
   void updateCenterCards(std::vector<Card> cards);
   void updateStats(std::vector<int> scores, std::vector<int> tricks);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
+	std::thread* first;
 	wxMenu* m_menuTest;
 	wxMenu* m_menuServer;
 	wxMenu* m_menuHelp;
@@ -73,6 +58,7 @@ private:
 	std::vector<Player> players;
 	HeartsGame* gameHearts;
 	State m_state = WAITING;
+	GameState m_gameState;
   wxStaticText* playerText[4];
   std::vector<wxStaticBitmap*> m_center_cards;
   std::vector<wxStaticBitmap*> m_player_hand;
