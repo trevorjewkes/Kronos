@@ -215,6 +215,58 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   //this->m_serverDialog.Show( true  );
 }
+
+void MainFrame::cardClicked(wxMouseEvent& event)
+{
+	if (m_state == PASSING)
+	{
+		if (gameHearts->pass(event.GetId()))
+		{
+			m_state = PLAYING;
+			SetStatusText("Play a card");
+			updateScreen(gameHearts->updateStatus());
+			gameHearts->play(true);
+		}
+		//UPDATESTATUS
+		updateScreen(gameHearts->updateStatus());
+	}
+	else if (m_state == PLAYING)
+	{
+		if (gameHearts->playCard(event.GetId()))
+		{
+			gameHearts->play(false);
+			Status tmp = gameHearts->updateStatus();
+			first = new std::thread(&MainFrame::updateScreen2, this);
+			//first->join();
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			gameHearts->play(false);
+		}
+		updateScreen(gameHearts->updateStatus());
+	}
+	std::cout << "Left Double Click: " << event.GetId() << std::endl;
+}
+
+void MainFrame::updateScreen2()
+{
+	Status status = gameHearts->updateStatus();
+	if (status.isGameOver)
+	{
+		//do something here;
+		return;
+	}
+	updatePlayerHand(status.hand);
+	updateCenterCards(status.center);
+
+
+	updateStats(status.scores, status.tricks);
+	if (status.passing)
+	{
+		m_state = PASSING;
+		SetStatusText("Pass cards");
+	}
+	Update();
+}
+
 void MainFrame::updateScreen(Status status) {
   //struct Status
   //{

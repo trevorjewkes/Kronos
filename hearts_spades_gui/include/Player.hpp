@@ -36,6 +36,7 @@ public:
   int getId();
   void setName(std::string);
   std::string getName() const;
+  void setBid(int b);
 
   // The functions below reset the necessary variables at the start of round/game.
   void startNewRound();
@@ -67,7 +68,6 @@ public:
 
   // The functions below are for use in the game Spades.
   int getBid() const;
-  void setBid();
   int getBags() const;
   void setBags(int);
   int getTricksWon() const;

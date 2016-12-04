@@ -1,5 +1,7 @@
 #include "HeartsGame.hpp"
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 //constructor
 //takes in a vector of players 
@@ -203,8 +205,10 @@ void HeartsGame::dealCards(std::vector<Card>& Deck)
 
 void HeartsGame::play(bool start)
 {
-	if(start) 
+	if (start)
 		currentPlayerIndex = findTwoOfClubs();
+	else
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	
 		
 	for (int i = 0; i < 4; i++)
@@ -231,7 +235,7 @@ void HeartsGame::play(bool start)
 			numTricks++;
 			centerPile.clear();
 			i = 0;
-			
+			return;
 		}
 		bool valid = false;
 		do
@@ -243,6 +247,7 @@ void HeartsGame::play(bool start)
 		} while (!valid);
 		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
 		turn++;
+
 	}
 
 }
