@@ -232,7 +232,6 @@ void MainFrame::cardClicked(wxMouseEvent& event)
 		}
 		else
 		{
-			gameSpades->doBids(0);//getbidhere
 			m_state = PLAYING;
 			SetStatusText("Play a card");
 			updateScreen(gameSpades->updateStatus());
@@ -456,10 +455,10 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	{
 		gameSpades = new SpadesGame(players);
 		Status state = gameSpades->play_Spades();
-		//int bid = getBid();
-		//while (bid == -1)
-			//bid = getBid();
-		//gameSpades->doBids(bid);
+		int bid = getBid();
+		while (bid == -1)
+			bid = getBid();
+		gameSpades->doBids(bid);
 		m_state = PLAYING;
 		SetStatusText("Select Bid");
 		updateScreen(gameSpades->updateStatus());
