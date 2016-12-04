@@ -78,14 +78,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
 
-	playerText[0] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[0]->Wrap( -1 );
-  playerText[0]->SetForegroundColour(wxColor(255,255,255));
-  wxFont font = playerText[0]->GetFont();
+	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[2]->Wrap( -1 );
+  playerText[2]->SetForegroundColour(wxColor(255,255,255));
+  wxFont font = playerText[2]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[0]->SetFont(font);
-	bs->Add( playerText[0], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[2]->SetFont(font);
+	bs->Add( playerText[2], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxGridSizer* gSizer1;
 	gSizer1 = new wxGridSizer( 0, 3, 0, 0 );
@@ -119,14 +119,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
 	gSizer1->Add( fgSizer1, 1, wxEXPAND, 5 );
 	
-	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[2]->Wrap( -1 );
-  playerText[2]->SetForegroundColour(wxColor(255,255,255));
-  font = playerText[2]->GetFont();
+	playerText[3] = new wxStaticText( this, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[3]->Wrap( -1 );
+  playerText[3]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[3]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[2]->SetFont(font);
-	gSizer1->Add( playerText[2], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[3]->SetFont(font);
+	gSizer1->Add( playerText[3], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	bs->Add( gSizer1, 1, wxEXPAND, 5 );
@@ -159,14 +159,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   //spacer
 	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
 	
-	playerText[3] = new wxStaticText( this, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[3]->Wrap( -1 );
-  playerText[3]->SetForegroundColour(wxColor(255,255,255));
-  font = playerText[3]->GetFont();
+	playerText[0] = new wxStaticText( this, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[0]->Wrap( -1 );
+  playerText[0]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[0]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[3]->SetFont(font);
-	fgSizer4->Add( playerText[3], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[0]->SetFont(font);
+	fgSizer4->Add( playerText[0], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	bSizer3->Add( fgSizer4, 1, wxEXPAND, 5 );
@@ -193,7 +193,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   this->Show( true );
   //this->m_lobbyDialog.Show( true );
-  //this->m_loginDialog.Show( true );
+  this->m_loginDialog.Show( true );
   //this->m_serverDialog.Show( true  );
   for (int i = 0; i < 4; i++)
   {
@@ -223,31 +223,79 @@ void MainFrame::updateScreen(Status status) {
   //  std::vector<int> scores;
   //  std::vector<int> tricks;
   //};
-  // card.getSuit() returns enum
-  // card.getValue() return enum
-  // cast enums to ints
-  // 
-  //update player hand 
-  //construct a string for bitmap
-    int handSize = (int)status.hand.size();
+	if (status.isGameOver)
+	{
+		//do something here;
+		return;
+	}
+  updatePlayerHand(status.hand);
+  updateCenterCards(status.center);
+  
+
+  updateStats(status.scores, status.tricks);
+  if (status.passing)
+  {
+	  m_state = PASSING;
+	  SetStatusText("Pass cards");
+  }
+}
+void MainFrame::updatePlayerHand(std::vector<Card> hand) {
+    int handSize = (int)hand.size();
     std::string suit;
     int value;
-    //suit = getSuitString(status.hand[i].getSuit());
-    //value = (int)status.hand[i].getValue();
     
     for (int i = 0; i < (handSize -1) ; i++) {
-      suit = getSuitString(status.hand[i].getSuit());
-      value = (int)status.hand[i].getValue();
+      suit = getSuitString(hand[i].getSuit());
+      value = (int)hand[i].getValue();
       m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
     }
-    suit = getSuitString(status.hand[handSize-1].getSuit());
-    value = (int)status.hand[handSize-1].getValue();
-    m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    if (handSize > 0) {
+      suit = getSuitString(hand[handSize-1].getSuit());
+      value = (int)hand[handSize-1].getValue();
+      m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    }
 
     for (int i = handSize; i < 13; ++i) {
       m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
     }
-  //update all player stats
+}
+void MainFrame::updateCenterCards(std::vector<Card> cards) {
+  int centerSize = (int)cards.size();
+  std::string suit;
+  int value;
+
+  for (int i = 0; i < (centerSize - 1); i++) {
+    suit = getSuitString(cards[i].getSuit());
+    value = (int)cards[i].getValue();
+    m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+  }
+  if (centerSize > 0) {
+    suit = getSuitString(cards[centerSize-1].getSuit());
+    value = (int)cards[centerSize-1].getValue();
+    m_center_cards[centerSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+  }
+
+  for (int i = centerSize; i < 4; ++i) {
+    if (i == 3) {
+      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ));
+    } else {
+      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
+    }
+  }
+}
+void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
+  // playerText[4] 
+  // player2 = index 0 
+  // player1 = index 1   
+  // player3 = index 2
+  // user = index 3
+	// playerText[1] = new wxStaticText( this, wxID_ANY, wxT("Player1\nTricks: 2 \nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+
+  for (int i = 0; i < 4; ++i) {
+    playerText[i]->SetLabel( players[i].getName() + "\n" + 
+    "Tricks: " + std::to_string(tricks[i]) + "\n" +
+    "Score: " + std::to_string(scores[i]));
+  }
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
@@ -318,6 +366,7 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	if (res == wxYES) {
     std::cout << "Start game!\n";
     SetStatusText("You have started the Game!");
+    players[0].setName(m_loginDialog.getUsername());
     gameHearts = new HeartsGame(players);
     Status state = gameHearts->play_Hearts();
     //UPDATE STATE HERE
@@ -325,7 +374,6 @@ void MainFrame::startGame( wxCommandEvent& event ) {
     SetStatusText("Select Cards to Pass");
     updateScreen(gameHearts->updateStatus());
   }
-
 }
 void MainFrame::OnExit(wxCommandEvent& event)
 {

@@ -19,7 +19,6 @@ public:
 	void joinPublicHeartsGame(wxCommandEvent& event); 
 	void createNewSpadesGame(wxCommandEvent& event);
 	void createNewHeartsGame(wxCommandEvent& event);
-
 };
 
 #endif /* ifndef LOBBYDIALOG_HPP */

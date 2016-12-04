@@ -6,6 +6,8 @@
     #include <wx/wx.h>
 #endif
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "ServerDialog.hpp"
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
@@ -30,18 +32,24 @@ public:
   {
 	  if (m_state == PASSING)
 	  {
-		  wxMessageBox("Passing Card");
 		  if (gameHearts->pass(event.GetId()))
 		  {
 			  m_state = PLAYING;
 			  SetStatusText("Play a card");
+			  updateScreen(gameHearts->updateStatus());
+			  gameHearts->play(true);
 		  }
 		  //UPDATESTATUS
       updateScreen(gameHearts->updateStatus());
 	  }
 	  else if (m_state == PLAYING)
 	  {
-		  wxMessageBox("Playing Card");
+		  if (gameHearts->playCard(event.GetId()))
+		  {
+			  gameHearts->play(false);
+			  updateScreen(gameHearts->updateStatus());
+		  }
+		  updateScreen(gameHearts->updateStatus());
 	  }
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
@@ -52,6 +60,9 @@ public:
     SetStatusText(m_loginDialog.getUsername());
   }
   void updateScreen(Status status);
+  void updatePlayerHand(std::vector<Card> hand);
+  void updateCenterCards(std::vector<Card> cards);
+  void updateStats(std::vector<int> scores, std::vector<int> tricks);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
