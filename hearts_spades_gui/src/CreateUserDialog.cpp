@@ -2,10 +2,11 @@
 
 CreateUserDialog::CreateUserDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style)
 {
-  addUser("Joe", "password");
-  addUser("Trevor", "password");
-  addUser("Brandon", "password");
-  addUser("Nieka", "password");
+  addUser("Joe", "pw");
+  addUser("Trevor", "pw");
+  addUser("Brandon", "pw");
+  addUser("Nieka", "pw");
+  addUser("Ryan", "pw");
 
   wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
 

@@ -107,10 +107,10 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   //create center hand cards in the vector
   wxStaticBitmap* tempBitmap;
   for (int i = 0; i < 3; ++i) {
-    tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+    tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/slice/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
     m_center_cards.push_back(tempBitmap);
   }
-  tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+  tempBitmap = new wxStaticBitmap( this, wxID_ANY, wxBitmap( wxT("../img/scaled/back.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
   m_center_cards.push_back(tempBitmap);
   //add the cards to the sizer
   for (int i = 0; i < 4; ++i) {
@@ -240,15 +240,17 @@ void MainFrame::updatePlayerHand(std::vector<Card> hand) {
       suit = getSuitString(hand[i].getSuit());
       value = (int)hand[i].getValue();
       m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+      m_player_hand[i]->Show();
     }
     if (handSize > 0) {
       suit = getSuitString(hand[handSize-1].getSuit());
       value = (int)hand[handSize-1].getValue();
       m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+      m_player_hand[handSize-1]->Show();
     }
 
     for (int i = handSize; i < 13; ++i) {
-      m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
+      m_player_hand[i]->Hide();
     }
 }
 void MainFrame::updateCenterCards(std::vector<Card> cards) {
@@ -260,19 +262,17 @@ void MainFrame::updateCenterCards(std::vector<Card> cards) {
     suit = getSuitString(cards[i].getSuit());
     value = (int)cards[i].getValue();
     m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    m_center_cards[i]->Show();
   }
   if (centerSize > 0) {
     suit = getSuitString(cards[centerSize-1].getSuit());
     value = (int)cards[centerSize-1].getValue();
     m_center_cards[centerSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    m_center_cards[centerSize-1]->Show();
   }
 
   for (int i = centerSize; i < 4; ++i) {
-    if (i == 3) {
-      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ));
-    } else {
-      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
-    }
+    m_center_cards[i]->Hide();
   }
 }
 void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
