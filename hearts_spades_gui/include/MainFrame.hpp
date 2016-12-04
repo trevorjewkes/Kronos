@@ -52,6 +52,9 @@ public:
     SetStatusText(m_loginDialog.getUsername());
   }
   void updateScreen(Status status);
+  void updatePlayerHand(std::vector<Card> hand);
+  void updateCenterCards(std::vector<Card> cards);
+  void updateStats(std::vector<int> scores, std::vector<int> tricks);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;

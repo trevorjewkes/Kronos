@@ -223,31 +223,56 @@ void MainFrame::updateScreen(Status status) {
   //  std::vector<int> scores;
   //  std::vector<int> tricks;
   //};
-  // card.getSuit() returns enum
-  // card.getValue() return enum
-  // cast enums to ints
-  // 
-  //update player hand 
-  //construct a string for bitmap
-    int handSize = (int)status.hand.size();
+  updatePlayerHand(status.hand);
+  //update all player stats
+  updateCenterCards(status.center);
+}
+void MainFrame::updatePlayerHand(std::vector<Card> hand) {
+    int handSize = (int)hand.size();
     std::string suit;
     int value;
-    //suit = getSuitString(status.hand[i].getSuit());
-    //value = (int)status.hand[i].getValue();
     
     for (int i = 0; i < (handSize -1) ; i++) {
-      suit = getSuitString(status.hand[i].getSuit());
-      value = (int)status.hand[i].getValue();
+      suit = getSuitString(hand[i].getSuit());
+      value = (int)hand[i].getValue();
       m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
     }
-    suit = getSuitString(status.hand[handSize-1].getSuit());
-    value = (int)status.hand[handSize-1].getValue();
-    m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    if (handSize > 0) {
+      suit = getSuitString(hand[handSize-1].getSuit());
+      value = (int)hand[handSize-1].getValue();
+      m_player_hand[handSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+    }
 
     for (int i = handSize; i < 13; ++i) {
       m_player_hand[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
     }
-  //update all player stats
+}
+void MainFrame::updateCenterCards(std::vector<Card> cards) {
+  int centerSize = (int)cards.size();
+  std::string suit;
+  int value;
+
+  for (int i = 0; i < (centerSize - 1); i++) {
+    suit = getSuitString(cards[i].getSuit());
+    value = (int)cards[i].getValue();
+    m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+  }
+  if (centerSize > 0) {
+    suit = getSuitString(cards[centerSize-1].getSuit());
+    value = (int)cards[centerSize-1].getValue();
+    m_center_cards[centerSize-1]->SetBitmap(wxBitmap( wxT("../img/scaled/" + suit + "/" + std::to_string(value) + ".png"), wxBITMAP_TYPE_ANY ));
+  }
+
+  for (int i = centerSize; i < 4; ++i) {
+    if (i == 3) {
+      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/scaled/blank.png"), wxBITMAP_TYPE_ANY ));
+    } else {
+      m_center_cards[i]->SetBitmap(wxBitmap( wxT("../img/slice/blank.png"), wxBITMAP_TYPE_ANY ));
+    }
+  }
+}
+void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
+  
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {

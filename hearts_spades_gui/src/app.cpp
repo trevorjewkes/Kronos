@@ -13,7 +13,6 @@ wxIMPLEMENT_APP(MyApp);
 bool MyApp::OnInit()
 {
     MainFrame *frame = new MainFrame( "Hearts and Spades", wxPoint(50, 50), wxSize(750,550) );
-	wxInitAllImageHandlers();
 		// can use wxGetDisplaySize() to get the screen size
     return true;
 }
