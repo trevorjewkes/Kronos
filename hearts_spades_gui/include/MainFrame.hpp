@@ -48,7 +48,6 @@ public:
 		  {
 			  gameHearts->play(false);
 			  updateScreen(gameHearts->updateStatus());
-			  gameHearts->play(false);
 		  }
 		  updateScreen(gameHearts->updateStatus());
 	  }

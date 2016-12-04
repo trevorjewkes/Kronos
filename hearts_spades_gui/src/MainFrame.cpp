@@ -223,13 +223,21 @@ void MainFrame::updateScreen(Status status) {
   //  std::vector<int> scores;
   //  std::vector<int> tricks;
   //};
+	if (status.isGameOver)
+	{
+		//do something here;
+		return;
+	}
   updatePlayerHand(status.hand);
   updateCenterCards(status.center);
   
 
   updateStats(status.scores, status.tricks);
-  std::this_thread::sleep_for(std::chrono::milliseconds(50));
-  std::this_thread::sleep_for(std::chrono::milliseconds(450));
+  if (status.passing)
+  {
+	  m_state = PASSING;
+	  SetStatusText("Pass cards");
+  }
 }
 void MainFrame::updatePlayerHand(std::vector<Card> hand) {
     int handSize = (int)hand.size();
@@ -285,8 +293,8 @@ void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
 
   for (int i = 0; i < 4; ++i) {
     playerText[i]->SetLabel( players[i].getName() + "\n" + 
-    "Tricks: " + std::to_string(scores[i]) + "\n" +
-    "Score: " + std::to_string(tricks[i]));
+    "Tricks: " + std::to_string(tricks[i]) + "\n" +
+    "Score: " + std::to_string(scores[i]));
   }
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
