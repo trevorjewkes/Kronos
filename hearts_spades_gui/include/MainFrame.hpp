@@ -35,6 +35,8 @@ public:
 		  {
 			  m_state = PLAYING;
 			  SetStatusText("Play a card");
+			  updateScreen(gameHearts->updateStatus());
+			  gameHearts->play(true);
 		  }
 		  //UPDATESTATUS
       updateScreen(gameHearts->updateStatus());
@@ -42,6 +44,11 @@ public:
 	  else if (m_state == PLAYING)
 	  {
 		  wxMessageBox("Playing Card");
+		  if (gameHearts->playCard(event.GetId()))
+		  {
+			  gameHearts->play(false);
+		  }
+		  updateScreen(gameHearts->updateStatus());
 	  }
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
