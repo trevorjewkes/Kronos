@@ -71,7 +71,7 @@ void Player::initializeHand(std::vector<Card>& deck, unsigned int numCards)
 void Player::insertCardToHand(const Card& c)
 {
 	if(hand.size() == 0) hand.push_back(c);
-	else 
+	else
 	{
 		auto iterator = hand.begin();
 		while (c < *iterator && iterator < hand.end())
@@ -87,7 +87,7 @@ void Player::insertCardToHand(const Card& c)
     iterator++;
   }
   hand.emplace(iterator, c);*/
-	
+
 }
 
 // Attempts to remove card from hand. If card is in hand, it will be removed
@@ -158,6 +158,11 @@ int Player::getTotalScore() const
 int Player::getBid() const
 {
   return bid;
+}
+
+void Player::setBid(int b)
+{
+  bid=b;
 }
 
 // Gets the number of bags a player had (Spades).
