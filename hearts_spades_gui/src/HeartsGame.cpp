@@ -200,17 +200,30 @@ void HeartsGame::play(bool start)
 {
 	if(start) 
 		currentPlayerIndex = findTwoOfClubs();
-	//if (turn == 4)
-		//endTurn();
+	
+		
 	for (int i = 0; i < 4; i++)
 	{
+		if (turn == 0)
+		{
+			centerPile.clear();
+		}
+		if (turn == 4)
+		{
+			turn = 0;
+			endTurn();
+			return;
+			
+		}
 		bool valid = false;
 		do
 		{
-			if (players[(currentPlayerIndex + i) % players.size()].getId() == 0) return;
-			playCard(HeartsAI::getPlay(players[(currentPlayerIndex + i) % players.size()].getHand()),
-				players[(currentPlayerIndex + i) % players.size()].getId());
+			if (players[(currentPlayerIndex) % players.size()].getId() == 0) return;
+			valid = playCard(HeartsAI::getPlay(players[(currentPlayerIndex) % players.size()].getHand()),
+				players[(currentPlayerIndex) % players.size()].getId());
 		} while (!valid);
+		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
+		turn++;
 	}
 
 }
@@ -309,7 +322,7 @@ int HeartsGame::playCard(Card card, int id)
 				Card tmp = card;
 				if (!validateMove(i, tmp))
 				{
-					return -1;
+					return false;
 				}
 
 				players[i].removeCardFromHand(tmp);
@@ -318,6 +331,7 @@ int HeartsGame::playCard(Card card, int id)
 			
 		}
 	}
+	return true;
 	bool endRound = true;
 	bool bEndTurn = true;
 	for (int i = 0; i < players.size(); i++)
@@ -326,15 +340,15 @@ int HeartsGame::playCard(Card card, int id)
 		if (players[i].getHand().size() != players[(i + 1) % 4].getHand().size()) bEndTurn = false;
 	}
 	//if (!endRound) return -2;
-	if (bEndTurn) nextPlayer = endTurn((nextPlayer+4-1)%4);
+	//if (bEndTurn) nextPlayer = endTurn((nextPlayer+4-1)%4);
 	turn = (turn + 1) % 4;
-	return nextPlayer;
+	return true;
 }
 
 //finished the turn
 //takes the index of the current player
 //returns the player index who won the trick
-int HeartsGame::endTurn(int currentPlayer)
+void HeartsGame::endTurn()
 {
 	Suit leadSuit = centerPile[0].getSuit();
 	int maxIndex = 0;
@@ -351,10 +365,9 @@ int HeartsGame::endTurn(int currentPlayer)
 		if (tmp.getSuit() == SPADES && tmp.getValue() == 11) score += 13;
 		if (tmp.getSuit() == HEARTS) score++;
 	}
-	players[(maxIndex+currentPlayer)%players.size()].incrementRoundScore(score);
-	players[(maxIndex + currentPlayer) % players.size()].incrementTricksWon();
-	centerPile.clear();
-	return (maxIndex+currentPlayer)%players.size();
+	players[(maxIndex+currentPlayerIndex)%players.size()].incrementRoundScore(score);
+	players[(maxIndex + currentPlayerIndex) % players.size()].incrementTricksWon();
+	currentPlayerIndex = (maxIndex+currentPlayerIndex)%players.size();
 }
 
 //finishes the round and applies scores
@@ -392,6 +405,8 @@ void HeartsGame::setPrivatePasscode(std::string passcode)
 bool HeartsGame::playCard(int index)
 {
 	if (index >= players[0].getHand().size()) return 0;
+	currentPlayerIndex = (currentPlayerIndex + 1) % 4;
+	turn++;
 	return playCard(players[0].getHand()[index], players[0].getId());
 }
 

@@ -6,6 +6,8 @@
     #include <wx/wx.h>
 #endif
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "ServerDialog.hpp"
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
@@ -30,7 +32,6 @@ public:
   {
 	  if (m_state == PASSING)
 	  {
-		  wxMessageBox("Passing Card");
 		  if (gameHearts->pass(event.GetId()))
 		  {
 			  m_state = PLAYING;
@@ -43,9 +44,10 @@ public:
 	  }
 	  else if (m_state == PLAYING)
 	  {
-		  wxMessageBox("Playing Card");
 		  if (gameHearts->playCard(event.GetId()))
 		  {
+			  gameHearts->play(false);
+			  updateScreen(gameHearts->updateStatus());
 			  gameHearts->play(false);
 		  }
 		  updateScreen(gameHearts->updateStatus());

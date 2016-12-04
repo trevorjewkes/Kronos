@@ -24,7 +24,7 @@ public:
 	int findTwoOfClubs();  
 	//function for passing cards at beginging of round
 	void passCards(int round);  
-	int endTurn(int currentPlayer);
+	void endTurn();
 	void endRound();
 	int setPassCards(std::vector<Card> cards, std::string name);
 	int playCard(Card card, int id);

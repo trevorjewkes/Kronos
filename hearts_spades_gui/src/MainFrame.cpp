@@ -226,6 +226,9 @@ void MainFrame::updateScreen(Status status) {
   updatePlayerHand(status.hand);
   //update all player stats
   updateCenterCards(status.center);
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  std::this_thread::sleep_for(std::chrono::milliseconds(450));
+
 }
 void MainFrame::updatePlayerHand(std::vector<Card> hand) {
     int handSize = (int)hand.size();
