@@ -51,10 +51,9 @@ public:
 		  }
 		  updateScreen(gameHearts->updateStatus());
 	  }
-    std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
   void OnDialogClose( wxCloseEvent& event ) {
-    wxMessageBox("Nope! You must'nt close this window");
+    wxMessageBox("Nope! You mus'nt close this window");
   }
   void OnLogin() {
     SetStatusText(m_loginDialog.getUsername());
@@ -104,6 +103,9 @@ private:
 	void showSpadesRules( wxCommandEvent& event );
 	std::string getSpadesRules();
 	void startGame( wxCommandEvent& event );
+  int getBid(); //return between 0-13 from user
+  void showEndRoundPopup();
+  void showEndGamePopup();
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();

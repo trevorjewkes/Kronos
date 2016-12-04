@@ -212,17 +212,8 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 		  players.push_back(tmp);
 	  }
   }
-
-  //this->m_serverDialog.Show( true  );
 }
 void MainFrame::updateScreen(Status status) {
-  //struct Status
-  //{
-  //  std::vector<Card> hand;
-  //  std::vector<Card> center;
-  //  std::vector<int> scores;
-  //  std::vector<int> tricks;
-  //};
 	if (status.isGameOver)
 	{
 		//do something here;
@@ -300,12 +291,16 @@ void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
-	m_loginDialog.Show();
+	//m_loginDialog.Show();
+  //showEndRoundPopup();
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {
 	SetStatusText("Load Center Cards");
-	m_lobbyDialog.Show();
+	//m_lobbyDialog.Show();
+  //showEndGamePopup();
+  std::cout << getBid();
+  std::cout.flush();
 }
 void MainFrame::serverSettingsDialog( wxCommandEvent& event )
 {
@@ -373,6 +368,28 @@ void MainFrame::startGame( wxCommandEvent& event ) {
     m_state = PASSING;
     SetStatusText("Select Cards to Pass");
     updateScreen(gameHearts->updateStatus());
+  }
+}
+int MainFrame::getBid() {
+  wxTextEntryDialog* input = new wxTextEntryDialog(this, "Enter a bid (0 - 13):", "Place Bid"); 
+  input->ShowModal();
+  int num = std::atoi(input->GetValue().ToAscii());
+  input->Destroy();
+  if (num < 0 || num > 13) {
+    num = -1;
+  }
+  return num;
+}
+void MainFrame::showEndRoundPopup() {
+    wxMessageBox( "This the end of a round",
+                  "End of round", wxOK | wxICON_INFORMATION );
+}
+void MainFrame::showEndGamePopup() {
+	int res = wxMessageBox("Here are the game stats:\n\nPlay again?", "Game Over | Play Again?", wxYES_NO, this);
+	if (res == wxYES) {
+   //start the game over 
+  } else {
+   m_lobbyDialog.Show(); 
   }
 }
 void MainFrame::OnExit(wxCommandEvent& event)
