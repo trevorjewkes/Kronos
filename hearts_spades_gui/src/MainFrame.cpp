@@ -78,14 +78,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
 
-	playerText[0] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[0]->Wrap( -1 );
-  playerText[0]->SetForegroundColour(wxColor(255,255,255));
-  wxFont font = playerText[0]->GetFont();
+	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[2]->Wrap( -1 );
+  playerText[2]->SetForegroundColour(wxColor(255,255,255));
+  wxFont font = playerText[2]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[0]->SetFont(font);
-	bs->Add( playerText[0], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[2]->SetFont(font);
+	bs->Add( playerText[2], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxGridSizer* gSizer1;
 	gSizer1 = new wxGridSizer( 0, 3, 0, 0 );
@@ -119,14 +119,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
 	gSizer1->Add( fgSizer1, 1, wxEXPAND, 5 );
 	
-	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[2]->Wrap( -1 );
-  playerText[2]->SetForegroundColour(wxColor(255,255,255));
-  font = playerText[2]->GetFont();
+	playerText[3] = new wxStaticText( this, wxID_ANY, wxT("Player3\nTricks: 2\nScore: 5"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[3]->Wrap( -1 );
+  playerText[3]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[3]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[2]->SetFont(font);
-	gSizer1->Add( playerText[2], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[3]->SetFont(font);
+	gSizer1->Add( playerText[3], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	bs->Add( gSizer1, 1, wxEXPAND, 5 );
@@ -159,14 +159,14 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   //spacer
 	fgSizer4->Add( 40, 0, 1, wxEXPAND, 5 );
 	
-	playerText[3] = new wxStaticText( this, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
-	playerText[3]->Wrap( -1 );
-  playerText[3]->SetForegroundColour(wxColor(255,255,255));
-  font = playerText[3]->GetFont();
+	playerText[0] = new wxStaticText( this, wxID_ANY, wxT("Your Name\nTricks: 3\nScore: 8"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[0]->Wrap( -1 );
+  playerText[0]->SetForegroundColour(wxColor(255,255,255));
+  font = playerText[0]->GetFont();
   font.SetPointSize(16);
   font.SetWeight(wxFONTWEIGHT_BOLD);
-  playerText[3]->SetFont(font);
-	fgSizer4->Add( playerText[3], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+  playerText[0]->SetFont(font);
+	fgSizer4->Add( playerText[0], 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	bSizer3->Add( fgSizer4, 1, wxEXPAND, 5 );
@@ -193,7 +193,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   this->Show( true );
   //this->m_lobbyDialog.Show( true );
-  //this->m_loginDialog.Show( true );
+  this->m_loginDialog.Show( true );
   //this->m_serverDialog.Show( true  );
   for (int i = 0; i < 4; i++)
   {
@@ -224,8 +224,8 @@ void MainFrame::updateScreen(Status status) {
   //  std::vector<int> tricks;
   //};
   updatePlayerHand(status.hand);
-  //update all player stats
   updateCenterCards(status.center);
+  updateStats(status.scores, status.tricks);
 }
 void MainFrame::updatePlayerHand(std::vector<Card> hand) {
     int handSize = (int)hand.size();
@@ -272,7 +272,18 @@ void MainFrame::updateCenterCards(std::vector<Card> cards) {
   }
 }
 void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks) {
-  
+  // playerText[4] 
+  // player2 = index 0 
+  // player1 = index 1   
+  // player3 = index 2
+  // user = index 3
+	// playerText[1] = new wxStaticText( this, wxID_ANY, wxT("Player1\nTricks: 2 \nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+
+  for (int i = 0; i < 4; ++i) {
+    playerText[i]->SetLabel( players[i].getName() + "\n" + 
+    "Tricks: " + std::to_string(scores[i]) + "\n" +
+    "Score: " + std::to_string(tricks[i]));
+  }
 }
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
@@ -343,6 +354,7 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	if (res == wxYES) {
     std::cout << "Start game!\n";
     SetStatusText("You have started the Game!");
+    players[0].setName(m_loginDialog.getUsername());
     gameHearts = new HeartsGame(players);
     Status state = gameHearts->play_Hearts();
     //UPDATE STATE HERE
@@ -350,7 +362,6 @@ void MainFrame::startGame( wxCommandEvent& event ) {
     SetStatusText("Select Cards to Pass");
     updateScreen(gameHearts->updateStatus());
   }
-
 }
 void MainFrame::OnExit(wxCommandEvent& event)
 {
