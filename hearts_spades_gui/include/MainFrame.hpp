@@ -6,17 +6,19 @@
     #include <wx/wx.h>
 #endif
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "ServerDialog.hpp"
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
+#include "HeartsGame.hpp"
 #include "CreateGameDialog.hpp"
 
-enum GameState {
-  SERVER,
-  LOGIN,
-  LOBBY,
-  PLAYING,
-  END_GAME
+enum State
+{
+	PASSING,
+	PLAYING,
+	WAITING
 };
 
 class MainFrame: public wxFrame
@@ -26,9 +28,29 @@ public:
 	ServerDialog m_serverDialog;
 	LoginDialog m_loginDialog;
 	LobbyDialog m_lobbyDialog;
-  void setState(GameState state);
   void cardClicked( wxMouseEvent& event )
   {
+	  if (m_state == PASSING)
+	  {
+		  if (gameHearts->pass(event.GetId()))
+		  {
+			  m_state = PLAYING;
+			  SetStatusText("Play a card");
+			  updateScreen(gameHearts->updateStatus());
+			  gameHearts->play(true);
+		  }
+		  //UPDATESTATUS
+      updateScreen(gameHearts->updateStatus());
+	  }
+	  else if (m_state == PLAYING)
+	  {
+		  if (gameHearts->playCard(event.GetId()))
+		  {
+			  gameHearts->play(false);
+			  updateScreen(gameHearts->updateStatus());
+		  }
+		  updateScreen(gameHearts->updateStatus());
+	  }
     std::cout << "Left Double Click: " << event.GetId() << std::endl;
   }
   void OnDialogClose( wxCloseEvent& event ) {
@@ -37,6 +59,10 @@ public:
   void OnLogin() {
     SetStatusText(m_loginDialog.getUsername());
   }
+  void updateScreen(Status status);
+  void updatePlayerHand(std::vector<Card> hand);
+  void updateCenterCards(std::vector<Card> cards);
+  void updateStats(std::vector<int> scores, std::vector<int> tricks);
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
@@ -44,15 +70,40 @@ private:
 	wxMenu* m_menuServer;
 	wxMenu* m_menuHelp;
 	wxMenu* m_menuGameRules;
+	std::vector<Player> players;
+	HeartsGame* gameHearts;
+	State m_state = WAITING;
+  wxStaticText* playerText[4];
+  std::vector<wxStaticBitmap*> m_center_cards;
+  std::vector<wxStaticBitmap*> m_player_hand;
 
 	void loadPlayerHand( wxCommandEvent& event );
 	void loadCenterCards( wxCommandEvent& event );
+  std::string getSuitString(Suit suit) {
+    switch (suit) {
+      case 0:
+        return "clubs";
+        break;
+      case 1:
+        return "hearts";
+        break;
+      case 2:
+        return "spades";
+        break;
+      case 3:
+        return "diamonds";
+        break;
+      default:
+        return "invalid";
+    }
+  };
 	void serverSettingsDialog( wxCommandEvent& event );
 	void connectToServer( wxCommandEvent& event );
 	void showHeartsRules( wxCommandEvent& event );
 	std::string getHeartsRules();
 	void showSpadesRules( wxCommandEvent& event );
 	std::string getSpadesRules();
+	void startGame( wxCommandEvent& event );
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
