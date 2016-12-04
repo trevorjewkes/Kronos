@@ -235,10 +235,6 @@ void MainFrame::cardClicked(wxMouseEvent& event)
 		if (gameHearts->playCard(event.GetId()))
 		{
 			gameHearts->play(false);
-			Status tmp = gameHearts->updateStatus();
-			first = new std::thread(&MainFrame::updateScreen2, this);
-			//first->join();
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			gameHearts->play(false);
 		}
 		updateScreen(gameHearts->updateStatus());

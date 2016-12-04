@@ -50,7 +50,6 @@ public:
 private:
 	wxMenuBar* m_menubar;
 	wxMenu* m_menuFile;
-	std::thread* first;
 	wxMenu* m_menuTest;
 	wxMenu* m_menuServer;
 	wxMenu* m_menuHelp;

@@ -6,7 +6,6 @@
 SpadesGame::SpadesGame(std::vector <Player>& players)
 {
 	this->players = players;
-	
 }
 
 SpadesGame::~SpadesGame()
@@ -317,4 +316,13 @@ Status SpadesGame::updateStatus()
 void SpadesGame::gameOver()
 {
 	isGameOver = true;
+}
+
+void SpadesGame::doBids(int bid)
+{
+	players[0].setBid(bid);
+	for (int i = 1; i < players.size(); i++)
+	{
+		players[i].setBid(SpadesAI::getBid(players[i].getHand()));
+	}
 }

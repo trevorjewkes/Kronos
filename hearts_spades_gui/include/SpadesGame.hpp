@@ -11,6 +11,7 @@ public:
 	bool playCard(int index);
 	SpadesGame(std::vector<Player> &players);
 	~SpadesGame();
+	void doBids(int bid);
 	Status play_Spades();
 	void endTurn();
 	void endRound();
