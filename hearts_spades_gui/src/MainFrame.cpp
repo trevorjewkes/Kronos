@@ -276,7 +276,7 @@ void MainFrame::updateScreen2()
 	updateCenterCards(status.center);
 
 
-	updateStats(status.scores, status.tricks);
+	updateStats(status.scores, status.tricks, status.bids);
 	if (status.passing)
 	{
 		m_state = PASSING;
@@ -461,10 +461,10 @@ void MainFrame::startGame( wxCommandEvent& event ) {
 	{
 		gameSpades = new SpadesGame(players);
 		Status state = gameSpades->play_Spades();
-		int bid = getBid();
-		while (bid == -1)
-			bid = getBid();
-		gameSpades->doBids(bid);
+		//int bid = getBid();
+		//while (bid == -1)
+			//bid = getBid();
+		//gameSpades->doBids(bid);
 		m_state = PLAYING;
 		SetStatusText("Select Bid");
 		updateScreen(gameSpades->updateStatus());
