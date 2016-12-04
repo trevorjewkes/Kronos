@@ -5,16 +5,6 @@
 #include <random>
 #include <algorithm>
 
-struct Status
-{
-	std::vector<Card> hand;
-	std::vector<Card> center;
-	std::vector<int> scores;
-	std::vector<int> tricks;
-	bool isGameOver;
-	bool passing;
-};
-
 class SpadesGame
 {
 public:
@@ -59,11 +49,11 @@ private:
 class SpadesAI
 {
 public:
-	static Card getPass(std::vector<Card> hand)
+	static Card getPlay(std::vector<Card> hand)
 	{
 		return hand[rand() % hand.size()];
 	}
-	static Card getBid(std::vector<Card> hand)
+	static int getBid(std::vector<Card> hand)
 	{
 		return rand() % 4;
 	}
