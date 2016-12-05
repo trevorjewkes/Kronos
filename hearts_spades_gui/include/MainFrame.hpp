@@ -6,8 +6,6 @@
     #include <wx/wx.h>
 #endif
 #include <iostream>
-#include <chrono>
-#include <thread>
 #include "ServerDialog.hpp"
 #include "LoginDialog.hpp"
 #include "LobbyDialog.hpp"
@@ -37,15 +35,24 @@ public:
 	LoginDialog m_loginDialog;
 	LobbyDialog m_lobbyDialog;
 	void cardClicked(wxMouseEvent& event);
-  
-
-  
   void OnDialogClose( wxCloseEvent& event ) {
     wxMessageBox("Nope! You mus'nt close this window");
   }
   void OnLogin() {
     SetStatusText(m_loginDialog.getUsername());
   }
+  void OnLogin( wxCommandEvent& event ) {
+    if (m_loginDialog.validLogin()) {
+      m_loginDialog.Show( false );
+      m_lobbyDialog.Show( true ); 
+    } else {
+      wxMessageBox(wxT("User not verified\nTry again or create a new user."));
+    }
+  }
+  void joinPublicHeartsGame(wxCommandEvent& event);
+  void joinPublicSpadesGame(wxCommandEvent& event);
+  void joinPrivateHeartsGame(wxCommandEvent& event);
+  void joinPrivateSpadesGame(wxCommandEvent& event);
   void updateScreen(Status status);
   void updateScreen2();
   void updatePlayerHand(std::vector<Card> hand);
@@ -93,7 +100,6 @@ private:
 	std::string getHeartsRules();
 	void showSpadesRules( wxCommandEvent& event );
 	std::string getSpadesRules();
-	void startGame( wxCommandEvent& event );
   int getBid(); //return between 0-13 from user
   void showEndRoundPopup();
   void showEndGamePopup();

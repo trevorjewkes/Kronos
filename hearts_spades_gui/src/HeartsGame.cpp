@@ -43,7 +43,7 @@ int HeartsGame::findTwoOfClubs()
 	for (size_t i = 0; i < players.size(); ++i)
 	{
 		std::vector<Card> temp = players[i].getHand();
-		for (auto j = 0; j < 13; ++j)
+		for (auto j = 0; j < temp.size(); ++j)
 		{
 			if (temp[j].getSuit() == Suit::CLUBS && temp[j].getValue() == 2)
 			{
@@ -197,21 +197,17 @@ void HeartsGame::dealCards(std::vector<Card>& Deck)
 		for (auto j = 0; j < 13; j++)
 		{
 			players[i].insertCardToHand(Deck[(j)+(13 * i)]);
-
 		}
 	}
-
 }
 
 void HeartsGame::play(bool start)
 {
 	if (start)
 		currentPlayerIndex = findTwoOfClubs();
-	
-		
+
 	for (int i = 0; i < 4; i++)
 	{
-		
 		if (turn == 4)
 		{
 			endTurn();
@@ -229,7 +225,6 @@ void HeartsGame::play(bool start)
 			turn = 0;
 			
 			//if (currentPlayerIndex == 1) currentPlayerIndex = 3;
-			
 			numTricks++;
 			centerPile.clear();
 			i = 0;
@@ -245,9 +240,7 @@ void HeartsGame::play(bool start)
 		} while (!valid);
 		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
 		turn++;
-
 	}
-
 }
 //begins the game of hearts
 //can be called multiple times to 
@@ -353,7 +346,6 @@ int HeartsGame::playCard(Card card, int id)
 				players[i].removeCardFromHand(tmp);
 				centerPile.push_back(tmp);
 				nextPlayer = (i + 1)%4;
-			
 		}
 	}
 	return true;

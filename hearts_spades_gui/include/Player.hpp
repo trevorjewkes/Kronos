@@ -25,6 +25,7 @@ struct Status
 	std::vector<int> tricks;
 	bool isGameOver;
 	bool passing;
+	bool isRoundOver;
 	bool bidding;
 };
 

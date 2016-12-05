@@ -33,10 +33,6 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	m_menuItemLoadCenter = new wxMenuItem( m_menuTest, wxID_ANY, wxString( wxT("Load Center") ) + wxT('\t') + wxT("CTRL-ALT-J") , wxEmptyString, wxITEM_NORMAL );
 	m_menuTest->Append( m_menuItemLoadCenter );
 
-	wxMenuItem* m_menuItemStartGame;
-	m_menuItemStartGame = new wxMenuItem( m_menuTest, wxID_ANY, wxString( wxT("Start Game") ) + wxT('\t') + wxT("CTRL-ALT-N") , wxEmptyString, wxITEM_NORMAL );
-	m_menuTest->Append( m_menuItemStartGame );
-	
 	m_menubar->Append( m_menuTest, wxT("Test") ); 
 	
 	//Server menu
@@ -183,16 +179,21 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 	this->Center();
 
 	// Connect Events
-	this->Connect( m_menuItemLoadHand->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadPlayerHand ) );
 	this->Connect( m_menuItemLoadCenter->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::loadCenterCards ) );
 	this->Connect( m_menuItemServerSettings->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::serverSettingsDialog ) );
 	this->Connect( m_menuItemConnectToServer->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::connectToServer ) );
 	this->Connect( m_menuItemSpadesRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showSpadesRules ) );
 	this->Connect( m_menuItemHeartsRules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::showHeartsRules ) );
-  this->Connect( m_menuItemStartGame->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::startGame ) );
+	m_loginDialog.loginBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnLogin ), NULL, this );
+  //Connect lobby events
+	m_lobbyDialog.m_joinPrivateHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPrivateHeartsGame ), NULL, this );
+	m_lobbyDialog.m_joinPrivateSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPrivateSpadesGame ), NULL, this );
+	m_lobbyDialog.m_joinPublicHeartsBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPublicHeartsGame ), NULL, this );
+	m_lobbyDialog.m_joinPublicSpadesBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::joinPublicSpadesGame ), NULL, this );
 
+ 
   this->Show( true );
-  this->m_lobbyDialog.Show( true );
+  //this->m_lobbyDialog.Show( true );
   this->m_loginDialog.Show( true );
   //this->m_serverDialog.Show( true  );
   for (int i = 0; i < 4; i++)
@@ -214,72 +215,125 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
   }
 }
 
-void MainFrame::cardClicked(wxMouseEvent& event)
-{
-	if (m_state == PASSING)
+void MainFrame::cardClicked(wxMouseEvent &event) {
+  if (m_state == PASSING) {
+    if (m_gameState == H) {
+      if (gameHearts->pass(event.GetId())) {
+        m_state = PLAYING;
+        SetStatusText("Play a card");
+        updateScreen(gameHearts->updateStatus());
+        gameHearts->play(true);
+      }
+      // UPDATESTATUS
+      updateScreen(gameHearts->updateStatus());
+    } else {
+      gameSpades->doBids(0); // getbidhere
+      m_state = PLAYING;
+      SetStatusText("Play a card");
+      updateScreen(gameSpades->updateStatus());
+      gameSpades->play(true);
+    }
+  } else if (m_state == PLAYING) {
+    if (m_gameState == H) {
+      if (gameHearts->playCard(event.GetId())) {
+        gameHearts->play(false);
+        gameHearts->play(false);
+      }
+      updateScreen(gameHearts->updateStatus());
+    } else {
+      if (gameSpades->playCard(event.GetId())) {
+        gameSpades->play(false);
+      }
+      updateScreen(gameHearts->updateStatus());
+    }
+  }
+}
+void MainFrame::joinPublicHeartsGame(wxCommandEvent& event) {
+	int res = wxMessageBox("Join public Hearts game?", "Confirm", wxYES_NO, this);
+	if (res == wxYES)
 	{
-		if (m_gameState == H)
-		{
-			if (gameHearts->pass(event.GetId()))
-			{
-				m_state = PLAYING;
-				SetStatusText("Play a card");
-				updateScreen(gameHearts->updateStatus());
-				gameHearts->play(true);
-			}
-			//UPDATESTATUS
-			updateScreen(gameHearts->updateStatus());
-		}
-		else
-		{
-			m_state = PLAYING;
-			SetStatusText("Play a card");
-			updateScreen(gameSpades->updateStatus());
-			gameSpades->play(true);
-		}
+		m_lobbyDialog.Show(false);
+		m_gameState = H;
+    //START Hearts game
+    players[0].setName(m_loginDialog.getUsername());
+	if (gameHearts != NULL) delete gameHearts;
+    gameHearts = new HeartsGame(players);
+    Status state = gameHearts->play_Hearts();
+    //UPDATE STATE HERE
+    m_state = PASSING;
+    SetStatusText("Select Cards to Pass");
+    updateScreen(gameHearts->updateStatus());
 	}
-	else if (m_state == PLAYING)
+}
+void MainFrame::joinPublicSpadesGame(wxCommandEvent& event) {
+	int res = wxMessageBox("Join public Spades game?", "Confirm", wxYES_NO, this);
+	if (res == wxYES)
 	{
-		if (m_gameState == H)
-		{
-			if (gameHearts->playCard(event.GetId()))
-			{
-				gameHearts->play(false);
-				gameHearts->play(false);
-			}
-			updateScreen(gameHearts->updateStatus());
-		}
-		else
-		{
-			if (gameSpades->playCard(event.GetId()))
-			{
-				gameSpades->play(false);
-			}
-			updateScreen(gameHearts->updateStatus());
-		}
+		m_lobbyDialog.Show(false);
+    //Start spades game
+		players[0].setName(m_loginDialog.getUsername());
+    gameSpades = new SpadesGame(players);
+    Status state = gameSpades->play_Spades();
+    m_state = PLAYING;
+    SetStatusText("Select Bid");
+    updateScreen(gameSpades->updateStatus());
 	}
-	std::cout << "Left Double Click: " << event.GetId() << std::endl;
+}
+void MainFrame::joinPrivateHeartsGame(wxCommandEvent& event) {
+  wxTextEntryDialog input(this, "Enter name of private game:", "Join Private Hearts Game");
+  m_lobbyDialog.Show(false);
+  if (input.ShowModal() == wxID_OK) {
+    if ((std::string)input.GetValue() == "private") {
+		m_gameState = H;
+      m_lobbyDialog.Show(false);
+      //set state to private game
+      //START Hearts game
+      players[0].setName(m_loginDialog.getUsername());
+      gameHearts = new HeartsGame(players);
+      Status state = gameHearts->play_Hearts();
+      //UPDATE STATE HERE
+      m_state = PASSING;
+      SetStatusText("Select Cards to Pass");
+      updateScreen(gameHearts->updateStatus());
+    } else {
+      wxMessageBox("There is not private game with that name."); 
+	  m_lobbyDialog.Show();
+    }
+  }
+}
+void MainFrame::joinPrivateSpadesGame(wxCommandEvent& event) {
+  wxTextEntryDialog input(this, "Enter name of private game:", "Join Private Spades Game");
+  if (input.ShowModal() == wxID_OK) {
+    if ((std::string)input.GetValue() == "private") {
+      m_lobbyDialog.Show(false);
+	  players[0].setName(m_loginDialog.getUsername());
+      //set state to private game
+      //START Spades Game
+      gameSpades = new SpadesGame(players);
+      Status state = gameSpades->play_Spades();
+      m_state = PLAYING;
+      SetStatusText("Select Bid");
+      updateScreen(gameSpades->updateStatus());
+    } else {
+      wxMessageBox("There is not private game with that name."); 
+    }
+  }
 }
 
-void MainFrame::updateScreen2()
-{
-	Status status = gameHearts->updateStatus();
-	if (status.isGameOver)
-	{
-		//do something here;
-		return;
-	}
-	updatePlayerHand(status.hand);
-	updateCenterCards(status.center);
-
-
-	updateStats(status.scores, status.tricks, status.bids);
-	if (status.passing)
-	{
-		m_state = PASSING;
-		SetStatusText("Pass cards");
-	}
-	Update();
+void MainFrame::updateScreen2() {
+  Status status = gameHearts->updateStatus();
+  if (status.isGameOver) {
+    // do something here;
+    return;
+  }
+  updatePlayerHand(status.hand);
+  updateCenterCards(status.center);
+  updateStats(status.scores, status.tricks, status.bids);
+  if (status.passing) {
+    m_state = PASSING;
+    SetStatusText("Pass cards");
+  }
+  Update();
 }
 
 void MainFrame::updateScreen(Status status) {
@@ -357,7 +411,7 @@ void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks, st
     "Score: " + std::to_string(scores[i]);
 	if (bids.size() == 4)
 	{
-		scoreStuff += "Bids: " + std::to_string(bids[i]);
+		scoreStuff += "\nBids: " + std::to_string(bids[i]);
 	}
 	playerText[i]->SetLabel(scoreStuff);
   }
@@ -365,15 +419,16 @@ void MainFrame::updateStats(std::vector<int> scores, std::vector<int> tricks, st
 void MainFrame::loadPlayerHand( wxCommandEvent& event )
 {
 	SetStatusText("Load Player Hand");
+	m_lobbyDialog.Show();
 	//m_loginDialog.Show();
   //showEndRoundPopup();
 }
 void MainFrame::loadCenterCards( wxCommandEvent& event )
 {
 	SetStatusText("Load Center Cards");
-	//m_lobbyDialog.Show();
+	m_lobbyDialog.Show();
   //showEndGamePopup();
-  std::cout << getBid();
+  //std::cout << getBid();
   std::cout.flush();
 }
 void MainFrame::serverSettingsDialog( wxCommandEvent& event )
@@ -430,41 +485,7 @@ void MainFrame::showSpadesRules( wxCommandEvent& event )
 
 	frame->Show();
 }
-void MainFrame::startGame( wxCommandEvent& event ) {
-	int res = wxMessageBox("Start Game?", "Confirm", wxYES_NO, this);
-	if (res == wxYES) {
-    std::cout << "Start game!\n";
-    SetStatusText("You have started the Game!");
-	if (m_lobbyDialog.isHearts)
-	{
-		m_gameState = H;
-	}
-	else m_gameState = S;
-		
-	players[0].setName(m_loginDialog.getUsername());
-	if (m_gameState == H)
-	{
-		gameHearts = new HeartsGame(players);
-		Status state = gameHearts->play_Hearts();
-		//UPDATE STATE HERE
-		m_state = PASSING;
-		SetStatusText("Select Cards to Pass");
-		updateScreen(gameHearts->updateStatus());
-	}
-	else
-	{
-		gameSpades = new SpadesGame(players);
-		Status state = gameSpades->play_Spades();
-		int bid = getBid();
-		while (bid == -1)
-			bid = getBid();
-		gameSpades->doBids(bid);
-		m_state = PLAYING;
-		SetStatusText("Select Bid");
-		updateScreen(gameSpades->updateStatus());
-	}
-  }
-}
+
 int MainFrame::getBid() {
   wxTextEntryDialog* input = new wxTextEntryDialog(this, "Enter a bid (0 - 13):", "Place Bid"); 
   input->ShowModal();
