@@ -21,7 +21,7 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	m_textCtrlPassword = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,25 ), wxTE_PASSWORD );
 	bs->Add( m_textCtrlPassword, 0, wxALIGN_CENTER|wxALL|wxSHAPED, 5 );
 	
-	wxButton* loginBtn = new wxButton( this, wxID_ANY, wxT("Login"), wxDefaultPosition, wxDefaultSize, 0 );
+	loginBtn = new wxButton( this, wxID_ANY, wxT("Login"), wxDefaultPosition, wxDefaultSize, 0 );
 	bs->Add( loginBtn, 0, wxALIGN_CENTER|wxALL|wxSHAPED, 5 );
 	
 	wxStaticText* m_staticText8 = new wxStaticText( this, wxID_ANY, wxT("-  or  -"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -34,29 +34,24 @@ LoginDialog::LoginDialog( wxWindow* parent, wxWindowID id, const wxString& title
 	bs->Add( 0, 1, 1, wxEXPAND, 5 ); //spacer
 
 	// Connect Events
-	loginBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnLoginBtn ), NULL, this );
 	createAccountBtn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LoginDialog::OnCreateAccountBtn ), NULL, this );
-  this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrame::OnDialogClose ) , NULL, parent);
+  this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrame::OnDialogClose ) , NULL, parent );
 
 	this->SetSizer(bs);	
 	this->Layout();
 	this->Center();
 }
-
-void LoginDialog::OnLoginBtn(wxCommandEvent& event)
-{
-	std::cout << "login btn\n";	
-  userName = m_textCtrlUsername->GetValue();
-  password = m_textCtrlPassword->GetValue();
-  if (m_createUserDialog.verifyUser(userName, password)) {
-    this->Show(false);
-    //this->Close();
-  } else {
-    wxMessageBox(wxT("User not verified\nTry again or create a new user."));
-  }
-}
 void LoginDialog::OnCreateAccountBtn(wxCommandEvent& event)
 {
 	std::cout << "create account btn\n";	
   m_createUserDialog.Show(true);
+}
+bool LoginDialog::validLogin() {
+  userName = m_textCtrlUsername->GetValue();
+  password = m_textCtrlPassword->GetValue();
+  if (m_createUserDialog.verifyUser(userName, password)) {
+    return true;
+  } else {
+    return false;
+  }
 }
