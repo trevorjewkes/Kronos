@@ -26,9 +26,10 @@ public:
 	void setPrivatePasscode(std::string passcode);
 	bool pass(int index);
 	Status updateStatus();
-	void play(bool start);
+	bool play(bool start);
 private:
 	bool isPassing = false;
+	bool isRoundOver = false;
 	std::vector<Card> initializeDeck();
 	void dealCards(std::vector<Card>& Deck);
 	int currentPlayerIndex;

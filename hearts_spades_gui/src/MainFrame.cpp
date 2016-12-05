@@ -236,9 +236,9 @@ void MainFrame::cardClicked(wxMouseEvent &event) {
   } else if (m_state == PLAYING) {
     if (m_gameState == H) {
       if (gameHearts->playCard(event.GetId())) {
-        gameHearts->play(false);
-        gameHearts->play(false);
-      }
+        if(gameHearts->play(false))
+			gameHearts->play(false);
+	  }
       updateScreen(gameHearts->updateStatus());
     } else {
       if (gameSpades->playCard(event.GetId())) {
