@@ -5,16 +5,6 @@
 #include <random>
 #include <algorithm>
 
-struct Status
-{
-	std::vector<Card> hand;
-	std::vector<Card> center;
-	std::vector<int> scores;
-	std::vector<int> tricks;
-	bool isGameOver;
-	bool passing;
-};
-
 class HeartsGame
 {
 public:

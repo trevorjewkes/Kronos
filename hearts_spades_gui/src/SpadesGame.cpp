@@ -6,11 +6,6 @@
 SpadesGame::SpadesGame(std::vector <Player>& players)
 {
 	this->players = players;
-	std::vector<Card> tmp;
-	for (int i = 0; i < 4; i++)
-	{
-		cardsToPass.push_back(tmp);
-	}
 }
 
 SpadesGame::~SpadesGame()
@@ -38,7 +33,7 @@ std::vector<Card> SpadesGame::initializeDeck()
 //checks to see if a players hand is all spades.
 //takes a vector of cards, ie the player's hand
 //returns a bool of whether all the cards are spades
-bool SpadesGame::allspades(std::vector<Card> h)
+bool SpadesGame::allSpades(std::vector<Card> h)
 {
 
 	for (size_t i = 0; i < h.size(); ++i)
@@ -156,7 +151,7 @@ void SpadesGame::play(bool start)
 		{
 			if (players[(currentPlayerIndex) % players.size()].getId() == 0) return;
 			//for AI
-			valid = playCard(HeartsAI::getPlay(players[(currentPlayerIndex)].getHand()),
+			valid = playCard(SpadesAI::getPlay(players[(currentPlayerIndex)].getHand()),
 							players[(currentPlayerIndex)].getId());
 		} while (!valid);
 		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
@@ -237,7 +232,7 @@ void SpadesGame::endTurn()
 	for (int i = 0; i < centerPile.size(); i++)
 	{
 		Card tmp = centerPile[i];
-		if ((tmp.getSuit() == SPADES) &&((leadSuit != SPADES))
+		if ((tmp.getSuit() == SPADES) &&((leadSuit != SPADES)))
 		{
 			leadSuit = SPADES;
 			maxValue = tmp.getValue();
@@ -251,9 +246,9 @@ void SpadesGame::endTurn()
 		}
 
 	}
-	players[(maxIndex + currentPlayer) % players.size()].incrementTricksWon();
+	players[(maxIndex + currentPlayerIndex) % players.size()].incrementTricksWon();
 	centerPile.clear();
-	return (maxIndex+currentPlayer)%players.size();
+	currentPlayerIndex = (maxIndex+ currentPlayerIndex)%players.size();
 }
 
 //finishes the round and applies scores
@@ -261,7 +256,7 @@ void SpadesGame::endRound()
 {
 	for (int i = 0; i < players.size(); i++)
 	{
-		int total_bid = (players[i].getbid() + players[((i+2)%players.size())].getbid());
+		int total_bid = (players[i].getBid() + players[((i+2)%players.size())].getBid());
 		int total_trick = (players[i].getTricksWon()+players[((i+2)%players.size())].getTricksWon());
 		if (total_trick<total_bid)
 		{
@@ -280,23 +275,17 @@ void SpadesGame::endRound()
 		}
 	}
 
-	for (int i = 0; i < plaers.size(); ++i)
+	for (int i = 0; i < players.size(); ++i)
 	{
 		if (players[i].getRoundScore()>500)
 		{
-			gameOver = true;
+			isGameOver = true;
 		}
 		else
 		{
 				players[i].startNewRound();
 		}
 	}
-}
-
-
-void HeartsGame::setPrivatePasscode(std::string passcode)
-{
-	privatePasscode = passcode;
 }
 
 bool SpadesGame::playCard(int index)
@@ -318,6 +307,7 @@ Status SpadesGame::updateStatus()
 	{
 		tmp.scores.push_back(players[i].getTotalScore());
 		tmp.tricks.push_back(players[i].getTricksWon());
+		tmp.bids.push_back(players[i].getBid());
 	}
 	tmp.isGameOver = isGameOver;
 	tmp.bidding = isBidding;
@@ -327,4 +317,13 @@ Status SpadesGame::updateStatus()
 void SpadesGame::gameOver()
 {
 	isGameOver = true;
+}
+
+void SpadesGame::doBids(int bid)
+{
+	players[0].setBid(bid);
+	for (int i = 1; i < players.size(); i++)
+	{
+		players[i].setBid(SpadesAI::getBid(players[i].getHand()));
+	}
 }
