@@ -227,7 +227,6 @@ void MainFrame::cardClicked(wxMouseEvent &event) {
       // UPDATESTATUS
       updateScreen(gameHearts->updateStatus());
     } else {
-      gameSpades->doBids(0); // getbidhere
       m_state = PLAYING;
       SetStatusText("Play a card");
       updateScreen(gameSpades->updateStatus());
@@ -314,6 +313,11 @@ void MainFrame::joinPrivateSpadesGame(wxCommandEvent& event) {
       m_state = PLAYING;
       SetStatusText("Select Bid");
       updateScreen(gameSpades->updateStatus());
+	  gameSpades->doBids(getBid());
+	  updateScreen(gameSpades->updateStatus());
+	  m_state = PLAYING;
+	  SetStatusText("Play a Card");
+	  gameSpades->play(true);
     } else {
       wxMessageBox("There is not private game with that name."); 
     }
