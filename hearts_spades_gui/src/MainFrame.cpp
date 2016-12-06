@@ -245,6 +245,7 @@ void MainFrame::cardClicked(wxMouseEvent &event) {
 			gameHearts->play(false);
 		updateScreen(gameHearts->updateStatus());
 	  }
+	  else wxMessageBox("Invalid Card");
       
     } else {
       if (gameSpades->playCard(event.GetId())) {
@@ -252,6 +253,7 @@ void MainFrame::cardClicked(wxMouseEvent &event) {
 			gameSpades->play(false);
 		updateScreen(gameSpades->updateStatus());
       }
+	  else wxMessageBox("Invalid Card");
       
     }
   }
@@ -304,6 +306,7 @@ void MainFrame::joinPrivateSpadesGame(wxCommandEvent& event) {
       gameSpades = new SpadesGame(players);
       Status state = gameSpades->play_Spades();
       m_state = PLAYING;
+	  m_gameState = S;
       SetStatusText("Select Bid");
       updateScreen(gameSpades->updateStatus());
 	  //gameSpades->doBids(getBid());
@@ -478,12 +481,14 @@ void MainFrame::showSpadesRules( wxCommandEvent& event )
 
 int MainFrame::getBid() {
   wxTextEntryDialog* input = new wxTextEntryDialog(this, "Enter a bid (0 - 13):", "Place Bid"); 
-  input->ShowModal();
-  int num = std::atoi(input->GetValue().ToAscii());
-  input->Destroy();
-  if (num < 0 || num > 13) {
-    num = -1;
+  int num = -1;
+  while(num < 0 || num > 13)
+  {
+	  input->ShowModal();
+	  num = std::atoi(input->GetValue().ToAscii());
+	  if (num < 0 || num > 13) wxMessageBox("Invalid Bid");
   }
+  
   return num;
 }
 void MainFrame::showEndGamePopup() {
