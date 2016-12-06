@@ -78,7 +78,7 @@ MainFrame::MainFrame(const wxString& title, const wxPoint& pos, const wxSize& si
 
   wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
 
-	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4"), wxDefaultPosition, wxDefaultSize, 0 );
+	playerText[2] = new wxStaticText( this, wxID_ANY, wxT("Player2\nTricks: 3\nScore: 4\n"), wxDefaultPosition, wxDefaultSize, 0 );
 	playerText[2]->Wrap( -1 );
   playerText[2]->SetForegroundColour(wxColor(255,255,255));
   wxFont font = playerText[2]->GetFont();
@@ -243,13 +243,16 @@ void MainFrame::cardClicked(wxMouseEvent &event) {
       if (gameHearts->playCard(event.GetId())) {
         if(gameHearts->play(false))
 			gameHearts->play(false);
+		updateScreen(gameHearts->updateStatus());
 	  }
-      updateScreen(gameHearts->updateStatus());
+      
     } else {
       if (gameSpades->playCard(event.GetId())) {
-        gameSpades->play(false);
+        if(gameSpades->play(false))
+			gameSpades->play(false);
+		updateScreen(gameSpades->updateStatus());
       }
-      updateScreen(gameHearts->updateStatus());
+      
     }
   }
 }
@@ -303,7 +306,7 @@ void MainFrame::joinPrivateSpadesGame(wxCommandEvent& event) {
       m_state = PLAYING;
       SetStatusText("Select Bid");
       updateScreen(gameSpades->updateStatus());
-	  gameSpades->doBids(getBid());
+	  //gameSpades->doBids(getBid());
 	  updateScreen(gameSpades->updateStatus());
 	  m_state = PLAYING;
 	  SetStatusText("Play a Card");
@@ -331,8 +334,14 @@ void MainFrame::updateScreen2() {
 }
 
 void MainFrame::updateScreen(Status status) {
+	for (int i = 0; i < players.size(); i++)
+	{
+		players[i].setPrevRoundScore(status.scores[i]);
+		players[i].setTotalScore(status.totalScores[i]);
+	}
 	if (status.isGameOver)
 	{
+		
 		//do something here;
     showEndGamePopup();
 		return;
@@ -345,6 +354,10 @@ void MainFrame::updateScreen(Status status) {
   {
 	  m_state = PASSING;
 	  SetStatusText("Pass cards");
+  }
+  if (status.bidding)
+  {
+	  gameSpades->doBids(getBid());
   }
 }
 void MainFrame::updatePlayerHand(std::vector<Card> hand) {
@@ -478,13 +491,27 @@ void MainFrame::showEndGamePopup() {
 	for (int i = 0; i < players.size(); i++)
 	{
     msg += "\t" + players[i].getName() + " score: " 
-        + std::to_string(players[i].getRoundScore()) +
+        + std::to_string(players[i].getPrevRoundScore()) +
         " (" + std::to_string(players[i].getTotalScore()) + ")\n"; 
 	}
   int res = wxMessageBox(msg, "Game Over | Play Again?", wxYES_NO);
   if (res == wxYES) {
    //start the game over 
-   startHeartsGame();
+	  if (m_gameState == H)
+		  startHeartsGame();
+	  else
+	  {
+		  gameSpades = new SpadesGame(players);
+		  Status state = gameSpades->play_Spades();
+		  m_state = PLAYING;
+		  SetStatusText("Select Bid");
+		  updateScreen(gameSpades->updateStatus());
+		  gameSpades->doBids(getBid());
+		  updateScreen(gameSpades->updateStatus());
+		  m_state = PLAYING;
+		  SetStatusText("Play a Card");
+		  gameSpades->play(true);
+	  }
   } else {
    m_lobbyDialog.Show(); 
   } 
@@ -493,7 +520,12 @@ void MainFrame::startHeartsGame() {
   //START Hearts game
   m_gameState = H;
   players[0].setName(m_loginDialog.getUsername());
-  if (gameHearts != NULL) delete gameHearts;
+  //if (gameHearts != NULL) delete gameHearts;
+  for (int i = 0; i < players.size(); i++)
+  {
+	  players[i].setPrevRoundScore(0);
+	  players[i].setTotalScore(0);
+  }
   gameHearts = new HeartsGame(players);
   Status state = gameHearts->play_Hearts();
   //UPDATE STATE HERE

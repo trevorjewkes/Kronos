@@ -23,20 +23,20 @@ public:
 	void setPrivatePasscode(std::string passcode);
 	bool pass(int index);
 	Status updateStatus();
-	void play(bool start);
+	bool play(bool start);
 private:
 	bool isBidding = false;
 	std::vector<Card> initializeDeck();
 	void dealCards(std::vector<Card>& Deck);
 	int currentPlayerIndex;
-
+	void endRoundPopup();
 	bool allSpades(std::vector<Card> h);
 	//compares hand against the lead suit
 	bool noLeadSuit(Suit s, std::vector<Card> h);
 	bool validateMove(int index, Card move);
 	std::vector<Player> players;
 	std::vector<Card> centerPile;
-
+	bool isRoundOver = false;
 	bool brokenSpades = false;
 	void gameOver();
 	bool isGameOver = false;

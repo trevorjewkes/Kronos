@@ -1,4 +1,5 @@
 #include "SpadesGame.hpp"
+#include <wx/msgdlg.h>
 #include <iostream>
 
 //constructor
@@ -75,26 +76,42 @@ bool SpadesGame::validateMove(int index, Card move)
 	{
 		if (centerPile.size() == 0)
 		{
-			if (move.getSuit()==SPADES)
+			if (move.getSuit() == SPADES)
 				return false;
 			else
 				return true;
 		}
-
+		else
+		{
+			if (move.getSuit() == SPADES)
+				return false;
+			else return true;
+		}
+	}
 	else
 		{
-			if (move.getSuit() != lead && noLeadSuit(lead, players[index].getHand()))
-			{
-				if (move.getSuit() == SPADES)
-				{
-					brokenSpades = true;
-				}
-
+		if (centerPile.size() == 0)
+		{
+			if (move.getSuit() == SPADES && brokenSpades)
 				return true;
-			}
-			else if (move.getSuit() != lead)
+			else if (move.getSuit() == SPADES)
 				return false;
+			else
+				return true;
 		}
+		else if (move.getSuit() != lead && noLeadSuit(lead, players[index].getHand()))
+		{
+			if (move.getSuit() == SPADES)
+			{
+				brokenSpades = true;
+			}
+
+			 return true;
+		}
+		else if (move.getSuit() != lead)
+				return false;
+		else return true;
+		
 	}
 	std::cout << "BROKEN VALIDATION\n";
 	return valid;
@@ -119,7 +136,7 @@ void SpadesGame::dealCards(std::vector<Card>& Deck)
 
 }
 
-void SpadesGame::play(bool start)
+bool SpadesGame::play(bool start)
 {
 	if(start)
 		currentPlayerIndex = turn;
@@ -127,20 +144,21 @@ void SpadesGame::play(bool start)
 
 	for (int i = 0; i < 4; i++)
 	{
-
+		isRoundOver = false;
 		if (turn == 4)
 		{
+			endTurn();
 			if (players[i].getHand().size() == 0)
 			{
 				endRound();
+				isRoundOver = true;
 				turn = 0;
-				if (isGameOver) return;
-				if (isBidding) return;
+				if (isGameOver) return false;
+				if (isBidding) return false;
 			}
 			turn = 0;
 
 			//if (currentPlayerIndex == 1) currentPlayerIndex = 3;
-			endTurn();
 			numTricks++;
 			centerPile.clear();
 			i = 0;
@@ -149,7 +167,7 @@ void SpadesGame::play(bool start)
 		bool valid = false;
 		do
 		{
-			if (players[(currentPlayerIndex) % players.size()].getId() == 0) return;
+			if (players[(currentPlayerIndex) % players.size()].getId() == 0) return true;
 			//for AI
 			valid = playCard(SpadesAI::getPlay(players[(currentPlayerIndex)].getHand()),
 							players[(currentPlayerIndex)].getId());
@@ -157,7 +175,7 @@ void SpadesGame::play(bool start)
 		currentPlayerIndex = (currentPlayerIndex + 1) % 4;
 		turn++;
 	}
-
+	return true;
 }
 //begins the game of spades
 //can be called multiple times to
@@ -283,9 +301,12 @@ void SpadesGame::endRound()
 		}
 		else
 		{
+			players[i].setPrevRoundScore();
 				players[i].startNewRound();
 		}
 	}
+	endRoundPopup();
+	play_Spades();
 }
 
 bool SpadesGame::playCard(int index)
@@ -305,11 +326,13 @@ Status SpadesGame::updateStatus()
 	tmp.hand = players[0].getHand();
 	for (int i = 0; i < players.size(); i++)
 	{
-		tmp.scores.push_back(players[i].getTotalScore());
+		tmp.scores.push_back(players[i].getPrevRoundScore());
 		tmp.tricks.push_back(players[i].getTricksWon());
 		tmp.bids.push_back(players[i].getBid());
+		tmp.totalScores.push_back(players[i].getTotalScore());
 	}
 	tmp.isGameOver = isGameOver;
+	tmp.passing = false;
 	tmp.bidding = isBidding;
 	return tmp;
 }
@@ -326,4 +349,17 @@ void SpadesGame::doBids(int bid)
 	{
 		players[i].setBid(SpadesAI::getBid(players[i].getHand()));
 	}
+	isBidding = false;
+}
+
+void SpadesGame::endRoundPopup() {
+	//build message
+	std::string msg = "-- End of round --\n\n";
+	for (int i = 0; i < players.size(); i++)
+	{
+		msg += "\t" + players[i].getName() + " score: "
+			+ std::to_string(players[i].getPrevRoundScore()) +
+			" (" + std::to_string(players[i].getTotalScore()) + ")\n";
+	}
+	wxMessageBox(msg);
 }

@@ -23,6 +23,7 @@ struct Status
 	std::vector<int> scores;
 	std::vector<int> bids;
 	std::vector<int> tricks;
+	std::vector<int> totalScores;
 	bool isGameOver;
 	bool passing;
 	bool isRoundOver;
@@ -42,7 +43,7 @@ private:
   int bid;                       // Spades
   int bags;                      // Spades
   int tricksWon;                 // Spades
-
+  int prevRoundScore = 0;
 public:
   Player(int idNumber, std::string ipAddress);
   void setIp(std::string ip);
@@ -50,10 +51,15 @@ public:
   void setName(std::string);
   std::string getName() const;
   void setBid(int b);
-
+  void setTotalScore(int score) { if(overallScore.size() == 0)overallScore.push_back(score); 
+  else overallScore[0] = score;
+  }
+  int getPrevRoundScore() { return prevRoundScore; }
+  void setPrevRoundScore(int p) { prevRoundScore = p; }
   // The functions below reset the necessary variables at the start of round/game.
   void startNewRound();
   void startNewGame();
+  void setPrevRoundScore() { prevRoundScore = roundScore; }
 
   // The functions below allow for communication from the server to the client.
   void requestMove(); // Everyone

@@ -409,6 +409,7 @@ void HeartsGame::endRound()
 	}
 	for (int i = 0; i < players.size(); i++)
 	{
+		players[i].setPrevRoundScore();
 		players[i].startNewRound();
 		if (players[i].getTotalScore() >= 100) gameOver(); //for testing set to 10
 	}
@@ -424,7 +425,7 @@ void HeartsGame::endRoundPopup() {
 	for (int i = 0; i < players.size(); i++)
 	{
     msg += "\t" + players[i].getName() + " score: " 
-        + std::to_string(players[i].getRoundScore()) +
+        + std::to_string(players[i].getPrevRoundScore()) +
         " (" + std::to_string(players[i].getTotalScore()) + ")\n"; 
 	}
   wxMessageBox(msg);
@@ -459,11 +460,13 @@ Status HeartsGame::updateStatus()
 	tmp.hand = players[0].getHand();
 	for (int i = 0; i < players.size(); i++)
 	{
-		tmp.scores.push_back(players[i].getTotalScore());
+		tmp.scores.push_back(players[i].getRoundScore());
 		tmp.tricks.push_back(players[i].getTricksWon());
+		tmp.totalScores.push_back(players[i].getTotalScore());
 	}
 	tmp.isGameOver = isGameOver;
 	tmp.passing = isPassing;
+	tmp.bidding = false;
 	tmp.isRoundOver = isRoundOver;
 	return tmp;
 }
