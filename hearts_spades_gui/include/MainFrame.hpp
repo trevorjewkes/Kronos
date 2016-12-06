@@ -74,8 +74,8 @@ private:
   std::vector<wxStaticBitmap*> m_center_cards;
   std::vector<wxStaticBitmap*> m_player_hand;
 
-	void loadPlayerHand( wxCommandEvent& event );
-	void loadCenterCards( wxCommandEvent& event );
+	void menuLogin( wxCommandEvent& event );
+	void menuLobby( wxCommandEvent& event );
   std::string getSuitString(Suit suit) {
     switch (suit) {
       case 0:
@@ -101,8 +101,9 @@ private:
 	void showSpadesRules( wxCommandEvent& event );
 	std::string getSpadesRules();
   int getBid(); //return between 0-13 from user
-  void showEndRoundPopup();
   void showEndGamePopup();
+  void showEndGamePopup( wxCommandEvent& event ) { showEndGamePopup(); }
+  void startHeartsGame();
 	void OnExit(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();

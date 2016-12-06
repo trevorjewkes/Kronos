@@ -18,6 +18,7 @@ public:
 	void passCards(int round);  
 	void endTurn();
 	void endRound();
+  void endRoundPopup();
 	int setPassCards(std::vector<Card> cards, std::string name);
 	int playCard(Card card, int id);
 	std::vector<Player> getPlayers() { return players; }
