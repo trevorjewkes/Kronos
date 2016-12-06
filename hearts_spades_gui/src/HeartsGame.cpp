@@ -1,4 +1,5 @@
 #include "HeartsGame.hpp"
+#include <wx/msgdlg.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -409,11 +410,24 @@ void HeartsGame::endRound()
 	for (int i = 0; i < players.size(); i++)
 	{
 		players[i].startNewRound();
-		if (players[i].getTotalScore() >= 100) gameOver();
+		if (players[i].getTotalScore() >= 100) gameOver(); //for testing set to 10
 	}
 	centerPile.clear();
 	turn = 0;
+  endRoundPopup();
 	play_Hearts();
+}
+
+void HeartsGame::endRoundPopup() {
+  //build message
+  std::string msg = "-- End of round --\n\n";
+	for (int i = 0; i < players.size(); i++)
+	{
+    msg += "\t" + players[i].getName() + " score: " 
+        + std::to_string(players[i].getRoundScore()) +
+        " (" + std::to_string(players[i].getTotalScore()) + ")\n"; 
+	}
+  wxMessageBox(msg);
 }
 
 //passes a card
